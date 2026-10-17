@@ -1,0 +1,30 @@
+services:
+  nodebb:
+    image: ghcr.io/nodebb/nodebb:latest
+    restart: unless-stopped
+    depends_on:
+      - redis
+    ports:
+      - "127.0.0.1:4567:4567"
+    volumes:
+      - nodebb_config:/opt/config
+      - nodebb_build:/usr/src/app/build
+      - nodebb_uploads:/usr/src/app/public/uploads
+    networks:
+      - vvjob
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - vvjob
+networks:
+  vvjob:
+    driver: bridge
+volumes:
+  nodebb_config:
+  nodebb_build:
+  nodebb_uploads:
+  redis_data:
