@@ -1,0 +1,20 @@
+// VVJOB pilot visual identity. Loaded when the plugin is installed and activated.
+:root {
+  --vvjob-primary: #2563eb;
+  --vvjob-ink: #15243b;
+  --vvjob-soft: #f4f7fb;
+}
+body {
+  background-color: var(--vvjob-soft);
+}
+.navbar-brand, .forum-title {
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+a {
+  text-underline-offset: 3px;
+}
+.btn-primary {
+  background-color: var(--vvjob-primary);
+  border-color: var(--vvjob-primary);
+}
