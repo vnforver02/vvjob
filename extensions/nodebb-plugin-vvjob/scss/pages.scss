@@ -166,7 +166,6 @@ body.vvjob-editor-open { .modal { z-index: 1100; } .modal-backdrop { z-index: 10
 .vvjob-select-option { cursor: pointer; padding: 10px 12px; font-size: 13px; border-radius: 7px; overflow-wrap: anywhere; &:hover, &.active { background: #edf4ff; color: #2563cf; } }
 .vvjob-company-search > .vvjob-directory-filters { display: grid; grid-template-columns: 1fr 1fr .8fr; gap: 14px; margin-top: 18px; > div { min-width: 0; } }
 .vvjob-filter-summary { justify-content: space-between; margin-top: 16px; font-size: 12px; color: #64748b; }
-.vvjob-picker-filters { border: 1px solid #e4ebf4; border-radius: 10px; padding: 10px 12px; font-size: 12px; summary { cursor: pointer; color: #3767aa; } .vvjob-career-fields { margin-top: 12px; } }
 .vvjob-career-page [data-other-field] { margin: 8px 0; label { display: block; margin-bottom: 8px; } }
 @media (max-width: 650px) { .vvjob-company-search > .vvjob-directory-filters { grid-template-columns: minmax(0, 1fr); } .vvjob-select-options { max-height: 210px; } }
 .vvjob-career-reminder { display: flex; align-items: start; gap: 12px; padding: 14px 16px; border: 1px solid #dce8fa; border-radius: 12px; background: #f1f6ff; margin-bottom: 14px; position: relative; > i { margin-top: 3px; color: #467bce; } > div { flex: 1; min-width: 0; } strong { font-size: 12px; } p { font-size: 11px; color: #657a95; margin: 3px 0 5px; } a, button { font-size: 11px; } button { padding: 0; white-space: nowrap; } .vvjob-career-feedback:empty { display: none; } }

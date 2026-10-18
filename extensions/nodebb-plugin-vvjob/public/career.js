@@ -29,7 +29,7 @@
     clearTimeout(searchTimer);
     searchTimer = setTimeout(async () => {
       try {
-        const response = await fetch(`${base()}/api/vvjob/companies?q=${encodeURIComponent(input.value)}&industry=${encodeURIComponent($('#picker-industry').val() || '')}&city=${encodeURIComponent($('#picker-city').val() || '')}`);
+        const response = await fetch(`${base()}/api/vvjob/companies?q=${encodeURIComponent(input.value)}`);
         if (!response.ok) { throw Error('Không thể tìm công ty. Vui lòng thử lại.'); }
         const data = await response.json(); if (version !== searchVersion || !input.isConnected) { return; }
         const results = $('#career-company-results').empty(); $(input).attr('aria-expanded', 'true');
@@ -39,7 +39,7 @@
     }, 250);
   });
   $(document).on('pointerdown.vvjobCareer', function (event) {
-    if (!$(event.target).closest('.vvjob-company-picker, .vvjob-picker-filters').length) {
+    if (!$(event.target).closest('.vvjob-company-picker').length) {
       searchVersion++; clearTimeout(searchTimer);
       $('#career-company-results').empty(); $('#career-company-query').attr('aria-expanded', 'false');
     }
@@ -47,12 +47,6 @@
   $(document).on('focus.vvjobCareer', '#career-company-query', function () {
     // Opening suggestions must not clear an existing selection until typing starts.
     if (!this.value) { $(this).trigger('input'); }
-  });
-  $(document).on('change.vvjobCareer', '[data-company-filter]', function () {
-    const form = document.querySelector('#vvjob-career-form'), selected = form.elements.companyId.value, label = $('#career-selected').text();
-    $('#career-company-query').trigger('input');
-    form.elements.companyId.value = selected;
-    if (selected) { $('#career-selected').text(label); }
   });
   $(document).on('keydown.vvjobCareer', '#career-company-query', function (event) {
     if (event.key === 'ArrowDown') { event.preventDefault(); $('#career-company-results button').first().trigger('focus'); }
