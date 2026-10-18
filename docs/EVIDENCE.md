@@ -1,6 +1,6 @@
 # VVJOB 0.10 — private work-document review
 
-The second method is `Giấy tờ chứng minh công việc`: employment certificate, employment contract, or BHXH/VssID participation record. A member saves their company, selects a type and document date, redacts unrelated personal data, attests ownership and consents to private manual review. No recruitment or CV submission module is introduced. Email verification remains independent and closed until its existing delivery prerequisites are met.
+The second method is `Giấy tờ chứng minh công việc`: employment certificate, employment contract, or BHXH/VssID participation record. A member saves their company, selects a document type, redacts unrelated personal data, attests ownership and consents to private manual review. No recruitment or CV submission module is introduced. Email verification remains independent and closed until its existing delivery prerequisites are met.
 
 ## Scope and privacy
 
@@ -73,3 +73,7 @@ Review-controls validation: 51/51 tests and 44 templates passed; the full native
 The approved review-controls/self-review policy update was deployed using fresh source/assets mounts. Private Compose and verified PostgreSQL backups are under `/home/ucloud/vvjob-backups/20261018-review-actions`. Existing pending applications are retained; deployment never approves them automatically. Administrators must reload the page to load the new client bundle.
 
 Post-update production smoke passed: HTTPS homepage healthy at desktop/mobile widths, administrator page redirects guests to login, the served administrator template contains all three explicit decision buttons and the audit section, and no browser errors were observed. Pending production records were not auto-approved. The isolated review container/database/config and fixture scripts were removed; unrelated services remain unchanged.
+
+### Remove manual document date
+
+Members no longer enter a document date. Intake ignores the legacy date field and does not store it for new applications; the administrator queue no longer shows a manually entered date. Reviewers read dates directly from the submitted images. Existing applications and verification decisions are preserved.

@@ -20,12 +20,11 @@ module.exports = function ({ db, directory, secret, withLock, processImage, now 
     let state = row?.status || 'none';
     if (state === 'approved' && !await valid(uid)) state = 'invalidated';
     if (['pending','needs-more'].includes(state) && (Number(row.fileExpiresAt) <= now() || row.version !== version || company?.id !== row.companyId || career.companyBinding !== row.binding)) state = 'expired';
-    return { status:state, available:ready, companyId:company?.id || '', companyName:company?.name || '', id:row?.id || '', typeLabel:TYPES[row?.type] || '', reason:REASONS[row?.reason] || '', submittedAt:Number(row?.submittedAt)||0, reviewedAt:Number(row?.reviewedAt)||0, evidenceDate:row?.evidenceDate || '', expiresAt:state === 'approved' ? Number(row.expiresAt) : 0 };
+    return { status:state, available:ready, companyId:company?.id || '', companyName:company?.name || '', id:row?.id || '', typeLabel:TYPES[row?.type] || '', reason:REASONS[row?.reason] || '', submittedAt:Number(row?.submittedAt)||0, reviewedAt:Number(row?.reviewedAt)||0, expiresAt:state === 'approved' ? Number(row.expiresAt) : 0 };
   }
   async function submit(uid,input,files) {
     uid = uidOf(uid); if (!ready) fail('Tiếp nhận giấy tờ hiện chưa khả dụng.');
     if (input.consent !== 'true' || !TYPES[input.type]) fail('Vui lòng chọn loại giấy tờ và đồng ý xử lý riêng tư.');
-    if (!/^\d{4}-\d\d-\d\d$/.test(input.evidenceDate || '') || !Number.isFinite(Date.parse(input.evidenceDate)) || new Date(input.evidenceDate).toISOString().slice(0,10) !== input.evidenceDate || Date.parse(input.evidenceDate) > now() || Date.parse(input.evidenceDate) < now()-30*365*DAY) fail('Ngày trên giấy tờ không hợp lệ.');
     if (!Array.isArray(files) || files.length < 1 || files.length > 2 || files.some(f=>!Buffer.isBuffer(f.buffer) || f.buffer.length > 4*1024*1024)) fail('Chọn 1–2 ảnh JPG/PNG, tối đa 4 MB mỗi ảnh.');
     // Reserve quota before decoding images; do not hold the database lock during decoding.
     const binding = await withLock(async()=>{
@@ -41,7 +40,7 @@ module.exports = function ({ db, directory, secret, withLock, processImage, now 
       const old=await db.getObject(stateKey(uid));if(old?.status==='pending'&&Number(old.fileExpiresAt)>now())fail('Đã có hồ sơ đang chờ duyệt.');
       await clearFiles(old);const id=crypto.randomBytes(16).toString('hex'), ids=[];
       for(const image of images){const fileId=crypto.randomBytes(16).toString('hex');const sealed=seal(image,fileId);await db.setObject(fileKey(fileId),{iv:sealed.iv,tag:sealed.getTag(),data:sealed.data,uid,applicationId:id,version,expiresAt:now()+7*DAY});await db.expire(fileKey(fileId),7*86400);ids.push(fileId)}
-      await db.delete(stateKey(uid));await db.setObject(stateKey(uid),{id,uid,...binding,type:input.type,evidenceDate:input.evidenceDate,version,status:'pending',files:ids.join(','),fileExpiresAt:now()+7*DAY,submittedAt:now(),expiresAt:0});await db.expire(stateKey(uid),190*86400);await db.sortedSetAdd('vvjob:evidence:queue',now(),uid);await audit(uid,uid,'submitted');return status(uid);
+      await db.delete(stateKey(uid));await db.setObject(stateKey(uid),{id,uid,...binding,type:input.type,version,status:'pending',files:ids.join(','),fileExpiresAt:now()+7*DAY,submittedAt:now(),expiresAt:0});await db.expire(stateKey(uid),190*86400);await db.sortedSetAdd('vvjob:evidence:queue',now(),uid);await audit(uid,uid,'submitted');return status(uid);
     });
   }
   async function review(actor,input){actor=uidOf(actor);const uid=uidOf(input.uid);if(!['approved','rejected','needs-more'].includes(input.decision)||input.checked!==true)fail('Vui lòng xác nhận đã đối chiếu giấy tờ.');if(input.decision!=='approved'&&!['unclear','mismatch','insufficient'].includes(input.reason))fail('Vui lòng chọn lý do.');
