@@ -30,3 +30,5 @@ Compatibility baseline inspected from source: NodeBB **4.6.1** (`351c9abc6f3016a
 - [Route rebuild, category cleanup and verification](docs/DEEP_UI.md)
 
 - [Vietnamese polish, onboarding acceptance and email configuration](docs/COMMUNITY_READINESS.md)
+
+- [Composer close controls and compact homepage](docs/COMPACT_UI.md)
