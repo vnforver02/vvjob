@@ -110,3 +110,12 @@ test('PostgreSQL lock retains non-enumerable pool credentials without exposing t
   assert.equal(await lock(async () => 'done'), 'done');
   assert.equal(calls[0], 'BEGIN'); assert.match(calls[2], /pg_advisory_xact_lock/); assert.equal(calls.at(-1), 'COMMIT'); assert.equal(released, true);
 });
+
+test('rendered verification form accepts exactly six digits through Benchpress', async () => {
+  const fs = require('node:fs/promises'), benchpress = require('benchpressjs');
+  const source = await fs.readFile(require('node:path').join(__dirname, '../extensions/nodebb-plugin-vvjob/templates/vvjob-verification.tpl'), 'utf8');
+  const html = await benchpress.compileRender(source, { pending: true, verification: {}, domains: [] });
+  const pattern = html.match(/id="verification-code"[^>]*pattern="([^"]+)"/)[1];
+  const regex = new RegExp(`^(?:${pattern})$`);
+  assert.equal(regex.test('123456'), true); assert.equal(regex.test('12345'), false); assert.equal(regex.test('1234567'), false); assert.equal(regex.test('12345a'), false);
+});
