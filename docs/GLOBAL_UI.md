@@ -1,5 +1,7 @@
 # VVJOB global UI
 
+This records v0.4. The deployed v0.5 route rebuild and current runtime mounts supersede the paths below; see [Deep UI](DEEP_UI.md).
+
 Version 0.4 adds a shared visual system across the site rather than styling only the feed.
 
 ## Coverage

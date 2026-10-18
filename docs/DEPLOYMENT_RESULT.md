@@ -45,3 +45,7 @@ The original English default categories and original discussion content are reta
 ## Global UI update — 2026-10-18
 
 The v0.4 plugin applies a shared VVJOB shell and component styling beyond the homepage, including native popup/standalone composers, authentication and administrative components. Current UI mount paths and rollback instructions supersede the earlier homepage-only release: see [Global UI verification](GLOBAL_UI.md). The production database and existing account/content language choices are preserved.
+
+## Route rebuild and default-category cleanup — 2026-10-18
+
+Current release is v0.5, with 33 owned templates and route-specific discussion/reply layouts. Original default category IDs 1–4 were removed; topics 1 and 2 were moved to workplace category 5 and counts recalculated. Current plugin/build mounts and rollback are documented in [Deep UI](DEEP_UI.md).

@@ -23,3 +23,7 @@ The user requested removal of the original NodeBB categories. Category IDs 1–4
 ## Deployment and rollback
 
 Production runtime remains `/home/ucloud/vvjob-v1-runtime/compose.json`, with the existing production database/configuration/uploads unchanged. The new plugin/build mount targets are `/home/ucloud/vvjob-deep-source/extensions/nodebb-plugin-vvjob` and `/home/ucloud/vvjob-deep-build`. The pre-release Compose backup is `/home/ucloud/vvjob-backups/20261018-deep-ui/compose-before-deep.json`. To roll back the visual release, restore that file to the runtime Compose path and run `docker compose -f /home/ucloud/vvjob-v1-runtime/compose.json up -d web`. Do not restore an old database just to roll back UI. The earlier category cleanup is a separate requested content change and remains in place.
+
+## Production verification
+
+After cutover, 15 public routes were checked at 1440/390/320px (45 checks): feed, categories, workplace category, existing topics 1/2/3, members/profile, login/register, recent/popular/tags/groups and reset. All returned 200 with no document overflow or uncaught browser errors. Existing topic content stays inside the new post column (884px desktop, 362px at 390px viewport, 292px at 320px viewport). The category API returns only IDs 5–8; workplace count is three preserved topics. The staging administrator URL returns 404 in production. Preview container/database/private fixture directory were removed. The category backup is readable by `pg_restore -l`.
