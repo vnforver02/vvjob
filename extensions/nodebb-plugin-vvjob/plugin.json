@@ -40,7 +40,8 @@
     "public/career.js",
     "public/verification.js",
     "public/evidence.js",
-    "public/people.js"
+    "public/people.js",
+    "public/comments.js"
   ],
   "scss": [
     "./scss/vvjob.scss",

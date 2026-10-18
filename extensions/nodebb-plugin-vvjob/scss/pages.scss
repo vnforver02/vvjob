@@ -190,3 +190,18 @@ body.vvjob-editor-open { .modal { z-index: 1100; } .modal-backdrop { z-index: 10
 
 .vvjob-evidence-audit li { display: grid; gap: 4px; padding: 12px 0; border-bottom: 1px solid #e5eaf2; overflow-wrap: anywhere; }
 .vvjob-evidence-audit span, .vvjob-evidence-audit time { color: #64748b; font-size: 13px; }
+body.theme-harmony.template-chats {
+ .vvjob-chat-heading { padding-bottom: 12px; h1 { font-size: 24px; font-weight: 700; color: #243958; margin: 0 0 7px; } p { color: #8b98ab; font-size: 12px; line-height: 1.6; margin-bottom: 16px; } button { border-radius: 10px; padding: 10px; } }
+ .vvjob-chat-empty { display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center; padding: 40px 15px; color: #93a0b6; >i { color: #84a6df; font-size: 34px; margin-bottom: 6px; } strong { font-size: 14px; font-weight: 600; color: #647993; } p { font-size: 12px; line-height: 1.7; max-width: 230px; } }
+}
+body.theme-harmony.template-chats {
+ #content { position: fixed; top: 92px; bottom: 20px; left: 0; right: 0; height: auto !important; padding: 0 24px !important; overflow: hidden; }
+ .vvjob-chat-workspace { height: 100% !important; min-height: 0; }
+}
+@media(max-width:699px) {
+ body.theme-harmony.template-chats {
+  .vvjob-mobile-discovery { display: none; }
+  #content { top: 76px; bottom: calc(78px + env(safe-area-inset-bottom)); padding: 0 12px !important; }
+  .vvjob-chat-workspace [component="chat/message/window"] { padding: 12px; }
+ }
+}

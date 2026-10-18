@@ -14,8 +14,15 @@ exports.init = async ({ router, middleware }) => {
   evidenceRoutes = require('./lib/evidence-routes')(host, directory, name => require.main.require('nconf').get(name), function (options) { return new (require.main.require('pg').Pool)(options); }, name => require.main.require(name));
   careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service, evidenceRoutes.service);
   const helpers = host('routes/helpers');
+  helpers.setupApiRoute(router, 'get', '/api/vvjob/topics/:tid/comments', [], require('./lib/comments')(host).list);
   const member = [middleware.ensureLoggedIn, middleware.redirectToHomeIfBanned];
-  const people = require('./lib/people')(host, directory);
+  const identity = require('./lib/identity')(host('database'), evidenceRoutes.service, verificationRoutes.service);
+  const people = require('./lib/people')(host, directory, identity);
+  router.get('/vvjob/demo-avatar/:index.svg', (req, res) => {
+    const index = Number(req.params.index);
+    if (!Number.isInteger(index) || index < 1 || index > 500) return res.sendStatus(404);
+    res.type('image/svg+xml').set('Cache-Control', 'public, max-age=86400').set('X-Content-Type-Options', 'nosniff').send(require('./lib/demo-users').avatar(index));
+  });
   // Plugin routes mount before core routes. Both page and ajax JSON require login.
   helpers.setupPageRoute(router, '/users', [...member, middleware.canViewUsers], people.page);
   helpers.setupPageRoute(router, '/vvjob/people', [...member, middleware.canViewUsers], people.page);
@@ -61,7 +68,7 @@ exports.render = async (req, res, next) => {
   // Use the native controller: category privileges, blocks, pagination, and
   // deleted/scheduled topic visibility stay under NodeBB's control.
   const sort = req.query.sort === 'popular' ? 'posts' : 'recent';
-  const data = await host('controllers/recent').getData(req, 'vvjob', sort);
+  const data = await host('controllers/recent').getData(req, 'vvjob', sort, sort === 'posts' && req.query.range !== 'all' ? 'weekly' : 'alltime');
   if (!data) { return next(); }
   const categories = await host('categories').getCategoriesByPrivilege('categories:cid', req.uid, 'read');
   const preferred = ['Thảo luận công việc', 'Thảo luận công ty', 'Lương & phúc lợi', 'Kinh nghiệm nghề nghiệp'];
@@ -79,10 +86,18 @@ exports.render = async (req, res, next) => {
   data.popularQuery = selected ? `?cid=${Number(selected.cid)}&sort=popular` : '?sort=popular';
   data.trending = (await host('topics').getSortedTopics({ uid: req.uid, start: 0, stop: 4, sort: 'posts', term: 'week' })).topics;
   data.isPopular = sort === 'posts';
+  if (data.isPopular) {
+    const term = ['daily', 'weekly', 'monthly'].includes(req.query.term) ? req.query.term : req.query.range === 'all' ? 'alltime' : 'weekly';
+    const hotUrl = (period, cid) => `/vvjob?sort=popular&${period === 'alltime' ? 'range=all' : `term=${period}`}${cid ? `&cid=${Number(cid)}` : ''}`;
+    data.hotPeriods = [['daily', '24 giờ'], ['weekly', '7 ngày'], ['monthly', '30 ngày'], ['alltime', 'Tất cả']].map(([value, label]) => ({ label, active: value === term, url: hotUrl(value, selected?.cid) }));
+    data.hotAllUrl = hotUrl(term);
+    data.communities.forEach(category => { category.hotUrl = hotUrl(term, category.cid); });
+    data.topics.forEach((topic, index) => { topic.rank = Number.isInteger(topic.index) ? topic.index + 1 : index + 1; topic.topRank = topic.rank <= 3; topic.replyCount = Math.max(0, Number(topic.postcount || 0) - 1); });
+  }
   data.viewerLoggedIn = Number(req.uid) > 0;
   const career = data.viewerLoggedIn ? await host('database').getObject(`vvjob:career:${req.uid}`) : null;
   data.showCareerReminder = !!(career && Number(career.onboardingPending) === 1 && Number(career.completed) !== 1);
-  data.title = selected ? `${selected.name} — VVJOB` : 'Bảng tin — VVJOB';
+  data.title = data.isPopular ? 'Nổi bật — VVJOB' : selected ? `${selected.name} — VVJOB` : 'Bảng tin — VVJOB';
   data.breadcrumbs = [];
   res.render('vvjob', data);
 };

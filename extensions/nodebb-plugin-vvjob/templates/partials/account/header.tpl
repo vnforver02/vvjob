@@ -28,7 +28,7 @@
 		<div class="d-flex flex-column flex-md-row mt-1 justify-content-between w-100 gap-2">
 			<div class="d-flex flex-grow-1 flex-row gap-2">
 				<div class="d-flex flex-column gap-1">
-					<h2 class="fullname fw-semibold fs-2 tracking-tight mb-0">{{{ if fullname }}}{fullname}{{{ else }}}{username}{{{ end }}}</h2>
+					<h2 class="fullname fw-semibold fs-2 tracking-tight mb-0">{{{ if fullname }}}{fullname}{{{ else }}}{username}{{{ end }}} {{{ if vvjobIdentity.verified }}}<i class="fa fa-check-circle vvjob-identity-check" role="img" aria-label="{vvjobIdentity.verificationLabel}" title="{vvjobIdentity.verificationLabel}"></i>{{{ end }}}</h2>
 					<div class="d-flex flex-wrap gap-1 text-sm align-items-center">
 						<span class="username fw-bold">{{{ if !banned }}}@{username}{{{ else }}}[[user:banned]]{{{ end }}}</span>
 						<div class="d-flex align-items-center gap-1 p-1 flex-wrap">
@@ -42,6 +42,7 @@
 						</div>
 					</div>
 					<div class="d-flex gap-2" component="user/badges"></div>
+                    {{{ if vvjobIdentity.isDemo }}}<div class="vvjob-demo-notice"><strong>Hồ sơ minh họa</strong><p>Nhân vật, ảnh đại diện và thông tin công việc đều là dữ liệu mô phỏng, không đại diện cho người thật hoặc nhân viên của công ty.</p>{{{ if vvjobIdentity.simulatedVerified }}}<span class="vvjob-demo-verification"><i class="fa fa-check-circle-o" aria-hidden="true"></i> Xác minh mô phỏng — không phải chứng nhận thực</span>{{{ else }}}<span>Chưa xác minh · dữ liệu minh họa</span>{{{ end }}}</div>{{{ end }}}
                     {{{ if vvjobCareer }}}<div class="vvjob-profile-career">{{{ if vvjobCareer.companyName }}}<strong>{vvjobCareer.companyName}</strong> · {{{ end }}}{vvjobCareer.position}{{{ if vvjobCareer.city }}} · {vvjobCareer.city}{{{ end }}}<br><small>{{{ if vvjobCareer.hasWorkEmailVerification }}}<span class="vvjob-verified-label"><i class="fa fa-check-circle" aria-hidden="true"></i> Đã xác minh email công ty</span> · Chức danh tự khai{{{ else }}}{{{ if !vvjobCareer.hasDocumentVerification }}}Thông tin tự khai · Chưa xác minh nghề nghiệp{{{ end }}}{{{ end }}}{{{ if vvjobCareer.hasDocumentVerification }}} <span class="vvjob-verified-label"><i class="fa fa-check-circle" aria-hidden="true"></i> Đã đối chiếu giấy tờ công tác</span> · Không xác nhận đang làm việc{{{ end }}}</small></div>{{{ end }}}
                     {{{ if isSelf }}}<a class="text-sm" href="{config.relative_path}/vvjob/career">Cập nhật hồ sơ nghề nghiệp →</a><a class="text-sm" href="{config.relative_path}/vvjob/verification"><i class="fa fa-shield" aria-hidden="true"></i> Xác minh email công ty →</a>{{{ end }}}
 					{{{ if isAdminOrGlobalModeratorOrModerator }}}

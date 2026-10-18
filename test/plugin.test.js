@@ -98,7 +98,10 @@ test('community feed preserves native category filtering, sorting and pager with
  assert.equal(rendered.communities.find(c=>c.cid===7).active, true);
  assert.equal(rendered.communities.find(c=>c.cid===8).active, false);
  assert.equal(rendered.popularQuery, '?cid=7&sort=popular');
- assert.equal(rendered.pagination.currentPage, 2);
+  assert.equal(rendered.pagination.currentPage, 2);
+ assert.equal(rendered.hotPeriods.find(period => period.active).label, '7 ngày');
+ assert.equal(rendered.hotPeriods[0].url, '/vvjob?sort=popular&term=daily&cid=7');
+ assert.equal(rendered.communities[0].hotUrl, '/vvjob?sort=popular&term=weekly&cid=7');
  req.query.cid='999'; let next=false;
  await plugin.render(req, {render(){assert.fail('unavailable community rendered')}},()=>{next=true});
  assert.equal(next,true);

@@ -1,13 +1,15 @@
 'use strict';
 const SIZE = 12;
-module.exports = function (host, directory) {
+module.exports = function (host, directory, identity = async () => ({})) {
  const user = host('user'), db = host('database');
  const positive = value => Math.max(0, Number(value) || 0);
  async function card(row, viewer) {
   const uid = Number(row.uid);
   const [career, following, followerCount] = await Promise.all([directory.profile(uid, viewer), user.isFollowing(viewer, uid), user.getUserField(uid, 'followerCount')]);
+  const badge = await identity(uid, career);
+  const displayname = badge.isDemo ? await user.getUserField(uid, 'fullname') : row.displayname || row.username || '';
   // Explicit projection: never forward native user objects or private career records.
-  return { uid, userslug: row.userslug || '', displayname: row.displayname || row.username || '', picture: row.picture || '',
+  return { uid, ...badge, userslug: row.userslug || '', displayname, picture: row.picture || '',
    initial: Array.from(row.displayname || row.username || 'V')[0].toUpperCase(),
    company: career?.companyName || '', position: career?.position || '', city: career?.city || '',
    hasCareer: !!(career?.companyName || career?.position), following: !!following,

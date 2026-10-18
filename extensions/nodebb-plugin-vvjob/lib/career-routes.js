@@ -59,6 +59,7 @@ module.exports = function (host, directory, seed, verification, evidence) {
     },
     async profileData(data) {
       const profile = await directory.profile(data.userData.uid, data.callerUID);
+      data.userData.vvjobIdentity = await require('./identity')(host('database'), evidence, verification)(data.userData.uid, profile);
       if (profile) {
         profile.hasWorkEmailVerification = false;
         profile.hasDocumentVerification = !!(evidence && await evidence.valid(data.userData.uid));

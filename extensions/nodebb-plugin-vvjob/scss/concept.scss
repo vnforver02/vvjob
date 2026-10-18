@@ -1,3 +1,5 @@
+@use 'comments';
+@use 'popular';
 // Shared VVJOB concept: white cards, cobalt actions and readable Vietnamese text.
 body.theme-harmony {
  --bs-primary: #0750f8; --bs-primary-rgb: 7,80,248;

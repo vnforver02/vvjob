@@ -3,8 +3,8 @@
 		<div class="chats-full d-flex gap-1 h-100 mt-3 mt-md-0 py-md-3">
 			<div component="chat/nav-wrapper" class="flex-shrink-0 d-flex flex-column h-100 gap-1" data-loaded="{{{ if roomId }}}1{{{ else }}}0{{{ end }}}">
 
-				<div>
-					<button component="chat/create" class="btn btn-primary btn-sm w-100">[[modules:chat.create-room]]</button>
+				<div class="vvjob-chat-heading"><h1>Tin nhắn</h1><p>Kết nối bắt đầu từ một lời chào.</p>
+					<button component="chat/create" class="btn btn-primary btn-sm w-100"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Tin nhắn mới</button>
 				</div>
 
 				{{{ if publicRooms.length }}}
@@ -42,6 +42,7 @@
 					</div>
 					{{{ end }}}
 
+					{{{ if !rooms.length }}}<div class="vvjob-chat-empty"><i class="fa fa-commenting-o" aria-hidden="true"></i><strong>Chưa có cuộc trò chuyện</strong><p>Bắt đầu trò chuyện riêng với một thành viên bạn muốn kết nối.</p></div>{{{ end }}}
 					<div id="private-rooms" component="chat/recent" class="chats-list overflow-auto mb-0 pe-1 pb-5 pb-lg-0 collapse show ghost-scrollbar" data-nextstart="{nextStart}">
 						{{{ each rooms }}}
 						<!-- IMPORT partials/chats/recent_room.tpl -->

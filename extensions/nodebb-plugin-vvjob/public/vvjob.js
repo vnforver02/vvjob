@@ -11,7 +11,7 @@ $(window).on('action:ajaxify.end', function () {
   const name = ajaxify.data.template.name;
   const section = name === 'vvjob' && ajaxify.data.isPopular ? 'popular' : name === 'vvjob' || ['recent', 'popular', 'unread'].includes(name) ? 'feed' :
     name === 'category' || name === 'categories' ? 'communities' :
-      ['users', 'vvjob-people'].includes(name) ? 'people' : name === 'notifications' ? 'notifications' :
+      ['users', 'vvjob-people'].includes(name) ? 'people' : name === 'chats' ? 'chats' : name === 'notifications' ? 'notifications' :
         name.startsWith('account/') ? 'profile' : '';
   $('[data-vvjob-nav]').each(function () {
     const active = $(this).attr('data-vvjob-nav') === section || (section === 'popular' && $(this).attr('data-vvjob-nav') === 'feed' && $(this).closest('[component="bottombar"]').length > 0);
@@ -63,6 +63,20 @@ require(['forum/topic/posts'], function (posts) {
 });
 
 // Share a real permalink; clipboard fallback stays within the user's explicit click.
+require(['navigator'], function (navigator) {
+  function refresh() {
+    const topic = ajaxify.data.template.name === 'topic';
+    const count = topic ? navigator.getCount() : 0;
+    document.body.classList.toggle('vvjob-has-replies', topic && Number(ajaxify.data.postcount) > 1);
+    $('.vvjob-progress-label').text(`${navigator.getIndex()} / ${count}`);
+  }
+  $(window).on('action:ajaxify.end', refresh);
+  $(function () {
+    const el = document.querySelector('.vvjob-mobile-progress .pagination-text');
+    if (el) new MutationObserver(refresh).observe(el, { childList: true, subtree: true, characterData: true });
+  });
+});
+
 $(document).on('click.vvjobShare','[data-vvjob-share]',async function(){
  const button=this,feedback=$(button).siblings('.vvjob-share-feedback');
  const url=new URL(button.dataset.url,window.location.origin).href;

@@ -1,0 +1,11 @@
+'use strict';
+module.exports = (db, evidence, verification) => async (uid, career) => {
+  const demo = await db.getObject(`vvjob:demo:user:${uid}`);
+  if (demo?.batch === require('./demo-users').BATCH) {
+    return { isDemo: true, simulatedVerified: Number(demo.simulatedVerified) === 1, verified: false, verificationLabel: Number(demo.simulatedVerified) === 1 ? 'Xác minh mô phỏng — không phải chứng nhận thực' : 'Hồ sơ minh họa — chưa xác minh' };
+  }
+  if (!career?.companyId) return { isDemo: false, simulatedVerified: false, verified: false };
+  const document = !!(evidence && await evidence.valid(uid));
+  const email = !!(verification && await verification.valid(uid));
+  return { isDemo: false, simulatedVerified: false, verified: document || email, verificationLabel: document ? 'Đã xác minh nghề nghiệp qua giấy tờ' : email ? 'Đã xác minh email công ty' : '' };
+};

@@ -3,20 +3,21 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const benchpress = require('benchpressjs');
+const sources = require('../scripts/template-source');
 const template = fs.readFileSync('extensions/nodebb-plugin-vvjob/templates/vvjob.tpl', 'utf8');
 test('empty feed shows truthful Vietnamese state and privacy notice', async () => {
-  const html = await benchpress.compileRender(template, { config: { relative_path: '/forum' }, topics: [], trending: [], communities: [] });
+  const html = await benchpress.compileRender(await sources.expand(template), { config: { relative_path: '/forum' }, topics: [], trending: [], communities: [] });
   assert.match(html, /Câu chuyện đầu tiên bắt đầu từ bạn/);
   assert.match(html, /Chưa mở\. Bài viết hiện tại gắn với tài khoản của bạn/);
 
   assert.doesNotMatch(html, /class="vv2-post"/);
 });
 test('feed renders real topic, community, subdirectory links and selected sorting', async () => {
-  const topic = { title: 'Công việc đầu tiên', slug: '42/cong-viec', postcount: 3, viewcount: 12, user: { userslug: 'minh', displayname: 'Minh' }, category: { name: 'Công việc' }, teaser: { content: '<p>Chia sẻ kinh nghiệm</p>' } };
-  const html = await benchpress.compileRender(template, { config: { relative_path: '/forum' }, topics: [topic], trending: [topic], communities: [{ cid: 7, name: 'Công việc', slug: '7/cong-viec', active: true }], hasCommunity: true, selectedCommunityId: 7, feedTitle: 'Công việc', feedQuery: '?cid=7', popularQuery: '?cid=7&sort=popular', isPopular: true });
+  const topic = { tid: 42, title: 'Công việc đầu tiên', slug: '42/cong-viec', postcount: 3, viewcount: 12, user: { userslug: 'minh', displayname: 'Minh' }, category: { name: 'Công việc' }, teaser: { content: '<p>Chia sẻ kinh nghiệm</p>' } };
+  const html = await benchpress.compileRender(await sources.expand(template), { config: { relative_path: '/forum' }, topics: [topic], trending: [topic], communities: [{ cid: 7, name: 'Công việc', slug: '7/cong-viec', active: true }], hasCommunity: true, selectedCommunityId: 7, feedTitle: 'Công việc', feedQuery: '?cid=7', popularQuery: '?cid=7&sort=popular', isPopular: false });
   assert.match(html, /href="\/forum\/topic\/42\/cong-viec"/);
   assert.match(html, /href="\/forum\/vvjob\?cid=7"/);
-  assert.match(html, /aria-current="page">Được quan tâm/);
+  assert.match(html, /aria-current="page">Mới nhất/);
   assert.match(html, /Chia sẻ kinh nghiệm/);
   assert.match(html, /data-cid="7"/);
   assert.match(html, /href="\/forum\/vvjob\?cid&#x3D;7&amp;sort&#x3D;popular"/);
@@ -35,4 +36,14 @@ test('shared header preserves native member menus and guest registration', async
   assert.match(member, /component="notifications"/);
   assert.match(member, /component="sidebar\/drafts"/);
   assert.doesNotMatch(member, /href="\/forum\/register"/);
+});
+
+test('ranked feed renders native ranking, period links and inline comments without the home composer', async () => {
+  const html = await benchpress.compileRender(await sources.expand(template), { config: { relative_path: '/forum' }, isPopular: true, hotAllUrl: '/vvjob?sort=popular&term=week', hotPeriods: [{ label: '7 ngày', active: true, url: '/vvjob?sort=popular&term=week' }], topics: [{ tid: 42, rank: 21, slug: '42/test', title: 'Câu chuyện', replyCount: 8, viewcount: 100, category: { name: 'Công việc' } }], communities: [] });
+  assert.match(html, /aria-label="Hạng 21"/);
+  assert.match(html, /aria-current="page">7 ngày/);
+  assert.match(html, /8 bình luận/);
+  assert.match(html, /aria-controls="vvcomments-42"/);
+  assert.match(html, /id="vvcomment-input-42"/);
+  assert.doesNotMatch(html, /vvjob-social-compose/);
 });
