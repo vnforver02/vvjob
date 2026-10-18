@@ -9,7 +9,7 @@ test('empty feed shows truthful Vietnamese state and privacy notice', async () =
   assert.match(html, /Câu chuyện đầu tiên bắt đầu từ bạn/);
   assert.match(html, /Chưa mở\. Bài viết hiện tại gắn với tài khoản của bạn/);
   assert.match(html, /href="\/forum\/search"/);
-  assert.doesNotMatch(html, /class="vvjob-post"/);
+  assert.doesNotMatch(html, /class="vv2-post"/);
 });
 test('feed renders real topic, community, subdirectory links and selected sorting', async () => {
   const topic = { title: 'Công việc đầu tiên', slug: '42/cong-viec', postcount: 3, viewcount: 12, user: { userslug: 'minh', displayname: 'Minh' }, category: { name: 'Công việc' }, teaser: { content: '<p>Chia sẻ kinh nghiệm</p>' } };
@@ -19,4 +19,11 @@ test('feed renders real topic, community, subdirectory links and selected sortin
   assert.match(html, /aria-current="page">Được quan tâm/);
   assert.match(html, /Chia sẻ kinh nghiệm/);
   assert.doesNotMatch(html, /Câu chuyện đầu tiên bắt đầu từ bạn/);
+});
+
+test('member navigation uses native profile route instead of registration promotion', async () => {
+  const html = await benchpress.compileRender(template, { config: { relative_path: '/forum' }, topics: [], trending: [], communities: [], viewerLoggedIn: true });
+  assert.match(html, /href="\/forum\/me">Hồ sơ của tôi/);
+  assert.doesNotMatch(html, /href="\/forum\/register"/);
+  assert.match(html, /name="term"/);
 });

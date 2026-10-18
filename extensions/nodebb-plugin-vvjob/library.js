@@ -29,6 +29,7 @@ exports.render = async (req, res, next) => {
     .sort((a, b) => rank(a) - rank(b));
   data.trending = (await host('topics').getSortedTopics({ uid: req.uid, start: 0, stop: 4, sort: 'posts', term: 'week' })).topics;
   data.isPopular = sort === 'posts';
+  data.viewerLoggedIn = Number(req.uid) > 0;
   data.title = 'VVJOB — Cộng đồng người đi làm';
   data.breadcrumbs = [];
   res.render('vvjob', data);

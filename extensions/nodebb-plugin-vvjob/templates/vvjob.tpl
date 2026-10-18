@@ -1,68 +1,34 @@
-<div class="vvjob" lang="vi">
-  <header class="vvjob-masthead">
-    <a class="vvjob-logo" href="{config.relative_path}/vvjob" aria-label="VVJOB — Bảng tin"><span class="vvjob-mark">V</span>VVJOB<span class="vvjob-beta">CỘNG ĐỒNG</span></a>
-    <a class="vvjob-search" href="{config.relative_path}/search"><i class="fa fa-search" aria-hidden="true"></i> Tìm kiếm câu chuyện, đồng nghiệp…</a>
-    <a class="vvjob-account" href="{config.relative_path}/me">Hồ sơ của tôi <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+<div class="vvjob vv2" lang="vi">
+  <header class="vv2-header">
+    <div class="vv2-header-inner">
+      <a class="vv2-logo" href="{config.relative_path}/vvjob" aria-label="VVJOB — Bảng tin"><span class="vv2-symbol" aria-hidden="true">v<span>v</span></span><span>vvjob<span class="vv2-logo-caption">KẾT NỐI ĐỂ TIẾN XA</span></span></a>
+      <form class="vv2-search" action="{config.relative_path}/search" method="get" role="search"><i class="fa fa-search" aria-hidden="true"></i><input type="search" name="term" placeholder="Tìm câu chuyện, chủ đề, cộng đồng" aria-label="Tìm kiếm trên VVJOB"><kbd aria-hidden="true">↵</kbd></form>
+      <nav class="vv2-header-nav" aria-label="Điều hướng chính"><a class="active" href="{config.relative_path}/vvjob">Bảng tin</a><a href="{config.relative_path}/categories">Cộng đồng</a></nav>
+      <div class="vv2-header-actions"><a class="vv2-mobile-search" href="{config.relative_path}/search" aria-label="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></a><a class="vv2-icon-button" href="{config.relative_path}/notifications" aria-label="Thông báo"><i class="fa fa-bell-o" aria-hidden="true"></i></a>{{{ if viewerLoggedIn }}}<a class="vv2-button vv2-button-small" href="{config.relative_path}/me">Hồ sơ của tôi</a>{{{ else }}}<a class="vv2-login" href="{config.relative_path}/login">Đăng nhập</a><a class="vv2-button vv2-button-small" href="{config.relative_path}/register">Tham gia</a>{{{ end }}}</div>
+    </div>
   </header>
-  <div class="vvjob-layout">
-    <aside class="vvjob-sidebar" aria-label="Điều hướng cộng đồng">
-      <div class="vvjob-eyebrow">KHÔNG GIAN CỦA BẠN</div>
-      <nav class="vvjob-nav">
-        <a class="active" href="{config.relative_path}/vvjob"><i class="fa fa-home" aria-hidden="true"></i> Bảng tin</a>
-        <a href="{config.relative_path}/unread"><i class="fa fa-compass" aria-hidden="true"></i> Chưa đọc</a>
-        <a href="{config.relative_path}/notifications"><i class="fa fa-bell-o" aria-hidden="true"></i> Thông báo</a>
-        <a href="{config.relative_path}/categories"><i class="fa fa-th-large" aria-hidden="true"></i> Khám phá cộng đồng</a>
-      </nav>
-      <div class="vvjob-eyebrow">CÙNG NHAU CHIA SẺ</div>
-      <nav class="vvjob-communities">
-        {{{ each communities }}}
-        <a href="{config.relative_path}/category/{./slug}"><span aria-hidden="true">#</span> {./name}</a>
-        {{{ end }}}
-      </nav>
-      <div class="vvjob-privacy"><i class="fa fa-shield" aria-hidden="true"></i><strong>Trao đổi ẩn danh</strong><span>Chưa mở. Bài viết hiện tại gắn với tài khoản của bạn.</span></div>
-      <p class="vvjob-side-note">Kết nối chân thành.<br>Vững bước sự nghiệp.</p>
+  <div class="vv2-layout">
+    <aside class="vv2-left" aria-label="Điều hướng cộng đồng">
+      <div class="vv2-intro"><span class="vv2-intro-mark" aria-hidden="true">↗</span><h2>Đi làm có nhau.</h2><p>Góc nhìn thật từ<br>người đi làm Việt Nam.</p></div>
+      <nav class="vv2-navigation"><a class="active" href="{config.relative_path}/vvjob"><i class="fa fa-home" aria-hidden="true"></i>Bảng tin của bạn<span aria-hidden="true">›</span></a><a href="{config.relative_path}/unread"><i class="fa fa-compass" aria-hidden="true"></i>Khám phá mới</a><a href="{config.relative_path}/me/bookmarks"><i class="fa fa-bookmark-o" aria-hidden="true"></i>Bài viết đã lưu</a><a href="{config.relative_path}/users"><i class="fa fa-user-o" aria-hidden="true"></i>Kết nối đồng nghiệp</a></nav>
+      <section class="vv2-community-nav"><div class="vv2-section-label">KHÔNG GIAN THẢO LUẬN</div><nav>{{{ each communities }}}<a href="{config.relative_path}/category/{./slug}"><span class="vv2-community-icon" aria-hidden="true"><i class="fa fa-comments-o"></i></span><span>{./name}</span><i class="fa fa-angle-right" aria-hidden="true"></i></a>{{{ end }}}</nav><a class="vv2-all-link" href="{config.relative_path}/categories">Tất cả cộng đồng <span aria-hidden="true">↗</span></a></section>
+      <div class="vv2-anonymous"><span class="vv2-lock" aria-hidden="true"><i class="fa fa-shield"></i></span><div><strong>Trao đổi ẩn danh</strong><span>Đang phát triển</span></div><p>Chưa mở. Bài viết hiện tại gắn với tài khoản của bạn.</p></div>
+      <div class="vv2-left-footer">Một góc nhìn mới.<br>Một bước tiến xa hơn.</div>
     </aside>
-    <main class="vvjob-feed" id="vvjob-feed">
-      <section class="vvjob-hero">
-        <div class="vvjob-eyebrow">GÓC NHÌN MỚI MỖI NGÀY</div>
-        <h1>Đi làm có nhau.</h1>
-        <p>Một câu chuyện, nhiều góc nhìn.<br>Cùng người đi làm Việt Nam chia sẻ và trưởng thành.</p>
-        <a href="{config.relative_path}/categories">Tìm cộng đồng của bạn <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-        <span class="vvjob-hero-art" aria-hidden="true">V<span>V</span></span>
-      </section>
-      <section class="vvjob-composer" aria-label="Chia sẻ bài viết">
-        <span class="vvjob-compose-icon" aria-hidden="true"><i class="fa fa-pencil"></i></span>
-        <button type="button" data-vvjob-compose>Hôm nay bạn muốn chia sẻ điều gì?</button>
-        <button type="button" class="btn btn-primary" data-vvjob-compose>Viết bài</button>
-      </section>
-      <nav class="vvjob-tabs" aria-label="Sắp xếp bảng tin">
-        <a class="{{{ if !isPopular }}}selected{{{ end }}}" href="{config.relative_path}/vvjob" {{{ if !isPopular }}}aria-current="page"{{{ end }}}>Mới nhất</a>
-        <a class="{{{ if isPopular }}}selected{{{ end }}}" href="{config.relative_path}/vvjob?sort=popular" {{{ if isPopular }}}aria-current="page"{{{ end }}}>Được quan tâm</a>
-        <span>Câu chuyện từ cộng đồng</span>
-      </nav>
-      <div class="vvjob-posts">
-        {{{ each topics }}}
-        <article class="vvjob-post">
-          <div class="vvjob-post-meta"><i class="fa fa-user-circle-o" aria-hidden="true"></i><div><a href="{config.relative_path}/user/{./user.userslug}">{./user.displayname}</a><span>{./category.name}</span></div><a class="vvjob-post-open" href="{config.relative_path}/topic/{./slug}" aria-label="Mở bài viết"><i class="fa fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>
-          <h2><a href="{config.relative_path}/topic/{./slug}">{./title}</a></h2>
-          {{{ if ./teaser.content }}}<div class="vvjob-excerpt">{./teaser.content}</div>{{{ end }}}
-          <a class="vvjob-read" href="{config.relative_path}/topic/{./slug}">Đọc câu chuyện <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-          <footer><a href="{config.relative_path}/topic/{./slug}"><i class="fa fa-comment-o" aria-hidden="true"></i> {./postcount} bài viết trong thảo luận</a><span><i class="fa fa-eye" aria-hidden="true"></i> {./viewcount} lượt xem</span></footer>
-        </article>
-        {{{ end }}}
-        {{{ if !topics.length }}}
-        <section class="vvjob-empty"><i class="fa fa-comments-o" aria-hidden="true"></i><h2>Câu chuyện đầu tiên bắt đầu từ bạn</h2><p>Chưa có bài viết để hiển thị. Hãy mở một cuộc trò chuyện về công việc của bạn.</p><button type="button" class="btn btn-primary" data-vvjob-compose>Chia sẻ câu chuyện</button></section>
-        {{{ end }}}
-      </div>
+    <section class="vv2-feed" id="vvjob-feed" aria-label="Bảng tin cộng đồng">
+<header class="vv2-feed-intro"><div><span class="vv2-section-label">GÓC NHÌN TỪ NGƯỜI ĐI LÀM</span><h1>Chuyện công việc.<br>Cùng nhau chia sẻ.</h1></div><span class="vv2-intro-spark" aria-hidden="true">✳</span></header>
+      <section class="vv2-compose" aria-label="Chia sẻ bài viết"><div class="vv2-compose-main"><span class="vv2-compose-avatar" aria-hidden="true"><i class="fa fa-pencil"></i></span><button type="button" data-vvjob-compose>Hôm nay đi làm có gì mới?</button><button type="button" class="vv2-button" data-vvjob-compose>Viết bài <i class="fa fa-plus" aria-hidden="true"></i></button></div></section>
+      <nav class="vv2-feed-tabs" aria-label="Sắp xếp bảng tin"><div><a class="{{{ if !isPopular }}}selected{{{ end }}}" href="{config.relative_path}/vvjob" {{{ if !isPopular }}}aria-current="page"{{{ end }}}>Mới nhất</a><a class="{{{ if isPopular }}}selected{{{ end }}}" href="{config.relative_path}/vvjob?sort=popular" {{{ if isPopular }}}aria-current="page"{{{ end }}}>Được quan tâm</a></div><span><i class="fa fa-sliders" aria-hidden="true"></i> Bảng tin cộng đồng</span></nav>
+      <div class="vv2-posts">{{{ each topics }}}
+        <article class="vv2-post"><header class="vv2-post-header"><a class="vv2-avatar" href="{config.relative_path}/user/{./user.userslug}" aria-label="Hồ sơ {./user.displayname}">{{{ if ./user.picture }}}<img src="{./user.picture}" alt="" loading="lazy">{{{ else }}}<i class="fa fa-user-o" aria-hidden="true"></i>{{{ end }}}</a><div class="vv2-author"><a href="{config.relative_path}/user/{./user.userslug}">{./user.displayname}</a><span>Chia sẻ trong <a href="{config.relative_path}/category/{./category.slug}">{./category.name}</a></span></div><a class="vv2-more" href="{config.relative_path}/topic/{./slug}" aria-label="Mở bài viết"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></a></header><h2><a href="{config.relative_path}/topic/{./slug}">{./title}</a></h2>{{{ if ./teaser.content }}}<div class="vv2-excerpt">{./teaser.content}</div>{{{ end }}}<a class="vv2-read-more" href="{config.relative_path}/topic/{./slug}">Đọc tiếp <i class="fa fa-angle-right" aria-hidden="true"></i></a><div class="vv2-post-stats"><span><i class="fa fa-comment-o" aria-hidden="true"></i> {./postcount} bài viết trong thảo luận</span><span>{./viewcount} lượt xem</span></div><footer class="vv2-post-actions"><a href="{config.relative_path}/topic/{./slug}"><i class="fa fa-comment-o" aria-hidden="true"></i> Thảo luận</a><a href="{config.relative_path}/topic/{./slug}"><i class="fa fa-file-text-o" aria-hidden="true"></i> Đọc đầy đủ</a><a href="{config.relative_path}/topic/{./slug}" aria-label="Mở liên kết bài viết"><i class="fa fa-arrow-up-right-from-square" aria-hidden="true"></i></a></footer></article>
+      {{{ end }}}{{{ if !topics.length }}}<section class="vv2-empty"><span aria-hidden="true">✳</span><h2>Câu chuyện đầu tiên bắt đầu từ bạn</h2><p>Chưa có bài viết để hiển thị. Hãy mở một cuộc trò chuyện về công việc của bạn.</p><button type="button" class="vv2-button" data-vvjob-compose>Chia sẻ câu chuyện <span aria-hidden="true">↗</span></button></section>{{{ end }}}</div>
       <!-- IMPORT partials/paginator.tpl -->
-    </main>
-    <aside class="vvjob-right" aria-label="Chủ đề nổi bật">
-      <section class="vvjob-panel"><div class="vvjob-eyebrow">ĐANG ĐƯỢC QUAN TÂM</div><h2>Chuyện trong tuần <span aria-hidden="true">↗</span></h2><ol class="vvjob-trending">
-        {{{ each trending }}}<li><a href="{config.relative_path}/topic/{./slug}">{./title}</a><span>{./postcount} bài viết trong thảo luận</span></li>{{{ end }}}{{{ if !trending.length }}}<li class="vvjob-no-trend">Những cuộc thảo luận nổi bật sẽ xuất hiện tại đây.</li>{{{ end }}}
-      </ol></section>
-      <section class="vvjob-panel vvjob-welcome"><span class="vvjob-eyebrow">BẠN THUỘC VỀ NƠI ĐÂY</span><h2>Chia sẻ thật.<br>Kết nối bền lâu.</h2><p>Từ ngày đầu đi làm đến bước ngoặt sự nghiệp — luôn có người lắng nghe.</p><a href="{config.relative_path}/register">Tham gia VVJOB <i class="fa fa-arrow-right" aria-hidden="true"></i></a></section>
-      <p class="vvjob-fine">Tôn trọng khác biệt. Bảo vệ thông tin cá nhân. Dùng chức năng báo cáo trong bài viết khi cần hỗ trợ.</p>
-      <span class="vvjob-copyright">© VVJOB · Cộng đồng người đi làm</span>
+      <div class="vv2-feed-end"><span class="vv2-end-mark" aria-hidden="true">✳</span><strong>Không chỉ là đi làm.</strong><span>Là cùng nhau tìm một hướng đi tốt hơn.</span><a href="{config.relative_path}/categories">Khám phá các cộng đồng <span aria-hidden="true">→</span></a></div>
+    </section>
+    <aside class="vv2-right" aria-label="Chủ đề nổi bật"><section class="vv2-trending"><header><span class="vv2-flame" aria-hidden="true"><i class="fa fa-fire"></i></span><h2>Đang được quan tâm</h2><span class="vv2-week">TUẦN NÀY</span></header><ol>{{{ each trending }}}<li><div><a href="{config.relative_path}/topic/{./slug}">{./title}</a><span>{./postcount} bài viết trong thảo luận</span></div><i class="fa fa-arrow-trend-up" aria-hidden="true"></i></li>{{{ end }}}</ol>{{{ if !trending.length }}}<p class="vv2-no-trending">Những cuộc thảo luận nổi bật sẽ xuất hiện tại đây.</p>{{{ end }}}<a class="vv2-trending-all" href="{config.relative_path}/vvjob?sort=popular">Xem các cuộc thảo luận <span aria-hidden="true">→</span></a></section>
+      <section class="vv2-join"><span class="vv2-section-label">CÙNG NHAU TIẾN XA</span><h2>Có những chuyện,<br>đồng nghiệp sẽ hiểu.</h2><p>Một nơi để hỏi, để chia sẻ và tìm thấy những góc nhìn đồng cảm.</p>{{{ if viewerLoggedIn }}}<a class="vv2-button" href="{config.relative_path}/users">Khám phá mọi người <span aria-hidden="true">↗</span></a>{{{ else }}}<a class="vv2-button" href="{config.relative_path}/register">Tìm đồng nghiệp của bạn <span aria-hidden="true">↗</span></a><span class="vv2-join-note">Miễn phí. Cởi mở. Tôn trọng.</span>{{{ end }}}</section>
+      <div class="vv2-guidelines"><i class="fa fa-heart-o" aria-hidden="true"></i><div><strong>Một cộng đồng tử tế.</strong><p>Tôn trọng khác biệt. Bảo vệ thông tin cá nhân. Báo cáo nội dung không phù hợp ngay trong bài viết.</p></div></div><footer class="vv2-footer"><span>© VVJOB · Cộng đồng người đi làm</span><span>Được xây dựng trên NodeBB</span></footer>
     </aside>
   </div>
+  <nav class="vv2-mobile-nav" aria-label="Điều hướng di động"><a class="active" href="{config.relative_path}/vvjob"><i class="fa fa-home" aria-hidden="true"></i><span>Bảng tin</span></a><a href="{config.relative_path}/categories"><i class="fa fa-compass" aria-hidden="true"></i><span>Cộng đồng</span></a><button type="button" data-vvjob-compose aria-label="Viết bài"><i class="fa fa-plus" aria-hidden="true"></i></button><a href="{config.relative_path}/notifications"><i class="fa fa-bell-o" aria-hidden="true"></i><span>Thông báo</span></a><a href="{config.relative_path}/me"><i class="fa fa-user-o" aria-hidden="true"></i><span>Cá nhân</span></a></nav>
 </div>

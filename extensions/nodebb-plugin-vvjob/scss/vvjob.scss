@@ -1,39 +1,140 @@
-// Scoped to the custom page so Harmony moderation and account screens keep working.
-.vvjob {
-  --vv-blue: #125de5; --vv-ink: #172943; --vv-muted: #65758b; --vv-border: #e6ecf4;
-  color: var(--vv-ink); font-family: Inter, system-ui, sans-serif; padding-bottom: 32px;
-  a { text-decoration: none; }
-  a:hover { color: var(--vv-blue); }
-  a:focus-visible, button:focus-visible { outline: 3px solid #79a9ff; outline-offset: 4px; }
-  .vvjob-masthead { display: flex; align-items: center; gap: 32px; padding: 20px 0 28px; border-bottom: 1px solid var(--vv-border); margin-bottom: 28px; }
-  .vvjob-logo { display: flex; align-items: center; gap: 9px; color: var(--vv-blue); font-size: 26px; font-weight: 850; letter-spacing: -1px; }
-  .vvjob-mark { display: grid; place-items: center; background: var(--vv-blue); color: white; border-radius: 12px 12px 4px 12px; width: 38px; height: 38px; }
-  .vvjob-beta { font-size: 9px; letter-spacing: 1px; margin-left: 5px; color: var(--vv-muted); }
-  .vvjob-search { background: #f3f6fb; padding: 12px 20px; border-radius: 24px; color: var(--vv-muted); font-size: 13px; flex: 1; max-width: 480px; i { margin-right: 8px; } }
-  .vvjob-account { margin-left: auto; font-size: 12px; color: var(--vv-ink); white-space: nowrap; }
-  .vvjob-layout { display: grid; grid-template-columns: 205px minmax(0, 1fr) 265px; gap: 26px; align-items: start; }
-  .vvjob-eyebrow { font-size: 10px; font-weight: 750; letter-spacing: 1.5px; color: var(--vv-muted); margin-bottom: 15px; }
-  .vvjob-nav { display: grid; gap: 6px; margin: 0 0 32px; a { color: var(--vv-ink); font-size: 13px; padding: 12px; border-radius: 9px; i { width: 25px; } } .active { color: var(--vv-blue); background: #edf4ff; font-weight: 700; } }
-  .vvjob-communities { display: grid; gap: 17px; a { color: #42536b; font-size: 13px; } span { color: #8da4c5; margin-right: 7px; } }
-  .vvjob-privacy { margin-top: 25px; background: #f3f6fa; padding: 16px; border-radius: 12px; font-size: 12px; display: grid; gap: 8px; i { color: var(--vv-blue); font-size: 20px; } span { color: var(--vv-muted); line-height: 1.6; } }
-  .vvjob-side-note { color: #91a0b3; font-size: 12px; line-height: 1.8; margin-top: 28px; }
-  .vvjob-feed { min-width: 0; }
-  .vvjob-hero { padding: 28px; border-radius: 16px; background: #eaf2ff; position: relative; overflow: hidden; margin-bottom: 18px; .vvjob-eyebrow { color: #3972bf; position: relative; z-index: 1; } h1 { font-size: clamp(26px, 3vw, 38px); font-weight: 800; letter-spacing: -1.5px; position: relative; z-index: 1; } p { font-size: 13px; color: #4a6485; line-height: 1.8; max-width: 80%; position: relative; z-index: 1; } a { color: var(--vv-blue); font-size: 12px; font-weight: 750; position: relative; z-index: 1; } }
-  .vvjob-hero-art { position: absolute; right: -15px; bottom: -67px; font-size: 235px; font-weight: 900; color: #d7e6ff; transform: rotate(-12deg); line-height: 1; span { color: #c8ddfd; margin-left: -125px; } }
-  .vvjob-composer { border: 1px solid var(--vv-border); border-radius: 12px; padding: 16px; display: flex; gap: 12px; align-items: center; button:not(.btn) { background: transparent; border: 0; color: var(--vv-muted); text-align: left; flex: 1; font-size: 12px; } .btn { white-space: nowrap; font-size: 12px; } }
-  .vvjob-compose-icon { background: #edf4ff; color: var(--vv-blue); padding: 10px 13px; border-radius: 50%; }
-  .btn-primary { background: var(--vv-blue); border-color: var(--vv-blue); border-radius: 8px; padding: 10px 16px; }
-  .vvjob-tabs { display: flex; align-items: center; gap: 24px; border-bottom: 1px solid var(--vv-border); margin: 12px 0 0; a { color: var(--vv-muted); padding: 18px 0 14px; font-size: 13px; } .selected { color: var(--vv-blue); font-weight: 750; border-bottom: 3px solid var(--vv-blue); } > span { margin-left: auto; font-size: 10px; color: #8995a7; } }
-  .vvjob-post { border: 1px solid var(--vv-border); border-radius: 12px; margin-top: 16px; padding: 22px; h2 { font-size: 20px; font-weight: 750; line-height: 1.5; margin: 18px 0 12px; a { color: var(--vv-ink); overflow-wrap: anywhere; } } footer { display: flex; flex-wrap: wrap; gap: 18px; border-top: 1px solid var(--vv-border); margin-top: 20px; padding-top: 14px; color: var(--vv-muted); font-size: 11px; a { color: inherit; } i { margin-right: 4px; } } }
-  .vvjob-post-meta { display: flex; align-items: center; gap: 10px; > i { font-size: 32px; color: #83a8d9; } div { display: grid; gap: 3px; a { font-size: 13px; font-weight: 700; color: var(--vv-ink); } span { color: var(--vv-muted); font-size: 11px; } } .vvjob-post-open { margin-left: auto; color: var(--vv-muted); } }
-  .vvjob-excerpt { font-size: 14px; color: #53647a; line-height: 1.8; max-height: 125px; overflow: hidden; overflow-wrap: anywhere; img { max-width: 100%; } }
-  .vvjob-read { display: inline-block; font-size: 12px; margin-top: 12px; color: var(--vv-blue); }
-  .vvjob-panel { border: 1px solid var(--vv-border); border-radius: 14px; padding: 22px; margin-bottom: 18px; h2 { font-size: 18px; font-weight: 750; line-height: 1.5; span { color: var(--vv-blue); } } }
-  .vvjob-trending { padding-left: 21px; margin: 0; li { padding: 16px 0 0 5px; font-size: 13px; color: var(--vv-blue); } a { color: var(--vv-ink); font-weight: 650; overflow-wrap: anywhere; } span { display: block; color: var(--vv-muted); font-size: 10px; margin-top: 6px; } .vvjob-no-trend { color: var(--vv-muted); list-style: none; margin-left: -20px; line-height: 1.7; } }
-  .vvjob-welcome { background: #f1f6ff; border: 0; h2 { font-size: 24px; letter-spacing: -.7px; margin: 20px 0 12px; } p { font-size: 12px; color: var(--vv-muted); line-height: 1.8; } a { color: var(--vv-blue); font-size: 12px; font-weight: 700; } }
-  .vvjob-fine, .vvjob-copyright { color: var(--vv-muted); font-size: 10px; line-height: 1.9; }
-  .vvjob-empty { text-align: center; border: 1px dashed #c4d5ee; border-radius: 12px; padding: 40px 20px; margin: 18px 0; > i { font-size: 36px; color: var(--vv-blue); } h2 { font-size: 20px; margin: 20px 0 12px; } p { font-size: 13px; color: var(--vv-muted); } }
-  @media (max-width: 1199px) { .vvjob-layout { grid-template-columns: 180px minmax(0, 1fr); gap: 20px; } .vvjob-right { grid-column: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; } .vvjob-beta { display: none; } }
-  @media (max-width: 767px) { .vvjob-masthead { flex-wrap: wrap; gap: 15px; padding: 12px 0 18px; margin-bottom: 16px; } .vvjob-logo { font-size: 23px; } .vvjob-search { order: 3; flex-basis: 100%; max-width: none; } .vvjob-layout { display: flex; flex-direction: column; gap: 18px; } .vvjob-sidebar, .vvjob-feed, .vvjob-right { width: 100%; } .vvjob-sidebar > .vvjob-eyebrow, .vvjob-side-note { display: none; } .vvjob-nav { display: flex; overflow-x: auto; margin-bottom: 12px; gap: 4px; a { flex-shrink: 0; font-size: 11px; padding: 10px; } } .vvjob-communities { display: flex; overflow-x: auto; padding-bottom: 8px; gap: 10px; a { white-space: nowrap; background: #f3f6fb; padding: 7px 10px; border-radius: 20px; font-size: 11px; } } .vvjob-privacy { margin: 8px 0 0; display: block; font-size: 11px; padding: 12px; i, strong { margin-right: 6px; } } .vvjob-hero { padding: 24px; } .vvjob-composer { gap: 5px; padding: 12px; } .vvjob-compose-icon { display: none; } .vvjob-tabs { gap: 22px; > span { display: none; } } .vvjob-post { padding: 18px; h2 { font-size: 18px; } } .vvjob-right { display: block; } }
-  @media (prefers-color-scheme: dark) { /* Honor Harmony's selected skin instead of forcing browser mode. */ }
+// Replace Harmony's duplicate chrome only on this plugin-owned page.
+// Native topic, account, search and moderation screens retain their theme.
+body.template-vvjob {
+  background: #f4f6f9;
+  > .layout-container { padding-bottom: 0 !important; }
+  [component="sidebar/left"], [component="sidebar/right"], [component="bottombar"], .brand-container, #footer { display: none !important; }
+  #panel { margin-top: 0 !important; gap: 0 !important; }
+  #content { width: 100%; max-width: none; padding: 0 !important; margin: 0 !important; gap: 0 !important; }
+}
+.vv2 {
+  --v-blue: #2858df; --v-ink: #1c2940; --v-muted: #8390a2; --v-line: #e9edf3; --v-bg: #f4f6f9;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--v-ink); font-size: 14px; line-height: 1.5; min-height: 100vh;
+  *, *::before, *::after { box-sizing: border-box; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--v-blue); }
+  button, input { font: inherit; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  button { cursor: pointer; }
+  a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid #7f9ff0; outline-offset: 3px; }
+  h1, h2, p { margin: 0; }
+  .vv2-header { background: #fff; border-bottom: 1px solid #e6ebf2; position: sticky; top: 0; z-index: 1010; }
+  .vv2-header-inner { max-width: 1328px; margin: auto; min-height: 82px; padding: 0 32px; display: flex; align-items: center; gap: 30px; }
+  .vv2-logo { display: flex; gap: 8px; align-items: center; flex-shrink: 0; color: #234bc3; > span:last-child { font-size: 33px; font-weight: 850; letter-spacing: -1.9px; line-height: .95; } }
+  .vv2-symbol { display: inline-flex; width: 38px; font-size: 51px; line-height: 1; font-weight: 850; font-style: italic; transform: translateY(-4px); letter-spacing: -17px; > span { color: #8da9ff; } }
+  .vv2-logo-caption { display: block; font-size: 7px; font-weight: 700; line-height: 1.8; letter-spacing: 1.55px; margin-top: 6px; color: #6e7d9a; }
+  .vv2-search { display: flex; align-items: center; gap: 11px; background: #f3f5f8; border: 1px solid #edf0f5; border-radius: 8px; padding: 0 13px; height: 40px; flex: 1; max-width: 358px; color: #8b97a8; input { background: none; border: 0; min-width: 0; width: 100%; font-size: 11px; color: var(--v-ink); outline-offset: 1px; } input::placeholder { color: #8b97a8; } kbd { color: #98a3b5; background: #fff; font-size: 11px; border: 1px solid #e1e6ed; padding: 0 5px; border-radius: 3px; } }
+  .vv2-header-nav { display: flex; align-self: stretch; gap: 26px; margin-left: auto; white-space: nowrap; a { display: flex; align-items: center; font-size: 12px; color: #78859a; font-weight: 600; position: relative; } a.active { color: var(--v-blue); &::after { content: ''; position: absolute; bottom: 0; height: 3px; width: 24px; border-radius: 3px 3px 0 0; background: var(--v-blue); left: calc(50% - 12px); } } }
+  .vv2-header-actions { display: flex; gap: 20px; align-items: center; white-space: nowrap; font-size: 11px; }
+  .vv2-icon-button { color: #76839a; font-size: 18px; border-left: 1px solid var(--v-line); padding-left: 24px; }
+  .vv2-mobile-search { display: none; }
+  .vv2-login { font-weight: 650; }
+  .vv2-button { display: inline-flex; align-items: center; justify-content: center; gap: 17px; background: var(--v-blue); color: #fff; font-weight: 650; font-size: 12px; padding: 11px 17px; border: 1px solid var(--v-blue); border-radius: 7px; line-height: 1.4; transition: background .15s; &:hover { background: #1745c9; color: #fff; } i { font-size: 11px; } }
+  .vv2-button-small { padding: 9px 15px; font-size: 11px; }
+  .vv2-layout { display: grid; grid-template-columns: 212px minmax(0, 1fr) 282px; gap: 24px; padding: 28px 32px 70px; max-width: 1328px; margin: 0 auto; align-items: start; }
+  .vv2-left { position: sticky; top: 110px; }
+  .vv2-intro { padding: 4px 14px 24px; border-bottom: 1px solid #e1e6ee; margin-bottom: 14px; h2 { font-size: 20px; line-height: 1.4; font-weight: 800; letter-spacing: -.6px; margin: 12px 0 7px; } p { font-size: 12px; line-height: 1.8; color: #8490a2; } }
+  .vv2-intro-mark { width: 32px; height: 32px; background: #fff; color: var(--v-blue); font-size: 24px; display: flex; align-items: center; justify-content: center; border-radius: 9px; box-shadow: 0 2px 4px #263e6010; }
+  .vv2-navigation { display: grid; gap: 4px; margin-bottom: 30px; a { display: flex; align-items: center; gap: 12px; padding: 12px 14px; font-size: 12px; color: #66758b; border-radius: 7px; i { width: 17px; font-size: 17px; text-align: center; } > span { margin-left: auto; font-size: 20px; line-height: 1; } &.active { color: var(--v-blue); background: #e7edfc; font-weight: 700; } &:hover { background: #e9edf5; } } }
+  .vv2-section-label { color: #8994a6; font-size: 9px; font-weight: 700; letter-spacing: 1.15px; }
+  .vv2-community-nav { .vv2-section-label { padding-left: 14px; margin-bottom: 16px; } nav { display: grid; gap: 15px; } nav a { display: flex; gap: 10px; align-items: center; font-size: 11px; font-weight: 550; padding: 0 10px; > span:nth-child(2) { flex: 1; min-width: 0; } > i { color: #adb7c7; } &:nth-child(n+5) { display: none; } } }
+  .vv2-community-icon { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 8px; background: #e7edfd; color: #587bdb; font-size: 14px; flex-shrink: 0; }
+  .vv2-community-nav nav a:nth-child(2) .vv2-community-icon { color: #338c8a; background: #e2f1ed; }
+  .vv2-community-nav nav a:nth-child(3) .vv2-community-icon { color: #bd9252; background: #f8eedf; }
+  .vv2-community-nav nav a:nth-child(4) .vv2-community-icon { color: #9471be; background: #ece6f6; }
+  .vv2-all-link { display: flex; justify-content: space-between; font-size: 11px; color: #8b97aa; margin: 19px 12px 0; }
+  .vv2-anonymous { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: #edf0f5; border-radius: 8px; padding: 14px; margin-top: 28px; .vv2-lock { font-size: 22px; color: #8b9ab1; } > div { display: grid; gap: 2px; } strong { font-weight: 600; font-size: 11px; color: #66758b; } > div > span { font-size: 9px; color: #9aa5b6; } p { width: 100%; color: #8b97a8; font-size: 10px; line-height: 1.7; } }
+  .vv2-left-footer { margin: 24px 14px 0; color: #a2adbc; font-size: 11px; line-height: 1.8; }
+  .vv2-feed { min-width: 0; }
+
+
+
+
+
+
+
+  .vv2-compose { background: #fff; border: 1px solid var(--v-line); border-radius: 10px; padding: 17px 19px 12px; }
+  .vv2-compose-main { display: flex; gap: 12px; align-items: center; > button:not(.vv2-button) { flex: 1; min-width: 0; padding: 10px 0; border: 0; background: transparent; color: #98a2b3; text-align: left; font-size: 12px; } .vv2-button { gap: 13px; flex-shrink: 0; padding: 10px 14px; font-size: 11px; } }
+  .vv2-compose-avatar { width: 36px; height: 36px; border-radius: 50%; background: #eff3fb; color: #8499bd; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+
+  .vv2-feed-tabs { display: flex; align-items: center; justify-content: space-between; margin: 22px 1px 14px; > div { display: flex; gap: 25px; } a { color: #8a96a7; font-size: 12px; position: relative; padding-bottom: 9px; font-weight: 550; } a.selected { color: var(--v-ink); font-weight: 750; &::after { content: ''; position: absolute; height: 3px; width: 19px; background: var(--v-blue); bottom: 0; left: 0; border-radius: 3px; } } > span { color: #9da8b8; font-size: 9px; padding-bottom: 9px; i { margin-right: 6px; } } }
+  .vv2-post { background: #fff; border: 1px solid var(--v-line); border-radius: 10px; padding: 23px 23px 0; margin-bottom: 16px; h2 { font-size: 19px; line-height: 1.55; font-weight: 750; letter-spacing: -.4px; margin: 21px 0 10px; overflow-wrap: anywhere; } }
+  .vv2-post-header { display: flex; align-items: center; gap: 10px; }
+  .vv2-avatar { display: flex; align-items: center; justify-content: center; background: #eef1f7; color: #8397b8; border: 3px solid #f8faff; width: 43px; height: 43px; border-radius: 50%; flex-shrink: 0; font-size: 20px; overflow: hidden; img { width: 100%; height: 100%; object-fit: cover; } }
+  .vv2-author { display: grid; gap: 4px; min-width: 0; > a { font-size: 12px; font-weight: 750; } > span { font-size: 9px; color: #a0a9b8; a { color: #7186b5; } } }
+  .vv2-more { margin-left: auto; align-self: flex-start; color: #a4afc0; padding: 4px; }
+  .vv2-excerpt { font-size: 12px; color: #7c879b; line-height: 1.95; max-height: 150px; overflow: hidden; overflow-wrap: anywhere; p { margin-bottom: 7px; } img { max-width: 100%; height: auto; } h1,h2,h3 { font-size: 14px; font-weight: 650; } ul,ol { padding-left: 20px; } }
+  .vv2-read-more { display: inline-flex; align-items: center; gap: 7px; color: #6888d6; font-size: 10px; font-weight: 550; margin: 10px 0 21px; }
+  .vv2-post-stats { display: flex; align-items: center; justify-content: space-between; color: #9da7b6; font-size: 9px; margin-bottom: 13px; i { color: #8aa0ce; margin-right: 5px; } }
+  .vv2-post-actions { border-top: 1px solid var(--v-line); display: flex; align-items: center; gap: 25px; padding: 13px 0 14px; a { font-size: 10px; color: #8a97ab; display: inline-flex; align-items: center; gap: 7px; i { font-size: 13px; } &:last-child { margin-left: auto; } &:hover { color: var(--v-blue); } } }
+  .vv2-feed-end { display: flex; align-items: center; flex-direction: column; padding: 30px 12px 10px; color: #a4aec0; text-align: center; font-size: 10px; gap: 6px; > strong { font-size: 12px; color: #8794aa; font-weight: 600; margin-top: 5px; } > a { margin-top: 8px; font-size: 10px; color: #8095c4; } }
+  .vv2-end-mark { font-size: 32px; line-height: 1; color: #b9c6df; }
+  .vv2-right { min-width: 0; }
+  .vv2-trending { background: #fff; border: 1px solid var(--v-line); border-radius: 10px; padding: 19px 18px 0; > header { display: flex; align-items: center; gap: 7px; h2 { font-size: 12px; font-weight: 750; } } ol { padding: 0; list-style: none; counter-reset: trend; margin: 10px 0 0; } li { counter-increment: trend; display: flex; gap: 10px; padding: 17px 0; border-bottom: 1px solid #f0f3f7; &::before { content: '0' counter(trend); color: #b0bcd0; font-size: 16px; font-weight: 650; line-height: 1.2; } > div { min-width: 0; flex: 1; } a { display: block; font-size: 11px; font-weight: 650; line-height: 1.6; overflow-wrap: anywhere; } div > span { display: block; color: #a5afbd; font-size: 9px; margin-top: 6px; } > i { color: #86b3a2; font-size: 11px; margin-top: 3px; } &:last-child { border-bottom: 0; } } }
+  .vv2-flame { color: #d6a16a; font-size: 15px; }
+  .vv2-week { color: #a6b0bf; font-size: 7px; font-weight: 700; letter-spacing: .5px; margin-left: auto; white-space: nowrap; }
+  .vv2-trending-all { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--v-line); font-size: 9px; color: #9aa7bb; padding: 13px 0; }
+  .vv2-no-trending { color: #98a5b9; font-size: 11px; line-height: 1.8; padding: 20px 0; }
+  .vv2-join { background: #fff; border: 1px solid var(--v-line); border-radius: 10px; margin-top: 18px; padding: 0 23px 21px; overflow: hidden; h2 { font-size: 19px; font-weight: 750; line-height: 1.5; letter-spacing: -.6px; margin: 10px 0; } p { color: #96a1b2; font-size: 10px; line-height: 2; margin: 10px 0 19px; } .vv2-button { width: 100%; font-size: 10px; justify-content: space-between; padding: 11px 13px; } .vv2-section-label { font-size: 8px; color: #8198c2; letter-spacing: 1.1px; } }
+  .vv2-join-note { display: block; text-align: center; font-size: 8px; color: #adb6c4; margin-top: 10px; }
+
+
+
+
+
+  .vv2-guidelines { display: flex; gap: 9px; margin: 22px 8px 17px; color: #9ba7ba; > i { margin-top: 2px; font-size: 14px; color: #a9b7ce; } strong { font-size: 10px; font-weight: 600; color: #8d9aaf; } p { font-size: 9px; line-height: 1.9; margin-top: 6px; } }
+  .vv2-footer { border-top: 1px solid #e4e9f1; padding: 15px 8px; display: grid; gap: 5px; color: #a6b0bf; font-size: 8px; }
+  .vv2-empty { background: #fff; border: 1px solid var(--v-line); border-radius: 10px; text-align: center; padding: 35px 25px; > span { font-size: 40px; color: #a3b9ef; } h2 { font-size: 20px; font-weight: 700; margin: 16px 0 10px; letter-spacing: -.5px; } p { color: #95a0b0; font-size: 12px; line-height: 1.8; margin-bottom: 22px; } }
+  .vv2-mobile-nav { display: none; }
+  @media(min-width: 1500px) { .vv2-layout { padding-top: 34px; } }
+  @media(max-width: 1199px) { .vv2-header-inner { gap: 20px; padding: 0 24px; } .vv2-header-nav { display: none; } .vv2-header-actions { margin-left: auto; } .vv2-layout { grid-template-columns: 190px minmax(0,1fr) 252px; gap: 18px; padding: 24px; }   .vv2-join { padding-left: 18px; padding-right: 18px; h2 { font-size: 18px; } }  .vv2-week { display: none; }  }
+  @media(max-width: 1023px) { .vv2-layout { grid-template-columns: 190px minmax(0,1fr); max-width: 900px; } .vv2-right { display: none; }  .vv2-header-inner { max-width: 900px; } .vv2-search { max-width: 310px; } .vv2-header-actions { gap: 15px; } .vv2-icon-button { padding-left: 15px; } }
+  @media(max-width: 699px) { .vv2-header-inner { min-height: 66px; padding: 0 18px; gap: 12px; } .vv2-logo > span:last-child { font-size: 28px; } .vv2-symbol { font-size: 44px; width: 34px; letter-spacing: -15px; } .vv2-logo-caption { font-size: 6px; letter-spacing: 1.1px; margin-top: 4px; } .vv2-search { display: none; } .vv2-header-actions { gap: 14px; font-size: 10px; } .vv2-header-actions .vv2-icon-button { display: none; } .vv2-mobile-search { display: inline-flex; font-size: 17px; color: #7e8fa9; } .vv2-button-small { font-size: 10px; padding: 8px 12px; } .vv2-layout { display: block; padding: 16px 14px 95px; } .vv2-left { position: static; } .vv2-intro, .vv2-navigation, .vv2-anonymous, .vv2-left-footer { display: none; } .vv2-community-nav { margin: 0 -14px 16px; .vv2-section-label, .vv2-all-link { display: none; } nav { display: flex; overflow-x: auto; scrollbar-width: none; gap: 8px; padding: 0 14px; } nav a { flex-shrink: 0; padding: 7px 11px 7px 7px; background: #fff; border: 1px solid #e8edf5; border-radius: 7px; gap: 7px; font-size: 10px; &:nth-child(n+5) { display: none; } > i { display: none; } } } .vv2-community-icon { width: 23px; height: 23px; border-radius: 5px; font-size: 11px; }       .vv2-compose { padding: 13px 14px 10px; } .vv2-compose-main { gap: 8px; > button:not(.vv2-button) { font-size: 11px; } .vv2-button { font-size: 10px; padding: 9px 11px; gap: 7px; } } .vv2-compose-avatar { width: 31px; height: 31px; font-size: 12px; }  .vv2-feed-tabs { margin-top: 22px; margin-bottom: 12px; > div { gap: 23px; } a { font-size: 12px; } > span { font-size: 8px; } } .vv2-post { padding: 18px 18px 0; h2 { font-size: 18px; margin-top: 17px; } } .vv2-excerpt { font-size: 12px; max-height: 170px; } .vv2-post-actions { gap: 22px; } .vv2-author > span { font-size: 8px; } .vv2-feed-end { padding-top: 23px; } .vv2-mobile-nav { position: fixed; display: flex; justify-content: space-around; align-items: center; gap: 5px; left: 0; bottom: 0; width: 100%; z-index: 1020; padding: 10px 8px calc(9px + env(safe-area-inset-bottom)); background: #ffffffed; backdrop-filter: blur(16px); border-top: 1px solid #e6ebf2; a { display: grid; justify-items: center; gap: 5px; color: #9aa6b8; font-size: 8px; min-width: 42px; i { font-size: 19px; } &.active { color: var(--v-blue); } } button { width: 39px; height: 39px; background: var(--v-blue); color: #fff; border: 0; border-radius: 11px; font-size: 18px; transform: translateY(-5px); box-shadow: 0 4px 10px #2858df25; } } }
+  @media(max-width: 359px) { .vv2-header-inner { padding: 0 13px; } .vv2-login { display: none; } .vv2-header-actions { gap: 12px; } .vv2-layout { padding-left: 10px; padding-right: 10px; } .vv2-community-nav { margin-left: -10px; margin-right: -10px; }   .vv2-compose-avatar { display: none; } .vv2-feed-tabs > span { display: none; } .vv2-post { padding-left: 15px; padding-right: 15px; } }
+}
+// Keep reading and navigation text comfortable at actual device sizes.
+.vv2 {
+  padding: 0;
+  .vv2-search input { font-size: 12px; }
+  .vv2-header-nav a, .vv2-navigation a { font-size: 13px; }
+  .vv2-community-nav nav a { font-size: 12px; }
+
+  .vv2-author > a { font-size: 13px; }
+  .vv2-author > span { font-size: 10px; color: #7a889e; }
+  .vv2-excerpt { font-size: 14px; color: #64738a; }
+  .vv2-trending li a { font-size: 12px; }
+  .vv2-post-stats { font-size: 10px; color: #7b899f; }
+  .vv2-post-actions a { font-size: 11px; color: #718098; }
+  .vv2-join p { font-size: 11px; color: #7a889f; }
+  .vv2-read-more { font-size: 11px; color: #4168c8; }
+  @media(max-width: 699px) {
+    .vv2-community-nav nav a { font-size: 10px; }
+
+
+
+    .vv2-excerpt { font-size: 13px; }
+    .vv2-author > span { font-size: 9px; }
+    .vv2-post-actions a { font-size: 10px; }
+  }
+}
+// Conversation-first refinement: quiet framing, readable posts, fewer promotions.
+.vv2 {
+  .vv2-header-inner, .vv2-layout { max-width: 1280px; }
+  .vv2-layout { grid-template-columns: 212px minmax(0,1fr) 252px; gap: 26px; padding-top: 30px; }
+  .vv2-feed-intro { display: flex; align-items: center; justify-content: space-between; padding: 3px 5px 24px; h1 { margin-top: 12px; font-weight: 750; font-size: 28px; line-height: 1.35; letter-spacing: -1.1px; } }
+  .vv2-intro-spark { font-size: 62px; color: #d0daf0; margin-right: 9px; font-weight: 300; }
+  .vv2-compose { padding: 17px 18px; border-color: #e3e8ef; box-shadow: none; }
+  .vv2-compose-main > button:not(.vv2-button) { font-size: 13px; color: #8692a6; }
+  .vv2-post { border-color: #e5eaf1; padding-top: 23px; box-shadow: none; }
+  .vv2-post h2 { font-size: 21px; font-weight: 700; margin-top: 20px; line-height: 1.5; }
+  .vv2-excerpt { font-size: 15px; line-height: 1.9; color: #65748b; max-height: 170px; }
+  .vv2-author > a { font-size: 14px; font-weight: 650; }
+  .vv2-author > span { font-size: 10px; }
+  .vv2-join { padding-top: 23px; h2 { font-size: 19px; font-weight: 700; margin-top: 13px; } p { font-size: 12px; line-height: 1.9; margin-bottom: 20px; } .vv2-button { background: #f0f4fe; color: #4268c6; border-color: #e4ebfa; &:hover { background: #e5edfd; } } }
+  .vv2-feed-tabs { margin-top: 25px; }
+  .vv2-intro-mark { display: none; }
+  .vv2-intro { padding-top: 0; h2 { margin-top: 0; font-size: 19px; } }
+  @media(max-width: 1199px) { .vv2-layout { grid-template-columns: 190px minmax(0,1fr) 235px; gap: 20px; } }
+  @media(max-width: 1023px) { .vv2-layout { grid-template-columns: 190px minmax(0,1fr); max-width: 900px; } }
+  @media(max-width: 699px) { .vv2-layout { display: block; padding-top: 16px; } .vv2-feed-intro { padding: 5px 4px 20px; h1 { font-size: 25px; line-height: 1.35; margin-top: 9px; letter-spacing: -.9px; } .vv2-section-label { font-size: 8px; } } .vv2-intro-spark { font-size: 49px; margin-right: 7px; } .vv2-compose { padding: 14px; } .vv2-compose-main > button:not(.vv2-button) { font-size: 11px; } .vv2-feed-tabs { margin-top: 23px; } .vv2-post h2 { font-size: 20px; } .vv2-excerpt { font-size: 14px; max-height: 188px; } .vv2-author > a { font-size: 13px; } .vv2-author > span { font-size: 9px; } }
 }
