@@ -20,6 +20,6 @@ async function build() {
     await fs.mkdir(path.dirname(destination), { recursive: true });
     await fs.writeFile(destination, compiled);
   }
-  console.log(`Built shared and homepage Sass plus ${files.length} VVJOB templates and their available native imports.`);
+  console.log(`Built shared, homepage and route Sass plus ${files.length} VVJOB templates and their available native imports.`);
 }
 build().catch(err => { console.error(err); process.exitCode = 1; });
