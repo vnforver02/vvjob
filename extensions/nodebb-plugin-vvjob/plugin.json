@@ -25,5 +25,6 @@
     "./scss/vvjob.scss",
     "./scss/global.scss",
     "./scss/pages.scss"
-  ]
+  ],
+  "languages": "./languages"
 }

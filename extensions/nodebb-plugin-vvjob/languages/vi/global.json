@@ -1,0 +1,9 @@
+{
+  "topics": "Bài đăng",
+  "posts": "Bài viết",
+  "users": "Thành viên",
+  "email": "Email",
+  "header.chats": "Tin nhắn",
+  "header.groups": "Nhóm",
+  "403.login": "Vui lòng <a class=\"alert-link\" href=\"%1/login\">đăng nhập</a> để tiếp tục."
+}

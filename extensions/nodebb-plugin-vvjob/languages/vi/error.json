@@ -1,0 +1,14 @@
+{
+  "invalid-email": "Địa chỉ email chưa hợp lệ.",
+  "invalid-login-credentials": "Tên đăng nhập hoặc mật khẩu chưa đúng.",
+  "no-privileges": "Bạn chưa có quyền thực hiện thao tác này.",
+  "search-requires-login": "Vui lòng đăng nhập hoặc tạo tài khoản để tìm kiếm.",
+  "no-category": "Cộng đồng này không còn tồn tại.",
+  "no-topic": "Bài đăng này không còn tồn tại.",
+  "no-post": "Bài viết này không còn tồn tại.",
+  "no-flag": "Không tìm thấy báo cáo.",
+  "not-enough-reputation-to-flag": "Bạn cần %1 điểm uy tín để báo cáo nội dung.",
+  "post-already-flagged": "Bạn đã báo cáo bài viết này.",
+  "user-already-flagged": "Bạn đã báo cáo thành viên này.",
+  "cant-flag-privileged": "Không thể báo cáo nội dung hoặc hồ sơ của quản trị viên và người kiểm duyệt bằng công cụ này."
+}

@@ -5,6 +5,7 @@ const host = name => require.main.require(`./src/${name}`);
 
 exports.init = async ({ router }) => {
   host('routes/helpers').setupPageRoute(router, '/vvjob', [], exports.render);
+  host('routes/helpers').setupPageRoute(router, '/vvjob/guide', [], exports.guide);
 };
 
 exports.homepages = async (data) => {
@@ -33,4 +34,13 @@ exports.render = async (req, res, next) => {
   data.title = 'VVJOB — Cộng đồng người đi làm';
   data.breadcrumbs = [];
   res.render('vvjob', data);
+};
+
+exports.guide = async (req, res) => {
+  const communities = await host('categories').getCategoriesByPrivilege('categories:cid', req.uid, 'read');
+  res.render('vvjob-guide', {
+    title: 'Hướng dẫn cộng đồng — VVJOB',
+    breadcrumbs: [],
+    communities: communities.filter(category => !category.disabled && !category.link),
+  });
 };

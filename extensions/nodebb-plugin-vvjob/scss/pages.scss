@@ -97,3 +97,12 @@ body.theme-harmony .vvjob-account-nav { .sticky-md-top { top: 96px !important; }
  body.theme-harmony .vvjob-account-nav { >div { background: #f7f9fd; padding: 10px; border: 1px solid #e4eaf3; border-radius: 12px; margin-bottom: 18px; } .btn { font-size: 12px; } }
  body.theme-harmony .vvjob-profile-shell .account-stats .stat .fs-2 { overflow-wrap: anywhere; font-size: 20px !important; line-height: 1.55; }
 }
+body.theme-harmony .vvjob-guide {
+ .vvjob-page-intro { max-width: 780px; h1 { font-size: 36px; line-height: 1.35; } }
+ .vvjob-guide-layout { display: grid; grid-template-columns: minmax(0,1fr) 290px; gap: 24px; align-items: start; }
+ .vvjob-guide-sections { display: flex; flex-direction: column; gap: 18px; section { padding: 28px; border: 1px solid #e3eaf3; border-radius: 14px; background: #fff; } h2 { font-size: 21px; margin: 10px 0 16px; font-weight: 700; } p,li { font-size: 14px; color: #60718a; line-height: 1.9; } li { margin-bottom: 10px; } ul { padding-left: 20px; margin-bottom: 0; } p:last-child { margin-bottom: 0; } }
+ .vvjob-guide-number { color: #7998df; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+ .vvjob-identity-notice { display: flex; gap: 12px; padding: 18px; border: 1px solid #dbe6fa; background: #f5f8fe; border-radius: 10px; color: #4367ae; strong { font-size: 13px; } p { font-size: 13px; margin: 5px 0 0; } >i { margin-top: 4px; } }
+ .vvjob-guide-aside { position: sticky; top: 100px; padding: 24px; border-radius: 14px; border: 1px solid #e3eaf3; background: #fff; h2 { font-size: 20px; font-weight: 700; } p { color: #8292aa; font-size: 13px; line-height: 1.8; } nav { display: flex; flex-direction: column; gap: 4px; margin: 20px 0; a { display: flex; align-items: center; gap: 10px; padding: 12px 0; color: #59708f; font-size: 12px; span { flex: 1; } } } >a { font-size: 12px; } }
+}
+@media(max-width:767px) { body.theme-harmony .vvjob-guide { .vvjob-page-intro h1 { font-size: 28px; } .vvjob-guide-layout { grid-template-columns: minmax(0,1fr); } .vvjob-guide-sections section { padding: 22px; } .vvjob-guide-aside { position: static; } } }

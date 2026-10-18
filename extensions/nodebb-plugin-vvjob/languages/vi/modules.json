@@ -1,0 +1,14 @@
+{
+  "composer.show-preview": "Xem trước",
+  "composer.hide-preview": "Ẩn xem trước",
+  "composer.discard": "Hủy bản nháp này? Nội dung chưa đăng sẽ bị mất.",
+  "composer.submit-and-lock": "Đăng và khóa thảo luận",
+  "composer.upload-picture": "Tải ảnh lên",
+  "composer.upload-file": "Đính kèm tệp",
+  "composer.select-category": "Chọn cộng đồng",
+  "composer.textarea.placeholder": "Chia sẻ câu chuyện, câu hỏi hoặc kinh nghiệm của bạn…",
+  "composer.no-drafts": "Bạn chưa có bản nháp.",
+  "composer.discard-draft-confirm": "Bạn có muốn xóa bản nháp này không?",
+  "chat.no-active": "Chọn hoặc bắt đầu một cuộc trò chuyện.",
+  "chat.no-messages": "Chưa có tin nhắn trong cuộc trò chuyện này."
+}

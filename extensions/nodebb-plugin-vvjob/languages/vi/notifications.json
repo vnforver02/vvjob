@@ -1,0 +1,13 @@
+{
+  "no-notifs": "Bạn chưa có thông báo mới.",
+  "new-flags": "Báo cáo mới",
+  "my-flags": "Báo cáo được giao cho tôi",
+  "email-confirmed": "Đã xác nhận email",
+  "email-confirmed-message": "Email đã được xác nhận. Cảm ơn bạn đã tham gia VVJOB.",
+  "email-confirm-sent": "Đã gửi email xác nhận. Vui lòng kiểm tra hộp thư và thư rác.",
+  "notification-and-email": "Thông báo và email",
+  "notificationType-new-reply": "Có phản hồi mới trong bài đăng bạn theo dõi",
+  "notificationType-post-edit": "Bài viết trong cuộc thảo luận bạn theo dõi được chỉnh sửa",
+  "notificationType-new-post-flag": "Có báo cáo bài viết mới",
+  "notificationType-new-user-flag": "Có báo cáo thành viên mới"
+}

@@ -1,0 +1,19 @@
+{
+  "modal-title": "Báo cáo nội dung",
+  "modal-body": "Bạn đang báo cáo %1 %2. Vui lòng chọn lý do để nhóm quản trị xem xét.",
+  "modal-reason-spam": "Nội dung rác hoặc quảng cáo",
+  "modal-reason-offensive": "Xúc phạm hoặc gây hại",
+  "modal-reason-other": "Lý do khác (ghi rõ bên dưới)",
+  "modal-reason-custom": "Mô tả ngắn gọn vấn đề bạn gặp phải…",
+  "modal-submit": "Gửi báo cáo",
+  "modal-submit-success": "Đã gửi báo cáo để nhóm quản trị xem xét.",
+  "modal-confirm-rescind": "Bạn muốn rút lại báo cáo?",
+  "no-flags": "Chưa có báo cáo cần hiển thị.",
+  "state-open": "Chờ xử lý",
+  "state-wip": "Đang xem xét",
+  "state-resolved": "Đã xử lý",
+  "state-rejected": "Không chấp nhận",
+  "no-notes": "Chưa có ghi chú.",
+  "notes": "Ghi chú xử lý",
+  "report-added": "Đã gửi báo cáo"
+}

@@ -1,0 +1,17 @@
+{
+  "already-have-account": "Bạn đã có tài khoản?",
+  "cancel-registration": "Hủy đăng ký",
+  "help.email": "Email của bạn được ẩn theo mặc định.",
+  "help.username-restrictions": "Tên đăng nhập gồm %1–%2 ký tự và chưa được sử dụng. Mọi người có thể nhắc đến bạn bằng @<span id='yourUsername'>tên đăng nhập</span>.",
+  "help.minimum-password-length": "Mật khẩu cần có ít nhất %1 ký tự.",
+  "email-address": "Địa chỉ email",
+  "email-address-placeholder": "Nhập địa chỉ email",
+  "username-placeholder": "Chọn tên đăng nhập",
+  "password-placeholder": "Tạo mật khẩu",
+  "confirm-password": "Nhập lại mật khẩu",
+  "confirm-password-placeholder": "Nhập lại mật khẩu",
+  "register-now-button": "Tạo tài khoản",
+  "alternative-registration": "Hoặc đăng ký bằng",
+  "interstitial.intro": "Vui lòng bổ sung thông tin cho tài khoản của bạn.",
+  "interstitial.intro-new": "Chỉ còn một bước: bổ sung thông tin để hoàn tất đăng ký."
+}

@@ -1,0 +1,166 @@
+{
+  "login": {
+    "remember-me": [],
+    "forgot-password": [],
+    "alternative-logins": [],
+    "failed-login-attempt": [],
+    "logged-out-due-to-inactivity": [],
+    "caps-lock-enabled": []
+  },
+  "register": {
+    "already-have-account": [],
+    "cancel-registration": [],
+    "help.email": [],
+    "help.username-restrictions": [
+      "%1",
+      "%2"
+    ],
+    "help.minimum-password-length": [
+      "%1"
+    ],
+    "email-address": [],
+    "email-address-placeholder": [],
+    "username-placeholder": [],
+    "password-placeholder": [],
+    "confirm-password": [],
+    "confirm-password-placeholder": [],
+    "register-now-button": [],
+    "alternative-registration": [],
+    "interstitial.intro": [],
+    "interstitial.intro-new": []
+  },
+  "reset_password": {
+    "reset-password": [],
+    "update-password": [],
+    "password-changed.title": [],
+    "password-changed.message": [],
+    "wrong-reset-code.title": [],
+    "wrong-reset-code.message": [],
+    "new-password": [],
+    "repeat-password": [],
+    "changing-password": [],
+    "enter-email": [],
+    "enter-email-address": [],
+    "password-reset-sent": [],
+    "invalid-email": [],
+    "passwords-do-not-match": []
+  },
+  "global": {
+    "topics": [],
+    "posts": [],
+    "users": [],
+    "email": [],
+    "header.chats": [],
+    "header.groups": [],
+    "403.login": [
+      "%1"
+    ]
+  },
+  "category": {
+    "new-topic-button": [],
+    "no-topics": [],
+    "no-replies": [],
+    "no-new-posts": []
+  },
+  "topic": {
+    "no-topics-found": [],
+    "no-posts-found": [],
+    "reply": [],
+    "one-reply-to-this-post": [],
+    "last-reply-time": [],
+    "guest-login-reply": [],
+    "flag-post": [],
+    "flag-user": [],
+    "already-flagged": [],
+    "view-flag-report": [],
+    "resolve-flag": [],
+    "thread-tools.select-category": [],
+    "thread-tools.title": [],
+    "composer.title-placeholder": [],
+    "composer.hide": [],
+    "composer.discard": [],
+    "composer.submit": [],
+    "composer.additional-options": [],
+    "composer.post-later": [],
+    "composer.new-topic": [],
+    "composer.replying-to": [
+      "%1"
+    ],
+    "composer.editing-in": [
+      "%1"
+    ],
+    "composer.uploading": [],
+    "composer.thumb-url-label": [],
+    "composer.thumb-title": [],
+    "composer.thumb-file-label": [],
+    "composer.thumb-remove": [],
+    "composer.drag-and-drop-images": [],
+    "post-quick-reply": [],
+    "post-tools": []
+  },
+  "modules": {
+    "composer.show-preview": [],
+    "composer.hide-preview": [],
+    "composer.discard": [],
+    "composer.submit-and-lock": [],
+    "composer.upload-picture": [],
+    "composer.upload-file": [],
+    "composer.select-category": [],
+    "composer.textarea.placeholder": [],
+    "composer.no-drafts": [],
+    "composer.discard-draft-confirm": [],
+    "chat.no-active": [],
+    "chat.no-messages": []
+  },
+  "flags": {
+    "modal-title": [],
+    "modal-body": [
+      "%1",
+      "%2"
+    ],
+    "modal-reason-spam": [],
+    "modal-reason-offensive": [],
+    "modal-reason-other": [],
+    "modal-reason-custom": [],
+    "modal-submit": [],
+    "modal-submit-success": [],
+    "modal-confirm-rescind": [],
+    "no-flags": [],
+    "state-open": [],
+    "state-wip": [],
+    "state-resolved": [],
+    "state-rejected": [],
+    "no-notes": [],
+    "notes": [],
+    "report-added": []
+  },
+  "error": {
+    "invalid-email": [],
+    "invalid-login-credentials": [],
+    "no-privileges": [],
+    "search-requires-login": [],
+    "no-category": [],
+    "no-topic": [],
+    "no-post": [],
+    "no-flag": [],
+    "not-enough-reputation-to-flag": [
+      "%1"
+    ],
+    "post-already-flagged": [],
+    "user-already-flagged": [],
+    "cant-flag-privileged": []
+  },
+  "notifications": {
+    "no-notifs": [],
+    "new-flags": [],
+    "my-flags": [],
+    "email-confirmed": [],
+    "email-confirmed-message": [],
+    "email-confirm-sent": [],
+    "notification-and-email": [],
+    "notificationType-new-reply": [],
+    "notificationType-post-edit": [],
+    "notificationType-new-post-flag": [],
+    "notificationType-new-user-flag": []
+  }
+}

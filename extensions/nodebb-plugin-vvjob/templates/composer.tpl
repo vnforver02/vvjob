@@ -34,7 +34,7 @@
 
 			<div class="imagedrop"><div>[[topic:composer.drag-and-drop-images]]</div></div>
 
-			<div class="vvjob-editor-note"><i class="fa fa-shield" aria-hidden="true"></i> Chia sẻ chân thành. Tôn trọng thông tin cá nhân. Bài viết gắn với tài khoản của bạn.</div><div class="resizer position-absolute w-100 bottom-100 pe-3 border-bottom">
+			<div class="vvjob-editor-note"><i class="fa fa-shield" aria-hidden="true"></i> Chia sẻ chân thành. Tôn trọng thông tin cá nhân. Bài viết gắn với tài khoản của bạn. <a href="{config.relative_path}/vvjob/guide" target="_blank" rel="noopener">Hướng dẫn đăng bài</a></div><div class="resizer position-absolute w-100 bottom-100 pe-3 border-bottom">
 				<div class="trigger text-center">
 					<div class="handle d-inline-block px-2 py-1 border bg-body">
 						<i class="fa fa-fw fa-up-down"></i>

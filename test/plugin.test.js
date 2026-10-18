@@ -11,11 +11,13 @@ function load(host) {
   return exports;
 }
 test('registers route via NodeBB page helper and advertises homepage', async () => {
-  let args;
-  const plugin = load({ 'routes/helpers': { setupPageRoute: (...value) => { args = value; } } });
+  const routes = [];
+  const plugin = load({ 'routes/helpers': { setupPageRoute: (...value) => { routes.push(value); } } });
   await plugin.init({ router: 'router' });
-  assert.equal(args[1], '/vvjob');
-  assert.equal(args[3], plugin.render);
+  assert.equal(routes[0][1], '/vvjob');
+  assert.equal(routes[0][3], plugin.render);
+  assert.equal(routes[1][1], '/vvjob/guide');
+  assert.equal(routes[1][3], plugin.guide);
   assert.equal((await plugin.homepages({ routes: [] })).routes[0].route, 'vvjob');
 });
 test('forwards viewer and query to native feed, uses privilege filtered categories and weekly popular topics', async () => {

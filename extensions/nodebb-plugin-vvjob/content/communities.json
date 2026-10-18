@@ -1,0 +1,6 @@
+[
+ {"cid":5,"name":"Thảo luận công việc","description":"Chuyện đi làm mỗi ngày: đồng nghiệp, môi trường và kỹ năng làm việc. Chia sẻ bối cảnh rõ ràng, tôn trọng các góc nhìn khác nhau.","icon":"fa-comments-o","bgColor":"#2858df","color":"#ffffff","order":1},
+ {"cid":6,"name":"Thảo luận công ty","description":"Trao đổi về văn hóa doanh nghiệp và trải nghiệm làm việc. Phân biệt trải nghiệm cá nhân với thông tin đã kiểm chứng; không đăng tài liệu nội bộ hoặc thông tin nhận diện người khác.","icon":"fa-building-o","bgColor":"#138a86","color":"#ffffff","order":2},
+ {"cid":7,"name":"Lương & phúc lợi","description":"Chia sẻ về thu nhập, đãi ngộ và kinh nghiệm trao đổi lương. Nêu rõ vai trò, kinh nghiệm và khu vực; che thông tin cá nhân trong bảng lương hoặc hợp đồng.","icon":"fa-money","bgColor":"#bf8c35","color":"#ffffff","order":3},
+ {"cid":8,"name":"Kinh nghiệm nghề nghiệp","description":"Học hỏi từ những bước tiến và cả lần thử chưa thành công: phỏng vấn, kỹ năng, chuyển hướng và phát triển sự nghiệp. Ưu tiên trải nghiệm thực tế và gợi ý có thể áp dụng.","icon":"fa-compass","bgColor":"#8b63bb","color":"#ffffff","order":4}
+]
