@@ -114,3 +114,54 @@ body.theme-harmony {
  .vv2-community-nav nav a.active { background: #e7efff; color: #0750f8; border-radius: 8px; }
  @media(max-width:699px) { .vvjob-feed-heading { padding: 2px 3px 13px; h1 { font-size: 22px; } p { font-size: 12px; } } .vv2-community-nav nav a.active { border-radius: 18px; border-color: #b9cffd; } }
 }
+
+// Social publishing surface: content starts immediately, with no repeated page masthead.
+.vv2 {
+ .vv2-layout { padding-top: 22px; gap: 24px; grid-template-columns: 220px minmax(0,1fr) 270px; }
+ .vvjob-social-compose { padding: 18px 20px 0; border-radius: 14px; box-shadow: 0 2px 9px #20395705; }
+ .vvjob-social-compose .vv2-compose-main { gap: 12px; padding-bottom: 17px; }
+ .vvjob-social-compose .vv2-compose-avatar { width: 44px; height: 44px; color: #456bb3; background: #e9f0fd; font-size: 19px; }
+ .vvjob-social-compose .vv2-compose-main >button { min-height: 46px; border-radius: 24px; border: 0; background: #f1f4f9; padding: 12px 18px; color: #6a7790; font-size: 15px; transition: background .15s; &:hover { background: #e9eef7; } }
+ .vvjob-compose-toolbar { border-top: 1px solid #edf0f5; display: flex; align-items: center; gap: 13px; padding: 12px 0; >span { display: flex; align-items: center; gap: 9px; color: #687993; font-size: 12px; margin-right: auto; >i { color: #3ca884; font-size: 18px; } } >a { color: #8a98af; padding: 8px; } .vv2-button { padding: 9px 15px; gap: 8px; font-size: 13px; border-radius: 8px; } }
+ .vvjob-community-context { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; padding: 12px 16px; background: #edf3ff; border: 1px solid #dde8fc; border-radius: 10px; >i { color: #0750f8; font-size: 18px; } h1 { font-size: 16px; line-height: 1.4; margin: 0; font-weight: 650; letter-spacing: -.3px; } >a { margin-left: auto; padding: 4px 6px; color: #7084a6; } }
+ .vv2-feed-tabs { background: transparent; margin: 12px 0; padding: 0; align-items: center; }
+ .vv2-feed-tabs >div { gap: 5px; padding: 4px; border: 1px solid #e3e9f2; border-radius: 24px; background: #edf1f7; }
+ .vv2-feed-tabs a { padding: 7px 16px; border-radius: 18px; font-size: 12px; line-height: 1.5; font-weight: 600; color: #6b7890; }
+ .vv2-feed-tabs a.selected { background: #fff; color: #0750f8; box-shadow: 0 1px 4px #273e6510; }
+ .vv2-feed-tabs a.selected::after { display: none; }
+ .vv2-post { border-radius: 14px; padding: 20px 22px 0; margin-bottom: 16px; box-shadow: 0 2px 9px #20395703; }
+ .vv2-post h2 { margin-top: 14px; font-size: 20px; line-height: 1.45; }
+ .vv2-post-actions { padding: 12px 0; }
+ .vv2-post-actions a { color: #677790; }
+ .vv2-trending,.vv2-join { border-radius: 14px; }
+ .vvjob-feed-footer { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 18px 4px; color: #8391a7; font-size: 11px; a { color: #7183a0; } }
+ .vv2-navigation a { border-radius: 10px; }
+ @media(max-width:1199px) { .vv2-layout { grid-template-columns: 185px minmax(0,1fr) 240px; gap: 16px; } }
+ @media(max-width:1023px) { .vv2-layout { grid-template-columns: 180px minmax(0,1fr); } }
+ @media(max-width:699px) {
+  .vv2-layout { display: block; padding: 10px 12px 100px; }
+  .vvjob-social-compose { padding: 13px 13px 0; border-radius: 12px; }
+  .vvjob-social-compose .vv2-compose-main { gap: 10px; padding-bottom: 13px; }
+  .vvjob-social-compose .vv2-compose-avatar { display: flex; width: 36px; height: 36px; font-size: 16px; }
+  .vvjob-social-compose .vv2-compose-main >button { font-size: 13px; min-height: 40px; padding: 10px 13px; }
+  .vvjob-compose-toolbar { padding: 9px 0; gap: 6px; >span { font-size: 11px; gap: 6px; >i { font-size: 16px; } } >a { padding: 6px; } .vv2-button { font-size: 12px; padding: 8px 11px; } }
+  .vv2-feed-tabs { margin: 10px 0; }
+  .vv2-feed-tabs a { padding: 6px 14px; }
+  .vv2-post { padding: 16px 16px 0; border-radius: 12px; margin-bottom: 12px; }
+  .vv2-post h2 { font-size: 19px; }
+  .vvjob-community-context { padding: 10px 12px; h1 { font-size: 14px; } }
+ }
+ @media(max-width:359px) { .vvjob-compose-toolbar >span { font-size: 10px; } .vvjob-compose-toolbar >a { padding: 4px; } }
+}
+
+body.theme-harmony .vvjob-mobile-discovery { display: none; }
+.vv2 .vvjob-personal-nav { display: grid; gap: 3px; border-top: 1px solid #e4eaf4; padding-top: 20px; margin: 22px 10px 0; >span { font-size: 10px; letter-spacing: 1px; color: #8a98ac; margin: 0 0 8px 4px; } a { display: flex; gap: 12px; align-items: center; padding: 10px 5px; font-size: 13px; color: #536882; border-radius: 7px; &:hover { background: #eaf0fa; } i { width: 22px; color: #8096be; font-size: 17px; text-align: center; } } }
+@media(max-width:699px) {
+ .vv2 .vvjob-personal-nav { display: none; }
+ body.theme-harmony {
+  .vvjob-site-top { position: relative; }
+  .vvjob-mobile-discovery { display: block; padding-bottom: 12px; background: #fff; nav { display: flex; gap: 23px; overflow-x: auto; scrollbar-width: none; padding: 0 16px; } nav a { white-space: nowrap; color: #8590a3; font-size: 15px; font-weight: 650; padding: 5px 0 12px; position: relative; &.active { color: #142443; &::after { content: ''; height: 3px; background: #0750f8; border-radius: 3px; position: absolute; bottom: 3px; left: 25%; right: 25%; } } } form { display: flex; gap: 10px; align-items: center; margin: 6px 14px 0; padding: 0 13px; background: #f2f5fa; border: 1px solid #ebeff5; border-radius: 24px; color: #8291a8; min-height: 39px; } input { border: 0; outline-offset: 0; background: transparent; width: 100%; min-width: 0; font-size: 12px; color: #263c60; padding: 9px 0; } button { border: 0; background: transparent; color: #8d9bb1; padding: 5px; } }
+  .vvjob-site-top .vv2-mobile-search { display: none; }
+ }
+ .vv2 .vv2-feed-tabs { margin: 10px 0; }
+}

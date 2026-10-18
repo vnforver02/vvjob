@@ -9,12 +9,12 @@ $(document).on('click.vvjob', '[data-vvjob-compose]', function () {
 
 $(window).on('action:ajaxify.end', function () {
   const name = ajaxify.data.template.name;
-  const section = name === 'vvjob' || ['recent', 'popular', 'unread'].includes(name) ? 'feed' :
+  const section = name === 'vvjob' && ajaxify.data.isPopular ? 'popular' : name === 'vvjob' || ['recent', 'popular', 'unread'].includes(name) ? 'feed' :
     name === 'category' || name === 'categories' ? 'communities' :
       name === 'users' ? 'people' : name === 'notifications' ? 'notifications' :
         name.startsWith('account/') ? 'profile' : '';
   $('[data-vvjob-nav]').each(function () {
-    const active = $(this).attr('data-vvjob-nav') === section;
+    const active = $(this).attr('data-vvjob-nav') === section || (section === 'popular' && $(this).attr('data-vvjob-nav') === 'feed' && $(this).closest('[component="bottombar"]').length > 0);
     $(this).toggleClass('active', active);
     if (active) { $(this).attr('aria-current', 'page'); } else { $(this).removeAttr('aria-current'); }
   });

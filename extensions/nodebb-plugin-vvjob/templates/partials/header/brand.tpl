@@ -1,9 +1,9 @@
 <div class="vv2 vvjob-site-shell vvjob-site-top">
   <header class="vv2-header">
     <div class="vv2-header-inner">
-      <a class="vv2-logo" href="{relative_path}/" aria-label="VVJOB — Bảng tin"><span>vvjob<span class="vv2-logo-caption">Real Work. Real Talk.</span></span></a>
+      <a class="vv2-logo" href="{relative_path}/" aria-label="VVJOB — Trang chủ"><span>vvjob<span class="vv2-logo-caption">Real Work. Real Talk.</span></span></a>
       <form class="vv2-search" action="{relative_path}/search" method="get" role="search"><i class="fa fa-search" aria-hidden="true"></i><input type="search" name="term" placeholder="Tìm câu chuyện, chủ đề, cộng đồng" aria-label="Tìm kiếm trên VVJOB"><button type="submit" aria-label="Tìm kiếm">↵</button></form>
-      <nav class="vv2-header-nav" aria-label="Điều hướng chính"><a data-vvjob-nav="feed" href="{relative_path}/vvjob">Bảng tin</a><a data-vvjob-nav="communities" href="{relative_path}/categories">Cộng đồng</a><a href="{relative_path}/vvjob/companies">Công ty</a><a data-vvjob-nav="people" href="{relative_path}/users">Kết nối</a></nav>
+      <nav class="vv2-header-nav" aria-label="Điều hướng chính"><a data-vvjob-nav="feed" href="{relative_path}/vvjob">Trang chủ</a><a data-vvjob-nav="communities" href="{relative_path}/categories">Cộng đồng</a><a data-vvjob-nav="popular" href="{relative_path}/vvjob?sort=popular">Nổi bật</a><a data-vvjob-nav="people" href="{relative_path}/users">Kết nối</a></nav>
       <div class="vv2-header-actions"><a class="vv2-mobile-search" href="{relative_path}/search" aria-label="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></a>
         {{{ if config.loggedIn }}}
         <ul id="logged-in-menu" class="vvjob-member-tools list-unstyled" role="menu">
@@ -17,5 +17,6 @@
         {{{ end }}}
       </div>
     </div>
+    <div class="vvjob-mobile-discovery"><nav aria-label="Khám phá VVJOB"><a data-vvjob-nav="feed" href="{relative_path}/vvjob">Mới nhất</a><a data-vvjob-nav="popular" href="{relative_path}/vvjob?sort=popular">Nổi bật</a><a data-vvjob-nav="communities" href="{relative_path}/categories">Cộng đồng</a><a data-vvjob-nav="people" href="{relative_path}/users">Kết nối</a><a href="{relative_path}/vvjob/companies">Công ty</a></nav><form action="{relative_path}/search" method="get" role="search"><i class="fa fa-search" aria-hidden="true"></i><input type="search" name="term" placeholder="Tìm bài viết, chủ đề, đồng nghiệp…" aria-label="Tìm kiếm trên VVJOB"><button type="submit" aria-label="Tìm kiếm"><i class="fa fa-arrow-right" aria-hidden="true"></i></button></form></div>
   </header>
 </div>
