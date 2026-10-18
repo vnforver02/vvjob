@@ -1,5 +1,7 @@
 # VVJOB v0.5 route layout rebuild
 
+Historical release record. For the current v0.6 mounts, copy changes and mail readiness, see [Community readiness](COMMUNITY_READINESS.md).
+
 The v0.4 shared stylesheet was insufficient for Harmony's topic structure. Its inherited timeline margins and competing flex widths shrank the post column and displaced reply controls. Version 0.5 owns the topic and post templates, removes the timeline class, and uses an explicit main-column/sidebar grid. Every post has a bounded avatar/header/content/footer layout. Quoted parents and expanded replies have their own containers. Dynamically loaded posts use the same native template blocks.
 
 ## Changed routes and components
