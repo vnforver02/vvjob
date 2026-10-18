@@ -22,10 +22,10 @@ exports.init = async ({ router, middleware }) => {
   helpers.setupPageRoute(router, '/vvjob/verification-admin', [...member, careerRoutes.admin], verificationRoutes.adminPage);
   helpers.setupPageRoute(router, '/vvjob/evidence', member, evidenceRoutes.page);
   helpers.setupPageRoute(router, '/vvjob/evidence-admin', [...member, careerRoutes.admin], evidenceRoutes.adminPage);
-  router.get('/api/vvjob/evidence/file/:uid/:id/:index', middleware.applyBlacklist, middleware.authenticateRequest, middleware.maintenanceMode, middleware.registrationComplete, ...member, careerRoutes.admin, evidenceRoutes.file);
+  router.get('/api/vvjob/evidence/file/:uid/:id/:index', middleware.applyBlacklist, middleware.authenticateRequest, middleware.maintenanceMode, middleware.registrationComplete, ...member, careerRoutes.admin, evidenceRoutes.secure, evidenceRoutes.file);
   // Native setupApiRoute parses multipart to public temporary disk before auth.
   // Evidence must authenticate and enforce CSRF before bounded memory parsing.
-  router.post('/api/vvjob/evidence/submit', middleware.applyBlacklist, middleware.authenticateRequest, middleware.maintenanceMode, middleware.registrationComplete, ...member, middleware.applyCSRF, evidenceRoutes.uploadSlot, evidenceRoutes.upload, evidenceRoutes.submit);
+  router.post('/api/vvjob/evidence/submit', middleware.applyBlacklist, middleware.authenticateRequest, middleware.maintenanceMode, middleware.registrationComplete, ...member, middleware.applyCSRF, evidenceRoutes.secure, evidenceRoutes.uploadSlot, evidenceRoutes.upload, evidenceRoutes.submit);
   for (const [path, handler, adminOnly] of [['withdraw', evidenceRoutes.withdraw], ['review', evidenceRoutes.review, true], ['revoke', evidenceRoutes.revoke, true]]) {
     router.post(`/api/vvjob/evidence/${path}`, middleware.applyBlacklist, middleware.authenticateRequest, middleware.maintenanceMode, middleware.registrationComplete, ...member, middleware.applyCSRF, ...(adminOnly ? [careerRoutes.admin] : []), handler);
   }
