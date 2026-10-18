@@ -19,6 +19,8 @@ The hot board requests native ranks 1–15 for the selected time/community, inde
 - Full NodeBB 4.6.1 production-image build, including webpack, passed in 20.949 seconds.
 - Isolated browser checks passed: original body expansion without navigation, current avatar, one-character and emoji comments, compact targeted replies, native like persistence/unlike, title-only top 15 and expansion, guest login gating, and layouts at 1440/390/320 pixels without horizontal overflow.
 
+The additional isolated check accepted a 39,000-character comment, retained the draft after reply cancellation and transport failure, and confirmed that previews contain text without exposed HTML tags.
+
 ## Rollout and rollback
 
 Source: `/home/ucloud/vvjob-social-refine-release/extensions/nodebb-plugin-vvjob` (read-only mount). Assets: `/home/ucloud/vvjob-social-refine-build`. The active Compose/config remain under `/home/ucloud/vvjob-v1-runtime` and are private.
@@ -26,3 +28,11 @@ Source: `/home/ucloud/vvjob-social-refine-release/extensions/nodebb-plugin-vvjob
 Before rollout, back up the preceding Compose/config and a verified PostgreSQL dump under `/home/ucloud/vvjob-backups/20261019-social-refine`. Record the previous native length settings before applying the explicit configuration script. Compare the release plugin byte-for-byte against the isolated tested source, switch only the VVJOB plugin/build mounts, and recreate only the `web` service.
 
 For UI rollback, restore the saved Compose file and recreate only VVJOB `web`. Keep the current database and its legitimate new writes. The prior plugin/build remain at `/home/ucloud/vvjob-interactions-release` and `/home/ucloud/vvjob-interactions-build`. If the length policy also needs reverting, restore only the two saved settings through native configuration and restart web; do not restore the entire database for a UI rollback. Keep guest profile restrictions, demo labels and real verification semantics intact.
+
+## Production acceptance — 2026-10-19
+
+Code release `5c214d3ed9a93134930186d8e297c7e38d959cd9` is live at https://bbs.cloudverify.vn/. The release plugin matched the tested source byte-for-byte before cutover. The verified private backup and previous native settings were saved at the path above, the explicit length-policy configuration completed, and only `vvjob-v1-web-1` was recreated. Existing users, verification records, demo labels and other services were retained.
+
+Read-only production browser acceptance passed at 1440/390/320 pixels: compact composer, icon actions, in-place original content and comments, collapsed title-only rankings, all four time-filter APIs capped at fifteen topics, guest profile/API restrictions and native login gating. The public native configuration reports a one-character minimum and a 1,000,000-character infrastructure ceiling. No JavaScript page errors were observed. Production acceptance created no test posts, likes or users.
+
+The isolated preview container, cloned database and temporary private configuration/dump were removed after acceptance. The live release/build, previous assets and protected backup remain available.
