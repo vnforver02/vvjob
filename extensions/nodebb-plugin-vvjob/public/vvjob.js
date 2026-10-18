@@ -3,7 +3,8 @@
 // Delegation includes the shared shell, dynamically loaded pages and mobile nav.
 $(document).on('click.vvjob', '[data-vvjob-compose]', function () {
   if (!app.user.uid) { return ajaxify.go('login'); }
-  require(['composer'], function (composer) { composer.newTopic({}); });
+  const cid = Number(this.dataset.cid);
+  require(['composer'], function (composer) { composer.newTopic(Number.isSafeInteger(cid) && cid > 0 ? { cid } : {}); });
 });
 
 $(window).on('action:ajaxify.end', function () {

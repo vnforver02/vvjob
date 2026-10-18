@@ -85,3 +85,21 @@ test('registration keeps native return destination and makes career reminder opt
   const unavailable = load({ database: { setObjectField: async () => { throw Error('unavailable'); } } });
   assert.equal((await unavailable.registered({ uid: 9, next: '/' })).next, '/');
 });
+
+test('community feed preserves native category filtering, sorting and pager with contextual heading', async () => {
+ let rendered; const req = {uid: 8, query: {cid: '7', sort: 'popular', page: '2'}};
+ const plugin = load({
+  'controllers/recent': {getData: async (request, route, sort) => {assert.equal(request, req); assert.equal(request.query.cid, req.query.cid); assert.equal(sort, 'posts'); return {topics: [], pagination: {currentPage: 2}};}},
+  categories: {getCategoriesByPrivilege: async () => [{cid: 7, name: 'Lương &amp; phúc lợi'}, {cid: 8, name: 'Kinh nghiệm nghề nghiệp'}]},
+  topics: {getSortedTopics: async () => ({topics: []})}
+ });
+ await plugin.render(req, {render: (name,data) => rendered=data});
+ assert.equal(rendered.feedTitle, 'Lương &amp; phúc lợi');
+ assert.equal(rendered.communities.find(c=>c.cid===7).active, true);
+ assert.equal(rendered.communities.find(c=>c.cid===8).active, false);
+ assert.equal(rendered.popularQuery, '?cid=7&sort=popular');
+ assert.equal(rendered.pagination.currentPage, 2);
+ req.query.cid='999'; let next=false;
+ await plugin.render(req, {render(){assert.fail('unavailable community rendered')}},()=>{next=true});
+ assert.equal(next,true);
+});

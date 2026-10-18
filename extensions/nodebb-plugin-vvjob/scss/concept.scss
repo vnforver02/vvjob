@@ -105,3 +105,12 @@ body.theme-harmony {
 }
 @media(max-width:699px) { body.theme-harmony .vvjob-site-top .vv2-logo >span:last-child { font-size: 31px; gap: 8px; } body.theme-harmony .vvjob-site-top .vv2-logo-caption { font-size: 8px; } }
 @media(max-width:379px) { body.theme-harmony .vvjob-site-top .vv2-logo-caption { display: none; } }
+
+// A persistent community shell with a compact contextual heading.
+.vv2 {
+ .vv2-layout { grid-template-rows: auto; }
+ .vv2-left,.vv2-feed,.vv2-right { grid-row: 1; }
+ .vvjob-feed-heading { padding: 2px 2px 16px; h1 { font-size: 25px; font-weight: 750; line-height: 1.3; letter-spacing: -.7px; margin: 0 0 5px; } p { font-size: 13px; color: #647492; margin: 0; line-height: 1.5; } }
+ .vv2-community-nav nav a.active { background: #e7efff; color: #0750f8; border-radius: 8px; }
+ @media(max-width:699px) { .vvjob-feed-heading { padding: 2px 3px 13px; h1 { font-size: 22px; } p { font-size: 12px; } } .vv2-community-nav nav a.active { border-radius: 18px; border-color: #b9cffd; } }
+}

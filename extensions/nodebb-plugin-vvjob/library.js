@@ -62,12 +62,21 @@ exports.render = async (req, res, next) => {
   const rank = category => { const index = preferred.indexOf(String(category.name || '').replace(/&amp;/g, '&')); return index < 0 ? preferred.length : index; };
   data.communities = categories.filter(category => Number(category.cid) > 0 && !category.disabled && !category.link)
     .sort((a, b) => rank(a) - rank(b));
+  const selected = data.communities.find(category => String(category.cid) === String(req.query.cid));
+  if (req.query.cid && !selected) { return next(); }
+  data.communities = data.communities.map(category => ({ ...category, active: String(category.cid) === String(req.query.cid) }));
+  data.hasCommunity = !!selected;
+  data.feedTitle = selected ? selected.name : 'Bảng tin';
+  data.feedDescription = selected ? 'Chia sẻ và thảo luận cùng cộng đồng.' : 'Những câu chuyện mới từ cộng đồng người đi làm.';
+  data.selectedCommunityId = selected ? Number(selected.cid) : '';
+  data.feedQuery = selected ? `?cid=${Number(selected.cid)}` : '';
+  data.popularQuery = selected ? `?cid=${Number(selected.cid)}&sort=popular` : '?sort=popular';
   data.trending = (await host('topics').getSortedTopics({ uid: req.uid, start: 0, stop: 4, sort: 'posts', term: 'week' })).topics;
   data.isPopular = sort === 'posts';
   data.viewerLoggedIn = Number(req.uid) > 0;
   const career = data.viewerLoggedIn ? await host('database').getObject(`vvjob:career:${req.uid}`) : null;
   data.showCareerReminder = !!(career && Number(career.onboardingPending) === 1 && Number(career.completed) !== 1);
-  data.title = 'VVJOB — Real Work. Real Talk.';
+  data.title = selected ? `${selected.name} — VVJOB` : 'Bảng tin — VVJOB';
   data.breadcrumbs = [];
   res.render('vvjob', data);
 };

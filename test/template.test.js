@@ -13,11 +13,14 @@ test('empty feed shows truthful Vietnamese state and privacy notice', async () =
 });
 test('feed renders real topic, community, subdirectory links and selected sorting', async () => {
   const topic = { title: 'Công việc đầu tiên', slug: '42/cong-viec', postcount: 3, viewcount: 12, user: { userslug: 'minh', displayname: 'Minh' }, category: { name: 'Công việc' }, teaser: { content: '<p>Chia sẻ kinh nghiệm</p>' } };
-  const html = await benchpress.compileRender(template, { config: { relative_path: '/forum' }, topics: [topic], trending: [topic], communities: [{ name: 'Công việc', slug: '7/cong-viec' }], isPopular: true });
+  const html = await benchpress.compileRender(template, { config: { relative_path: '/forum' }, topics: [topic], trending: [topic], communities: [{ cid: 7, name: 'Công việc', slug: '7/cong-viec', active: true }], hasCommunity: true, selectedCommunityId: 7, feedTitle: 'Công việc', feedQuery: '?cid=7', popularQuery: '?cid=7&sort=popular', isPopular: true });
   assert.match(html, /href="\/forum\/topic\/42\/cong-viec"/);
-  assert.match(html, /href="\/forum\/category\/7\/cong-viec"/);
+  assert.match(html, /href="\/forum\/vvjob\?cid=7"/);
   assert.match(html, /aria-current="page">Được quan tâm/);
   assert.match(html, /Chia sẻ kinh nghiệm/);
+  assert.match(html, /data-cid="7"/);
+  assert.match(html, /href="\/forum\/vvjob\?cid&#x3D;7&amp;sort&#x3D;popular"/);
+  assert.doesNotMatch(html, /vvjob-concept-hero/);
   assert.doesNotMatch(html, /Câu chuyện đầu tiên bắt đầu từ bạn/);
 });
 
