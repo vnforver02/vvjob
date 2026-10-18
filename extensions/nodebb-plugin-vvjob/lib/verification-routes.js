@@ -38,7 +38,7 @@ module.exports = function (host, directory, getConfig, Pool) {
     async page(req, res) {
       const state = await service.status(req.uid);
       res.render('vvjob-verification', {
-        title: 'Xác minh email công ty — VVJOB', verification: clean(state),
+        title: 'Xác minh nghề nghiệp — VVJOB', verification: clean(state),
         statusLabel: labels[state.status] || labels.unverified, domains: state.domains.map(value => ({ domain: safe(value) })),
         verified: state.status === 'verified', pending: state.status === 'pending',
         canRequest: state.available && !!state.companyId && state.domains.length > 0,
