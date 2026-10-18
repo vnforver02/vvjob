@@ -75,7 +75,16 @@
     event.preventDefault(); const form = this, data = Object.fromEntries(new FormData(form));
     data.publicCompany = form.elements.publicCompany.checked;
     if ($('#career-company-query').val().trim() && !data.companyId) { return feedback(form, 'Vui lòng chọn công ty từ kết quả hoặc bỏ chọn công ty.', true); }
-    busy(form, async () => { await post('career', data); feedback(form, 'Đã lưu hồ sơ. Thông tin nghề nghiệp chưa được xác minh.'); });
+    busy(form, async () => {
+      await post('career', data);
+      feedback(form, 'Đã lưu hồ sơ. Đang mở trang cá nhân…');
+      const destination = app.user.userslug ? `user/${encodeURIComponent(app.user.userslug)}` : `uid/${app.user.uid}`;
+      ajaxify.go(destination, function () {
+        require(['alerts'], function (alerts) {
+          alerts.success(data.publicCompany ? 'Đã lưu hồ sơ. Thông tin nghề nghiệp đang được công khai và chưa được xác minh.' : 'Đã lưu hồ sơ. Thông tin nghề nghiệp chỉ hiển thị với bạn và chưa được xác minh.');
+        });
+      });
+    });
   });
   $(document).on('click.vvjobCareer', '[data-career-dismiss]', function () {
     const banner = this.closest('.vvjob-career-reminder'), button = this;
