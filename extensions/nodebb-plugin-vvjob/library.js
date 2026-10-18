@@ -15,6 +15,9 @@ exports.init = async ({ router, middleware }) => {
   careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service, evidenceRoutes.service);
   const helpers = host('routes/helpers');
   helpers.setupApiRoute(router, 'get', '/api/vvjob/topics/:tid/comments', [], require('./lib/comments')(host).list);
+  const social = require('./lib/social')(host);
+  helpers.setupApiRoute(router, 'get', '/api/vvjob/topics/:tid/content', [], social.content);
+  helpers.setupApiRoute(router, 'get', '/api/vvjob/posts/:pid/reaction', [], social.votes);
   const member = [middleware.ensureLoggedIn, middleware.redirectToHomeIfBanned];
   const identity = require('./lib/identity')(host('database'), evidenceRoutes.service, verificationRoutes.service);
   const people = require('./lib/people')(host, directory, identity);
@@ -84,16 +87,19 @@ exports.render = async (req, res, next) => {
   data.selectedCommunityId = selected ? Number(selected.cid) : '';
   data.feedQuery = selected ? `?cid=${Number(selected.cid)}` : '';
   data.popularQuery = selected ? `?cid=${Number(selected.cid)}&sort=popular` : '?sort=popular';
-  data.trending = (await host('topics').getSortedTopics({ uid: req.uid, start: 0, stop: 4, sort: 'posts', term: 'week' })).topics;
+  data.trending = (await host('topics').getSortedTopics({ uid: req.uid, start: 0, stop: 14, sort: 'posts', term: 'week' })).topics;
   data.isPopular = sort === 'posts';
   if (data.isPopular) {
     const term = ['daily', 'weekly', 'monthly'].includes(req.query.term) ? req.query.term : req.query.range === 'all' ? 'alltime' : 'weekly';
     const hotUrl = (period, cid) => `/vvjob?sort=popular&${period === 'alltime' ? 'range=all' : `term=${period}`}${cid ? `&cid=${Number(cid)}` : ''}`;
     data.hotPeriods = [['daily', '24 giờ'], ['weekly', '7 ngày'], ['monthly', '30 ngày'], ['alltime', 'Tất cả']].map(([value, label]) => ({ label, active: value === term, url: hotUrl(value, selected?.cid) }));
     data.hotAllUrl = hotUrl(term);
+    const hot = await host('topics').getSortedTopics({ uid: req.uid, start: 0, stop: 14, sort: 'posts', term: ({daily: 'day', weekly: 'week', monthly: 'month'})[term] || 'alltime', cids: selected ? [Number(selected.cid)] : undefined });
+    data.topics = hot.topics.slice(0, 15);
     data.communities.forEach(category => { category.hotUrl = hotUrl(term, category.cid); });
     data.topics.forEach((topic, index) => { topic.rank = Number.isInteger(topic.index) ? topic.index + 1 : index + 1; topic.topRank = topic.rank <= 3; topic.replyCount = Math.max(0, Number(topic.postcount || 0) - 1); });
   }
+  await require('./lib/social')(host).enrich(data, req.uid);
   data.viewerLoggedIn = Number(req.uid) > 0;
   const career = data.viewerLoggedIn ? await host('database').getObject(`vvjob:career:${req.uid}`) : null;
   data.showCareerReminder = !!(career && Number(career.onboardingPending) === 1 && Number(career.completed) !== 1);

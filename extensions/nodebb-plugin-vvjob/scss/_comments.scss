@@ -28,3 +28,9 @@
 .vvjob-global-bottom .vvjob-chat-icon { position: relative; display: inline-flex; }
 .vvjob-global-bottom .vvjob-chat-count { position: absolute; top: -6px; left: 14px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 9px; background: #ed5266; color: white; font-size: 9px; line-height: 16px; border: 1px solid white; }
 @media (max-width: 575px) { .vv2 .vvcomments { padding-top: 12px; .vvcomments-form-footer >span { display: none; } .vvcomment-bubble { padding: 9px 11px; } } }
+.vv2 .vvcomments {
+ .vvcomment-children { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 12px; .vvcomment-avatar { flex-basis: 26px; width: 26px; height: 26px; } .vvcomment { gap: 7px; } }
+ .vvcomments-form.is-nested { margin: 9px 0 2px; .vvcomments-replying { background: transparent; padding: 0 6px; font-size: 10px; margin-bottom: 3px; } .vvcomments-input { padding: 4px 5px; border-radius: 18px; textarea { min-height: 30px; padding: 4px 6px; font-size: 12px; } >button { flex-basis: 30px; width: 30px; height: 30px; font-size: 12px; } } .vvcomments-form-footer { padding-top: 0; >span { display: none; } >button { width: 28px; height: 28px; font-size: 16px; } } }
+ .vvcomment-meta { gap: 12px; .vvcomment-like { display: inline-flex; align-items: center; gap: 4px; min-width: 22px; &[aria-pressed="true"] { color: #ee5273; } } }
+ .vvcomments-emoji { max-width: 100%; flex-wrap: wrap; button { padding: 6px; font-size: 18px; } }
+}

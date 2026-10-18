@@ -169,3 +169,29 @@ body.theme-harmony .vvjob-mobile-discovery { display: none; }
 }
 
 .vv2 .vvjob-conversation-actions { gap: 8px; flex-wrap: wrap; padding: 7px 0; >a,>button { flex: 1; justify-content: center; display: inline-flex; gap: 9px; align-items: center; min-height: 38px; border: 0; background: transparent; border-radius: 8px; color: #6a7b95; font-size: 12px; font-weight: 550; margin: 0; &:hover { background: #f3f6fc; color: #0750f8; } i { font-size: 16px; } } >button:disabled { opacity: .5; } .vvjob-share-feedback { width: 100%; text-align: center; font-size: 10px; color: #7085a8; &:empty { display: none; } } }
+// Compact social controls, readable original posts and a useful desktop community rail.
+.vv2 {
+ .vvjob-left-heading { display: flex; align-items: center; gap: 11px; padding: 8px 10px 20px; strong { display: block; color: #263954; font-size: 14px; font-weight: 650; } div >span { display: block; color: #8491a6; font-size: 11px; margin-top: 4px; } }
+ .vvjob-left-symbol { display: grid; place-items: center; width: 38px; height: 38px; background: #e6efff; color: #1765ed; border-radius: 12px; font-size: 19px; }
+ .vv2-community-nav { padding-top: 5px; }
+ .vvjob-social-compose { padding: 16px 18px; }
+ .vvjob-social-compose .vv2-compose-main { padding-bottom: 0; }
+ .vvjob-social-compose .vv2-compose-main >button { display: flex; justify-content: space-between; align-items: center; gap: 10px; text-align: left; >i { font-size: 18px; color: #8597b2; } }
+ .vv2-compose-avatar { overflow: hidden; flex-shrink: 0; img { width: 100%; height: 100%; object-fit: cover; } }
+ .vv2-post h2 >button, .vvhot-story h2 >button { padding: 0; border: 0; background: transparent; color: inherit; font: inherit; line-height: inherit; text-align: left; width: 100%; &:hover { color: #174cb6; } &:focus-visible { outline: 2px solid #1765ed; outline-offset: 4px; border-radius: 3px; } }
+ .vvjob-post-body { position: relative; overflow-wrap: anywhere; }
+ .vvjob-post-preview { font-size: 15px; color: #53627b; line-height: 1.75; max-height: 105px; overflow: hidden; white-space: pre-line; cursor: pointer; }
+ .vvjob-expand-control { border: 0; background: transparent; color: #8b9bb3; padding: 2px 0; width: 100%; font-size: 18px; line-height: 24px; border-radius: 6px; &:hover { color: #1765ed; background: #f5f8fd; } }
+ .is-expanded .vvjob-expand-control i { transform: rotate(180deg); }
+ .vvjob-post-original { color: #34445f; font-size: 15px; line-height: 1.8; p { margin: 0 0 12px; } img,video { max-width: 100%; max-height: 540px; object-fit: contain; border-radius: 10px; } iframe { max-width: 100%; } pre { max-width: 100%; overflow: auto; } blockquote { border-left: 3px solid #d7e3f8; padding-left: 15px; color: #73809a; } }
+ .vvjob-post-body [hidden] { display: none !important; }
+ .vvjob-content-status { color: #b42335; font-size: 12px; }
+ .vvjob-content-status:empty { display: none; }
+ .vv2-post-stats { display: flex; justify-content: flex-end; margin-top: 3px; padding-bottom: 7px; color: #8c99ac; font-size: 10px; }
+ .vvjob-conversation-actions { justify-content: flex-start; gap: 17px; position: relative; padding: 6px 0 9px; >button { flex: 0 0 auto; min-width: 42px; min-height: 40px; gap: 6px; border-radius: 50px; padding: 8px 10px; font-weight: 500; font-size: 12px; i { font-size: 21px; } &:last-of-type { margin-left: auto; } &[aria-pressed="true"] { color: #ee5273; } &:disabled { cursor: default; opacity: .55; } } .vvjob-share-feedback { text-align: left; font-size: 11px; } }
+ .vvhot-row { padding-top: 18px; padding-bottom: 18px; align-items: start; }
+ .vvhot-story h2 { margin: 0; font-size: 17px; line-height: 1.55; }
+ .vvhot-row:not(.is-expanded) { .vvjob-post-body, .vvjob-conversation-actions { display: none; } }
+ .vvhot-row.is-expanded { .vvjob-post-original { margin-top: 12px; } }
+ @media(max-width:699px) { .vvjob-left-heading { display: none; } .vvjob-social-compose { padding: 12px; } .vvjob-social-compose .vv2-compose-main { padding-bottom: 0; } .vvjob-post-preview,.vvjob-post-original { font-size: 14px; } .vvhot-story h2 { font-size: 15px; } .vvjob-conversation-actions { gap: 14px; } }
+}

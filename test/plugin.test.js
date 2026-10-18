@@ -5,7 +5,7 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
 function load(host) {
-  host = { database: { getObject: async () => null }, ...host };
+  host = { database: { getObject: async () => null }, posts: { getPostSummaryByPids: async () => [], getVoteStatusByPostIDs: async () => ({upvotes: []}) }, user: {getUserFields: async () => ({})}, ...host };
   const exports = {};
   const localRequire = name => require(path.resolve('extensions/nodebb-plugin-vvjob', name));
   localRequire.main = { require: name => name === 'nconf' ? { get: () => '' } : host[name.replace('./src/', '')] };
@@ -105,4 +105,16 @@ test('community feed preserves native category filtering, sorting and pager with
  req.query.cid='999'; let next=false;
  await plugin.render(req, {render(){assert.fail('unavailable community rendered')}},()=>{next=true});
  assert.equal(next,true);
+});
+
+test('hot titles use the first fifteen native privilege-filtered topics regardless of feed page', async () => {
+ const calls=[];let result;
+ const plugin=load({
+  'controllers/recent':{getData:async()=>({topics:[],pagination:{currentPage:3}})},
+  categories:{getCategoriesByPrivilege:async()=>[{cid:7,name:'Công việc'}]},
+  topics:{getSortedTopics:async args=>{calls.push(args);return{topics:Array.from({length:20},(_,i)=>({tid:i+1,index:i}))}}},
+ });
+ await plugin.render({uid:9,query:{sort:'popular',term:'monthly',cid:'7',page:'3'}},{render:(name,data)=>{result=data}});
+ assert.equal(result.topics.length,15);assert.equal(result.topics[0].rank,1);assert.equal(result.topics[14].rank,15);
+ assert.equal(calls.at(-1).stop,14);assert.equal(calls.at(-1).start,0);assert.equal(calls.at(-1).term,'month');assert.deepEqual(Array.from(calls.at(-1).cids),[7]);assert.equal(calls.at(-1).uid,9);
 });

@@ -24,7 +24,8 @@ module.exports = function (host) {
       host('database').sortedSetCard(set),
     ]);
     const comments = rows.filter(post => post && !Number(post.deleted) && String(post.pid) !== String(topic.mainPid)).map(post => ({
-      pid: post.pid,
+      pid: post.pid, toPid: Number(post.toPid) || 0,
+      likes: Math.max(0, Number(post.upvotes) || 0), liked: !!post.upvoted, selfPost: !!post.selfPost,
       content: post.content,
       timestamp: post.timestamp,
       user: {

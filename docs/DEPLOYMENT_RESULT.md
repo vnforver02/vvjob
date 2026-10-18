@@ -1,6 +1,6 @@
 # VVJOB rollout — 2026-10-18
 
-The latest production release is documented in [Feed interactions and demo members](INTERACTIONS.md#validation-and-production-rollout--2026-10-19). It includes current HTTPS runtime paths, 62 passing tests, browser acceptance, the authorized 500-member demo import and rollback instructions. The sections below record earlier releases.
+The current social UI refinement is documented in [Compact social feed](SOCIAL_UI.md). The preceding production release is documented in [Feed interactions and demo members](INTERACTIONS.md#validation-and-production-rollout--2026-10-19). It includes current HTTPS runtime paths, 62 passing tests, browser acceptance, the authorized 500-member demo import and rollback instructions. The sections below record earlier releases.
 
 ## Result
 

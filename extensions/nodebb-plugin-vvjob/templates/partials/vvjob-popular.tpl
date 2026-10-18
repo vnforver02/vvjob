@@ -6,9 +6,9 @@
   {{{ each topics }}}
   <article class="vvhot-row" data-feed-tid="{./tid}">
     <div class="vvhot-rank {{{ if ./topRank }}}vvhot-rank-top vvhot-rank-{./rank}{{{ end }}}" aria-label="Hạng {./rank}">{./rank}</div>
-    <div class="vvhot-story"><a class="vvhot-category" href="{config.relative_path}/vvjob?cid={./cid}">{./category.name}</a><h2><a href="{config.relative_path}/topic/{./slug}">{./title}</a></h2>{{{ if ./teaser.content }}}<div class="vvhot-excerpt">{./teaser.content}</div>{{{ end }}}
-      <div class="vvhot-stats"><span><i class="fa fa-comment-o" aria-hidden="true"></i> <span data-feed-replycount="{./replyCount}">{./replyCount} bình luận</span></span><span><i class="fa fa-eye" aria-hidden="true"></i> {./viewcount} lượt xem</span></div>
-      <footer class="vv2-post-actions vvjob-conversation-actions"><button type="button" data-vvjob-comments aria-expanded="false" aria-controls="vvcomments-{./tid}"><i class="fa fa-comment-o" aria-hidden="true"></i> Bình luận</button><button type="button" data-vvjob-share data-url="{config.relative_path}/topic/{./slug}" data-title="{./title}"><i class="fa fa-share-alt" aria-hidden="true"></i> Chia sẻ</button><span class="vvjob-share-feedback" role="status"></span></footer>
+    <div class="vvhot-story"><!-- IMPORT partials/vvjob-post-body.tpl -->
+
+      <!-- IMPORT partials/vvjob-social-actions.tpl -->
       <!-- IMPORT partials/vvjob-comment-panel.tpl -->
     </div>
   </article>

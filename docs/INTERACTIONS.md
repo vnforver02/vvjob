@@ -1,5 +1,7 @@
 # Feed conversations, rankings and mobile navigation
 
+The subsequent [compact social feed refinement](SOCIAL_UI.md) supersedes the original read-more, toolbar, hot-list and length-policy presentation described below.
+
 The feed and ranked discussions expand comments inline. The read endpoint `/api/vvjob/topics/:tid/comments` checks native topic/category permissions, disabled/deleted/scheduled visibility, uses native parsing/block filtering, omits deleted comments and projects only public author fields. Pages scan five native reply positions; hidden replies can make a page shorter. Read responses are private/no-store.
 
 Posting uses the native `POST /api/v3/topics/:tid` API and CSRF, including native anti-spam, category permissions, locked topics, targeted `toPid` replies and moderation queue. The UI preserves a failed draft, prevents double submission, deduplicates loaded comments and distinguishes queued from published replies. Six emoji shortcuts insert Unicode into the comment; they do not create reaction counters. “Chi tiết” retains access to the full post and native report/moderation actions.

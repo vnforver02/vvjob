@@ -13,6 +13,9 @@
   function cancelReply(panel, state) {
     delete state.toPid;
     panel.querySelector('.vvcomments-replying').hidden = true;
+    const form = panel.querySelector('.vvcomments-form');
+    panel.querySelector('[data-comment-composer]').append(form);
+    form.classList.remove('is-nested');
   }
   function resize(input) {
     input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 180) + 'px';
@@ -30,7 +33,21 @@
         el.title = date.toLocaleString('vi-VN');
       }
     });
+    arrangeReplies(panel);
     panel.querySelector('.vvcomments-empty').hidden = !!panel.querySelector('[data-comment-pid]');
+  }
+  function arrangeReplies(panel) {
+    panel.querySelectorAll('[data-comment-parent]').forEach(comment => {
+      const pid = Number(comment.dataset.commentParent);
+      if (!pid) return;
+      let parent = panel.querySelector(`[data-comment-pid="${pid}"]`);
+      if (!parent || parent === comment || comment.contains(parent)) return;
+      while (parent.parentElement.closest('[data-comment-pid]')) parent = parent.parentElement.closest('[data-comment-pid]');
+      const main = parent.querySelector('.vvcomment-main');
+      let list = main.querySelector(':scope > .vvcomment-children');
+      if (!list) { list = document.createElement('ol'); list.className = 'vvcomment-children'; list.setAttribute('aria-label', 'Các câu trả lời'); main.append(list); }
+      if (comment.parentElement !== list) list.append(comment);
+    });
   }
   async function load(ctx) {
     const { panel, state, tid } = ctx;
@@ -68,6 +85,9 @@
     const { panel, state } = context(this);
     if (!state.canReply || state.sending) return;
     state.toPid = this.dataset.commentReply;
+    const form = panel.querySelector('.vvcomments-form');
+    this.closest('.vvcomment-main').append(form);
+    form.classList.add('is-nested');
     $(panel).find('.vvcomments-replying span').text('Đang trả lời ' + this.dataset.name);
     panel.querySelector('.vvcomments-replying').hidden = false;
     panel.querySelector('textarea').focus();
@@ -97,9 +117,6 @@
     if (state.sending || !state.canReply) return;
     const input = this.querySelector('textarea'), content = input.value.trim();
     if (!content) { input.focus(); return; }
-    if (content.length < Number(config.minimumPostLength || 0) || content.length > Number(config.maximumPostLength || 32767)) {
-      status(panel, `Bình luận cần từ ${config.minimumPostLength || 1} đến ${config.maximumPostLength || 32767} ký tự.`, true); return;
-    }
     state.sending = true;
     let sent = false;
     $(this).find('button,textarea').prop('disabled', true);
@@ -114,11 +131,11 @@
         status(panel, 'Bình luận đã gửi và đang chờ duyệt.');
       } else {
         // Native reply returns already parsed post content. No optimistic fake post.
-        await append(panel, [{ pid: data.pid, content: data.content, timestamp: data.timestamp, user: data.user, replyTo: data.parent?.user?.username || '' }], true);
+        await append(panel, [{ pid: data.pid, toPid: data.toPid, content: data.content, timestamp: data.timestamp, user: data.user, likes: data.upvotes || 0, liked: false, selfPost: true, replyTo: data.parent?.user?.username || '' }], true);
         const count = card.querySelector('[data-feed-postcount]');
         if (count) { count.dataset.feedPostcount = Number(count.dataset.feedPostcount) + 1; count.textContent = count.dataset.feedPostcount + ' bài viết trong thảo luận'; }
         const replies = card.querySelector('[data-feed-replycount]');
-        if (replies) { replies.dataset.feedReplycount = Number(replies.dataset.feedReplycount) + 1; replies.textContent = replies.dataset.feedReplycount + ' bình luận'; }
+        if (replies) { replies.dataset.feedReplycount = Number(replies.dataset.feedReplycount) + 1; replies.textContent = replies.dataset.feedReplycount; }
         status(panel, 'Đã gửi bình luận.');
       }
     } catch (err) {
