@@ -13,7 +13,7 @@ The user explicitly authorized server deployment and delegated the implementatio
 - Separate Compose project `vvjob-v1`, PostgreSQL 18.1, independent database/dependency volumes.
 - Web container `vvjob-v1-web-1`, database `vvjob-v1-db-1`; web binds only to `127.0.0.1:14567`.
 - Runtime configuration: `/home/ucloud/vvjob-v1-runtime/compose.json` and `config/config.json`. These private files contain credentials and must never be committed.
-- Plugin source: `/home/ucloud/vvjob-v1-source/extensions/nodebb-plugin-vvjob`, mounted read-only.
+- Initial plugin source: `/home/ucloud/vvjob-v1-source/extensions/nodebb-plugin-vvjob`, mounted read-only. The subsequent UI refresh uses `/home/ucloud/vvjob-ui-v2-source`; see UI_REFRESH.md for the current mounts and verification.
 - Persistent build, uploads, configuration and dependency storage. `CONFIG` is explicitly set for the loader.
 
 ## Executed checks

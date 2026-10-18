@@ -23,3 +23,4 @@ Compatibility baseline inspected from source: NodeBB **4.6.1** (`351c9abc6f3016a
 - [Local installation](docs/LOCAL_SETUP.md)
 - [Deployment and rollback](docs/DEPLOYMENT.md)
 - [Changes and verification](docs/VALIDATION.md)
+- [Conversation-first UI refresh](docs/UI_REFRESH.md)
