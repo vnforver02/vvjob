@@ -3,8 +3,8 @@
 		<!-- mobile header -->
 		<nav class="navbar fixed-top mobile-navbar hidden-md hidden-lg text-bg-primary flex-nowrap gap-1 px-1">
 			<div class="btn-group">
-				<button class="btn btn-sm btn-primary composer-discard" data-action="discard" tabindex="-1"><i class="fa fa-fw fa-times"></i></button>
-				<button class="btn btn-sm btn-primary composer-minimize" data-action="minimize" tabindex="-1"><i class="fa fa-fw fa-minus"></i></button>
+				<button class="btn btn-sm btn-primary composer-discard" data-action="discard" aria-label="Đóng trình soạn bài" title="Đóng trình soạn bài"><i class="fa fa-fw fa-times" aria-hidden="true"></i><span class="vvjob-mobile-close-label">Đóng</span></button>
+				<button class="btn btn-sm btn-primary composer-minimize" data-action="minimize" aria-label="Thu gọn và giữ bản nháp"><i class="fa fa-fw fa-minus"></i></button>
 			</div>
 			{{{ if isTopic }}}
 			<div class="category-name-container">
