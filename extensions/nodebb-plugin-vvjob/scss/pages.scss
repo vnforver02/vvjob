@@ -184,3 +184,9 @@ body.vvjob-editor-open { .modal { z-index: 1100; } .modal-backdrop { z-index: 10
 .vvjob-verification-policy { display: flex; gap: 5px; flex-direction: column; padding: 12px 0; border-bottom: 1px solid #e4ebf4; overflow-wrap: anywhere; font-size: 13px; }
 #verify-work-email { scroll-margin-top: 90px; }
 @media(max-width: 700px) { .vvjob-verification-methods { grid-template-columns: minmax(0, 1fr); } .vvjob-verification-method { padding: 16px; gap: 12px; } }
+
+.vvjob-review-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+@media (max-width: 575px) { .vvjob-review-actions > .btn { width: 100%; } }
+
+.vvjob-evidence-audit li { display: grid; gap: 4px; padding: 12px 0; border-bottom: 1px solid #e5eaf2; overflow-wrap: anywhere; }
+.vvjob-evidence-audit span, .vvjob-evidence-audit time { color: #64748b; font-size: 13px; }
