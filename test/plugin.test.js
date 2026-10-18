@@ -23,14 +23,15 @@ test('forwards viewer and query to native feed, uses privilege filtered categori
   let nativeArgs; let trendArgs; let categoryArgs; let rendered;
   const plugin = load({
     'controllers/recent': { getData: async (...args) => { nativeArgs = args; return { topics: [{ tid: 1 }], pagination: { currentPage: 2 } }; } },
-    categories: { getCategoriesByPrivilege: async (...args) => { categoryArgs = args; return [{ cid: 1 }, { cid: 2, disabled: true }, { cid: 3, link: 'https://example.com' }]; } },
+    categories: { getCategoriesByPrivilege: async (...args) => { categoryArgs = args; return [{ cid: 1 }, { cid: 2, disabled: true }, { cid: 3, link: 'https://example.com' }, { cid: 4, name: 'Lương &amp; phúc lợi' }, { cid: 5, name: 'Thảo luận công việc' }]; } },
     topics: { getSortedTopics: async args => { trendArgs = args; return { topics: [{ tid: 4 }] }; } },
   });
   await plugin.render(req, { render: (name, data) => { rendered = { name, data }; } });
   assert.equal(nativeArgs[0], req);
   assert.equal(nativeArgs[2], 'posts');
   assert.deepEqual(categoryArgs, ['categories:cid', 17, 'read']);
-  assert.equal(rendered.data.communities.length, 1);
+  assert.equal(rendered.data.communities.length, 3);
+  assert.deepEqual(Array.from(rendered.data.communities, c => c.cid), [5, 4, 1]);
   assert.equal(rendered.data.pagination.currentPage, 2);
   req.query.sort = 'untrusted';
   await plugin.render(req, { render() {} });

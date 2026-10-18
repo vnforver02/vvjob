@@ -1,6 +1,6 @@
 # Docker / aaPanel deployment procedure
 
-Production changes require explicit confirmation. No server has been accessed or changed during this implementation. Do not put panel, SSH, database passwords or tokens into Git or deployment notes.
+Production changes require user authorization. The user authorized the 2026-10-18 rollout and delegated the migration decision; see DEPLOYMENT_RESULT.md for the performed rollout. Future deployments must obtain their own authorization. Do not put panel, SSH, database passwords or tokens into Git or deployment notes.
 
 ## Before deployment
 
@@ -21,3 +21,9 @@ Do not run the repository's development Compose on the existing production proje
 ## Rollback
 
 Restore previous homepage/theme settings first, deactivate `nodebb-plugin-vvjob`, rebuild NodeBB and restart the intended container. Remove the plugin mount only after deactivation. Restore the prior image digest if it changed. This plugin writes no business data and requires no database migration. Database restore is needed only for unrelated configuration/data damage; use the rehearsed backup procedure.
+
+## Reproducible release configuration
+
+`compose.release.yml` provides the verified NodeBB 4.6.1 image digest, Harmony 2.1.21, PostgreSQL 18.1, persistent dependency/build/upload volumes, read-only plugin mount, loopback port 14567, and the required `CONFIG` environment variable. It is a reference for a separate release stack, not a drop-in replacement for an existing aaPanel project. Supply database credentials through a private environment file and provide the migrated `config/config.json` with database host `db`. Do not reuse old dependency volumes when changing the NodeBB image version.
+
+Running `loader.js --config=...` alone does not select the loader configuration file; set `CONFIG=/opt/config/config.json`. Validate the existing virtual host before reload and retry HTTP checks briefly after reload so retiring Nginx workers do not cause a false rollback.

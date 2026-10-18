@@ -16,7 +16,7 @@
 - `npm run build`: Sass 1.93.2 and Benchpress 2.5.5 compiled successfully, including Harmony 2.1.21 paginator.
 - Inspected NodeBB 4.6.1 source for homepage hooks, page middleware, recent controller and privilege-aware topic/category queries.
 
-These are extension unit/build checks, not end-to-end security certification. Docker is unavailable in the implementation environment. Full NodeBB asset build, live Redis integration, real browser layout and interaction checks, and runtime server version are **not yet verified**. No production deployment was performed. Do not mark the phase fully accepted until the staging checks below pass.
+These are extension unit/build checks, not end-to-end security certification. Docker was unavailable locally; subsequent authorized server validation used an isolated PostgreSQL copy and the pinned release image. See DEPLOYMENT_RESULT.md for the executed full build, browser, migration and rollout checks. Redis integration was not exercised because the actual server uses PostgreSQL. The acceptance checklist below remains available for broader regression testing.
 
 ## Required staging acceptance
 

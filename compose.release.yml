@@ -1,0 +1,34 @@
+# Separate release stack; supply an existing, migrated config/config.json.
+# Never point this database volume at an older NodeBB installation.
+name: vvjob-v1
+services:
+  db:
+    image: postgres:18.1-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?Set PostgreSQL user in a private environment file}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set PostgreSQL password in a private environment file}
+      POSTGRES_DB: nodebb
+    volumes:
+      - db:/var/lib/postgresql
+  web:
+    image: ghcr.io/nodebb/nodebb@sha256:244699c40f775eac5d513b66e95a6b816bf04943b9ed551c8011c4cdaf4719a9
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      CONFIG: /opt/config/config.json
+      DAEMON: 'false'
+      SILENT: 'false'
+    entrypoint: [node, loader.js, --no-daemon, --silent=false]
+    ports:
+      - '127.0.0.1:14567:4567'
+    volumes:
+      - ./config:/opt/config
+      - ./uploads:/usr/src/app/public/uploads
+      - ./build:/usr/src/app/build
+      - deps:/usr/src/app/node_modules
+      - ./extensions/nodebb-plugin-vvjob:/usr/src/app/node_modules/nodebb-plugin-vvjob:ro
+volumes:
+  db:
+  deps:

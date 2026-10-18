@@ -18,7 +18,7 @@ npm run build
 
 This compiles the extension's Sass and Benchpress template using Harmony's paginator. Generated `dist/` is validation output; NodeBB compiles the plugin itself during `nodebb build`.
 
-Compatibility baseline inspected from source: NodeBB **4.6.1** (`351c9abc6f3016a55b34b6c791b85a7bb7f9a8d7`), Harmony **2.1.21**. The running server version has not been inspected. The original Compose uses `latest`; it does not establish a runtime version.
+Compatibility baseline inspected from source: NodeBB **4.6.1** (`351c9abc6f3016a55b34b6c791b85a7bb7f9a8d7`), Harmony **2.1.21**. The original server was inspected as NodeBB 1.19.7 on `nodebb/docker`; see the deployment record for the isolated upgrade and cutover. The original Compose remains unchanged.
 
 - [Local installation](docs/LOCAL_SETUP.md)
 - [Deployment and rollback](docs/DEPLOYMENT.md)

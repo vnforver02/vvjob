@@ -4,12 +4,24 @@
   "description": "Vietnamese workplace feed for NodeBB Harmony",
   "library": "./library.js",
   "hooks": [
-    {"hook": "static:app.load", "method": "init"},
-    {"hook": "filter:homepage.get", "method": "homepages"},
-    {"hook": "action:homepage.get:vvjob", "method": "home"}
+    {
+      "hook": "static:app.load",
+      "method": "init"
+    },
+    {
+      "hook": "filter:homepage.get",
+      "method": "homepages"
+    },
+    {
+      "hook": "action:homepage.get:vvjob",
+      "method": "home"
+    }
   ],
   "templates": "./templates",
-  "scripts": ["public/vvjob.js"],
-  "scss": ["./scss/vvjob.scss"],
-  "nbbpm": {"compatibility": "^4.6.1"}
+  "scripts": [
+    "public/vvjob.js"
+  ],
+  "scss": [
+    "./scss/vvjob.scss"
+  ]
 }

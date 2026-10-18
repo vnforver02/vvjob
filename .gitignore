@@ -8,3 +8,9 @@ dist/
 coverage/
 *.log
 config.json
+
+# Local browser verification output and release runtime data
+artifacts/
+/config/
+/uploads/
+/build/

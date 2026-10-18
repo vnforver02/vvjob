@@ -23,7 +23,10 @@ exports.render = async (req, res, next) => {
   const data = await host('controllers/recent').getData(req, 'vvjob', sort);
   if (!data) { return next(); }
   const categories = await host('categories').getCategoriesByPrivilege('categories:cid', req.uid, 'read');
-  data.communities = categories.filter(category => !category.disabled && !category.link);
+  const preferred = ['Thảo luận công việc', 'Thảo luận công ty', 'Lương & phúc lợi', 'Kinh nghiệm nghề nghiệp'];
+  const rank = category => { const index = preferred.indexOf(String(category.name || '').replace(/&amp;/g, '&')); return index < 0 ? preferred.length : index; };
+  data.communities = categories.filter(category => !category.disabled && !category.link)
+    .sort((a, b) => rank(a) - rank(b));
   data.trending = (await host('topics').getSortedTopics({ uid: req.uid, start: 0, stop: 4, sort: 'posts', term: 'week' })).topics;
   data.isPopular = sort === 'posts';
   data.title = 'VVJOB — Cộng đồng người đi làm';

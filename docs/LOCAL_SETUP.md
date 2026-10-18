@@ -27,7 +27,7 @@ docker compose -f compose.dev.yml restart nodebb
 In ACP:
 
 1. Select Harmony; verify version 2.1.21. Keep the native composer, markdown, search and moderation plugins active.
-2. Set site title/browser title to `VVJOB`, default language to `vi`, and homepage to `VVJOB — Bảng tin` (`vvjob`). Existing users may need to reset personal homepage/language preferences.
+2. For feed excerpts, set the topic teaser source to the first post. Set site title/browser title to `VVJOB`, default language to `vi`, and homepage to `VVJOB — Bảng tin` (`vvjob`). Existing users may need to reset personal homepage/language preferences.
 3. Create real categories: `Thảo luận công việc`, `Thảo luận công ty`, `Lương & phúc lợi`, `Kinh nghiệm nghề nghiệp`. Configure guest/member read and posting privileges explicitly. Category IDs/slugs are read dynamically; no assumed IDs or global search substitutes.
 4. Do not create a public anonymous-posting category. The sidebar explains that anonymous exchange is unavailable.
 5. Add `/vvjob` as the main navigation/home link. Keep native notifications, search and user menus available.
