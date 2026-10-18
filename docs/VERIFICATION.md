@@ -41,3 +41,17 @@ This security-sensitive flow is supported on the inspected **PostgreSQL / NodeBB
 Run `npm test && npm run build`, full native build and isolated PostgreSQL/config/uploads checks. Use a local SMTP capture, jobs disabled and synthetic users/domains, with no mail routed to real employers. Exercise request/confirm/withdraw/revoke, replay, wrong codes, expiry, cross-account claims, privacy, domain revisions, company switches, permission/CSRF denial, account deletion and concurrent confirmations. Include actual SMTP template delivery to the capture and an independent process test of the advisory lock. Production delivery remains unverified until an approved sender is configured and a real inbox test succeeds.
 
 Build into fresh plugin/assets mounts, back up private Compose/database and preserve prior mounts. Do not enable service or seed real domain rules during a UI rollout. Roll back mounts only; leave additive objects inert rather than restoring an old whole database over new posts. Keep verification closed if checks fail.
+
+### 2026-10-18 verification record
+
+- `npm test`: 35/35 passed, including non-enumerable PostgreSQL credential preservation and actual Benchpress rendering of the six-digit input rule.
+- `npm run build`: Sass and 42 templates passed. Native NodeBB 4.6.1 full asset compilation passed (9.656 seconds on the inspected runtime).
+- Independent cloned PostgreSQL/config/uploads with synthetic members and a local SMTP capture: native email template delivery, wrong-code feedback retaining input, confirmation, replay rejection, private/public profile boundaries and administrator revocation passed. No message was sent to a real employer.
+- Separate Node.js processes against PostgreSQL submitted the same challenge concurrently: exactly one succeeded and the other was rejected.
+- Browser layouts checked at 1440, 390 and 320 pixels, closed and verified states; no horizontal overflow or client JavaScript errors in the completed flow. Non-admin access and missing-CSRF mutations were denied.
+- [GitHub validation](https://github.com/vnforver02/vvjob/actions/runs/39126101579) passed for code commit `4dc29ad` on `dev`.
+
+The rollout keeps production sending disabled. Real inbox delivery and real employer-domain approval are outstanding operator prerequisites, not claimed by the synthetic SMTP test above.
+- Additional native PostgreSQL checks passed for a mailbox already claimed by another account, switching company away and back, owner withdrawal, disabled sending, no plaintext email/code in proof storage and unchanged core account email.
+
+Deployment targets prepared for review: `/home/ucloud/vvjob-verify-source` and `/home/ucloud/vvjob-verify-build`. Prior production mounts remain `/home/ucloud/vvjob-save-source` and `/home/ucloud/vvjob-save-build` until production approval. The prepared rollout backs up the private Compose file and a verified PostgreSQL custom-format dump in `/home/ucloud/vvjob-backups/20261018-verification`, then changes only the VVJOB plugin/build mounts and recreates the web service. An automatic approval review blocked execution pending explicit production confirmation; this record does not claim deployment has occurred.
