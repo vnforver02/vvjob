@@ -1,5 +1,7 @@
 # Conversation-first UI refresh
 
+Historical v0.3 homepage release. The v0.4 global layer supersedes the homepage-only chrome scope described below; see [Global UI](GLOBAL_UI.md).
+
 The first release retained too much Harmony chrome and used large promotional panels. This refresh follows the user's preference for a compact workplace discussion feed, with the lighter framing of Threads.
 
 - A single VVJOB header replaces duplicate homepage branding and sidebars.

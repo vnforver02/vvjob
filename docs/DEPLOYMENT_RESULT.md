@@ -41,3 +41,7 @@ For an immediate rollback before new writes, restore the backed-up virtual-host 
 ## Limits
 
 The original English default categories and original discussion content are retained; the four Vietnamese workplace categories are placed first in the VVJOB navigation. Anonymous posting remains unavailable. Recruitment features remain excluded. Broader moderation, report, email delivery, browser/device matrix and security regression testing remain follow-up acceptance work. A bundled third-party emoji package reports a compatibility warning; VVJOB itself declares compatibility in its package metadata. Existing HTTP/domain/TLS settings were preserved.
+
+## Global UI update — 2026-10-18
+
+The v0.4 plugin applies a shared VVJOB shell and component styling beyond the homepage, including native popup/standalone composers, authentication and administrative components. Current UI mount paths and rollback instructions supersede the earlier homepage-only release: see [Global UI verification](GLOBAL_UI.md). The production database and existing account/content language choices are preserved.

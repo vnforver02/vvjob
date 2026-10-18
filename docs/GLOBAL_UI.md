@@ -20,3 +20,20 @@ Template overrides live entirely in the VVJOB plugin. NodeBB core and the instal
 ## Deployment
 
 Build against the verified image into a new build directory with a new plugin checkout. Use an isolated database copy for authenticated/editor regression checks, disable jobs/outgoing mail there, and remove test users/content with the copy. Switch only the production plugin and build mounts after browser checks; no production database migration or account changes are needed for this UI update. Keep the old mounts for rollback.
+
+## Verification record — 2026-10-18
+
+- Nine local tests pass; plugin Sass/template build and full NodeBB asset build pass.
+- Browser checks at 1440, 390 and 320 pixels: feed, categories, existing topic, members, profile, login, registration and password reset; one shared header and no horizontal document overflow. No uncaught page errors during this matrix and editor checks.
+- Authenticated checks in an isolated database clone: notifications, search, profile edit/settings, chats, standalone compose and admin dashboard/category/settings routes return 200 without document overflow.
+- Native browser interactions pass in the clone: category selection, topic publish, reply, post edit, preview toggle, draft hide/restore and PNG upload. Mobile editor fits 390×844 and 320×740 viewports.
+- Native Vietnamese locale renders composer actions. Existing user language preferences and existing English content are preserved.
+- These checks do not constitute exhaustive moderation, email, every admin operation, accessibility or device testing. Report hooks and backend privileges remain native; anonymous identity protection remains unavailable.
+
+## Runtime mounts and rollback
+
+Production plugin source: `/home/ucloud/vvjob-global-source/extensions/nodebb-plugin-vvjob`; compiled assets: `/home/ucloud/vvjob-global-build-final`.
+
+The production Compose file remains `/home/ucloud/vvjob-v1-runtime/compose.json`. Only the plugin/build mounts change. Production configuration, uploads, PostgreSQL database and other services are preserved. The pre-change Compose backup is `/home/ucloud/vvjob-backups/20261018-global-ui/compose-before-global.json`; restore that file to the runtime Compose path and run `docker compose -f /home/ucloud/vvjob-v1-runtime/compose.json up -d web` to return to the previous UI without reverting data. Do not restore the test database over production.
+
+Production guest pages were also checked at 1440/390/320 pixels. A narrow Vietnamese category-card/time-label overflow found during rollout was fixed with shrinking grid items and wrapping badges. The temporary preview container, cloned database and private fixture directory were removed after validation.
