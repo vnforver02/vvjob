@@ -80,9 +80,9 @@ body.theme-harmony {
   [component="topic/quickreply/container"], .quick-reply { background: #fff; border: 1px solid #e4eaf4; border-radius: 12px; padding: 22px; textarea { background: #fafbfe; border-color: #e6ebf4; border-radius: 10px; min-height: 140px; } }
   .users-container { margin-top: 20px; }
   .users-container > div { > div, .users-box { background: #fff; border: 1px solid #e6ebf4; border-radius: 12px; padding: 24px 16px; } }
-  .notifications { background: #fff; border: 1px solid #e5eaf1; border-radius: 13px; padding: 25px; }
+  #content .notifications { background: #fff; border: 1px solid #e5eaf1; border-radius: 13px; padding: 25px; }
   .notifications-list > li { border-bottom: 1px solid #edf1f6; padding: 18px 12px; border-radius: 8px; &:hover { background: #f7f9fd; } }
-  .notifications .nav { top: 100px; }
+  #content .notifications .nav { top: 100px; }
   #advanced-search { background: #fff; border: 1px solid #e5eaf1; border-radius: 13px; padding: 28px; gap: 20px; h2 { font-size: 24px; margin-bottom: 8px !important; } form { top: 100px !important; } }
   .search-results > li, .post-search-item { border-radius: 9px; }
   .account { margin-top: 210px; background: #fff; border: 1px solid #e4eaf3; border-radius: 0 0 13px 13px; padding: 24px; }
@@ -166,9 +166,9 @@ body.admin {
     [component="post"] { padding: 18px !important; }
     [component="post/content"] { font-size: 14px; }
     .topic .d-flex.gap-lg-5 { gap: 12px !important; }
-    .notifications, #advanced-search { padding: 18px; }
+    #content .notifications, #advanced-search { padding: 18px; }
     #advanced-search { display: flex; gap: 16px; > div { flex-basis: auto !important; } form { position: static !important; } }
-    .notifications .nav { position: static !important; }
+    #content .notifications .nav { position: static !important; }
     .account { margin-top: 150px; padding: 18px; }
     [component="account/cover"] { height: 170px; }
     .account .fullname { font-size: 25px !important; }
