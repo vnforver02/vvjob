@@ -22,17 +22,19 @@ exports.init = async ({ router, middleware }) => {
   helpers.setupPageRoute(router, '/vvjob/verification-admin', [...member, careerRoutes.admin], verificationRoutes.adminPage);
   helpers.setupPageRoute(router, '/vvjob/evidence', member, evidenceRoutes.page);
   helpers.setupPageRoute(router, '/vvjob/evidence-admin', [...member, careerRoutes.admin], evidenceRoutes.adminPage);
-  helpers.setupApiRoute(router, 'get', '/api/vvjob/evidence/file/:uid/:id/:index', [...member, careerRoutes.admin], evidenceRoutes.file);
+  router.get('/api/vvjob/evidence/file/:uid/:id/:index', middleware.applyBlacklist, middleware.authenticateRequest, middleware.maintenanceMode, middleware.registrationComplete, ...member, careerRoutes.admin, evidenceRoutes.file);
   // Native setupApiRoute parses multipart to public temporary disk before auth.
   // Evidence must authenticate and enforce CSRF before bounded memory parsing.
   router.post('/api/vvjob/evidence/submit', middleware.applyBlacklist, middleware.authenticateRequest, middleware.maintenanceMode, middleware.registrationComplete, ...member, middleware.applyCSRF, evidenceRoutes.uploadSlot, evidenceRoutes.upload, evidenceRoutes.submit);
+  for (const [path, handler, adminOnly] of [['withdraw', evidenceRoutes.withdraw], ['review', evidenceRoutes.review, true], ['revoke', evidenceRoutes.revoke, true]]) {
+    router.post(`/api/vvjob/evidence/${path}`, middleware.applyBlacklist, middleware.authenticateRequest, middleware.maintenanceMode, middleware.registrationComplete, ...member, middleware.applyCSRF, ...(adminOnly ? [careerRoutes.admin] : []), handler);
+  }
   helpers.setupApiRoute(router, 'get', '/api/vvjob/verification/status', member, verificationRoutes.status);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/companies', [], careerRoutes.search);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/companies/selected', [], careerRoutes.selected);
   for (const [path, handler, adminOnly] of [
     ['companies/submit', careerRoutes.submit], ['career', careerRoutes.save], ['career/skip', careerRoutes.skip],
     ['companies/review', careerRoutes.review, true], ['companies/import', careerRoutes.import, true],
-    ['evidence/withdraw', evidenceRoutes.withdraw], ['evidence/review', evidenceRoutes.review, true], ['evidence/revoke', evidenceRoutes.revoke, true],
     ['verification/request', verificationRoutes.request], ['verification/confirm', verificationRoutes.confirm], ['verification/withdraw', verificationRoutes.withdraw],
     ['verification/policy', verificationRoutes.policy, true], ['verification/settings', verificationRoutes.settings, true], ['verification/revoke', verificationRoutes.revoke, true],
   ]) {
