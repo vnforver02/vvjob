@@ -42,6 +42,8 @@
 						</div>
 					</div>
 					<div class="d-flex gap-2" component="user/badges"></div>
+                    {{{ if vvjobCareer }}}<div class="vvjob-profile-career">{{{ if vvjobCareer.companyName }}}<strong>{vvjobCareer.companyName}</strong> · {{{ end }}}{vvjobCareer.position}{{{ if vvjobCareer.city }}} · {vvjobCareer.city}{{{ end }}}<br><small>Thông tin tự khai · Chưa xác minh nghề nghiệp</small></div>{{{ end }}}
+                    {{{ if isSelf }}}<a class="text-sm" href="{config.relative_path}/vvjob/career">Cập nhật hồ sơ nghề nghiệp →</a>{{{ end }}}
 					{{{ if isAdminOrGlobalModeratorOrModerator }}}
 					{{{ if banned }}}
 					<div class="text-xm text-muted">

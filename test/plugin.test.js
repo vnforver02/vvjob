@@ -3,17 +3,20 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
+const path = require('node:path');
 function load(host) {
   const exports = {};
+  const localRequire = name => require(path.resolve('extensions/nodebb-plugin-vvjob', name));
+  localRequire.main = { require: name => name === 'nconf' ? { get: () => '' } : host[name.replace('./src/', '')] };
   vm.runInNewContext(fs.readFileSync('extensions/nodebb-plugin-vvjob/library.js', 'utf8'), {
-    exports, require: { main: { require: name => host[name.replace('./src/', '')] } },
+    exports, require: localRequire,
   });
   return exports;
 }
 test('registers route via NodeBB page helper and advertises homepage', async () => {
   const routes = [];
-  const plugin = load({ 'routes/helpers': { setupPageRoute: (...value) => { routes.push(value); } } });
-  await plugin.init({ router: 'router' });
+  const plugin = load({ 'routes/helpers': { setupPageRoute: (...value) => { routes.push(value); }, setupApiRoute() {} } });
+  await plugin.init({ router: 'router', middleware: { ensureLoggedIn() {}, redirectToHomeIfBanned() {}, applyCSRF() {} } });
   assert.equal(routes[0][1], '/vvjob');
   assert.equal(routes[0][3], plugin.render);
   assert.equal(routes[1][1], '/vvjob/guide');

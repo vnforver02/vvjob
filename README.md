@@ -32,3 +32,5 @@ Compatibility baseline inspected from source: NodeBB **4.6.1** (`351c9abc6f3016a
 - [Vietnamese polish, onboarding acceptance and email configuration](docs/COMMUNITY_READINESS.md)
 
 - [Composer close controls and compact homepage](docs/COMPACT_UI.md)
+
+- [Company directory, optional career profiles and source/import workflow](docs/COMPANY_DIRECTORY.md)

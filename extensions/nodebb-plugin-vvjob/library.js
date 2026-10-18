@@ -3,9 +3,25 @@
 // Dependencies resolve from the host NodeBB, never a second copy of core.
 const host = name => require.main.require(`./src/${name}`);
 
-exports.init = async ({ router }) => {
+let careerRoutes;
+exports.init = async ({ router, middleware }) => {
   host('routes/helpers').setupPageRoute(router, '/vvjob', [], exports.render);
   host('routes/helpers').setupPageRoute(router, '/vvjob/guide', [], exports.guide);
+  const directory = require('./lib/companies')(host('database'));
+  careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'));
+  const helpers = host('routes/helpers');
+  const member = [middleware.ensureLoggedIn, middleware.redirectToHomeIfBanned];
+  helpers.setupPageRoute(router, '/vvjob/companies', [], careerRoutes.companies);
+  helpers.setupPageRoute(router, '/vvjob/career', member, careerRoutes.career);
+  helpers.setupPageRoute(router, '/vvjob/company-admin', [...member, careerRoutes.admin], careerRoutes.moderation);
+  helpers.setupApiRoute(router, 'get', '/api/vvjob/companies', [], careerRoutes.search);
+  helpers.setupApiRoute(router, 'get', '/api/vvjob/companies/selected', [], careerRoutes.selected);
+  for (const [path, handler, adminOnly] of [
+    ['companies/submit', careerRoutes.submit], ['career', careerRoutes.save], ['career/skip', careerRoutes.skip],
+    ['companies/review', careerRoutes.review, true], ['companies/import', careerRoutes.import, true],
+  ]) {
+    helpers.setupApiRoute(router, 'post', `/api/vvjob/${path}`, [...member, middleware.applyCSRF, ...(adminOnly ? [careerRoutes.admin] : [])], handler);
+  }
 };
 
 exports.homepages = async (data) => {
@@ -44,3 +60,20 @@ exports.guide = async (req, res) => {
     communities: communities.filter(category => Number(category.cid) > 0 && !category.disabled && !category.link),
   });
 };
+
+exports.careerProfile = async data => careerRoutes ? careerRoutes.profileData(data) : data;
+
+exports.careerMenu = async data => {
+  if (Number(data.uid) === Number(data.callerUID)) {
+    data.links.push({ id: 'vvjob-career', icon: 'fa-briefcase', name: 'Hồ sơ nghề nghiệp', url: `${require.main.require('nconf').get('relative_path') || ''}/vvjob/career` });
+  }
+  return data;
+};
+exports.registered = async data => {
+  if (Number(data.uid) > 0) {
+    data.next = `${require.main.require('nconf').get('relative_path') || ''}/vvjob/career`;
+  }
+  return data;
+};
+
+exports.deleteCareer = async ({ uid }) => { await host('database').delete(`vvjob:career:${uid}`); };

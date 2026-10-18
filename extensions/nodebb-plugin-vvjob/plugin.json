@@ -15,11 +15,28 @@
     {
       "hook": "action:homepage.get:vvjob",
       "method": "home"
+    },
+    {
+      "hook": "filter:helpers.getUserDataByUserSlug",
+      "method": "careerProfile"
+    },
+    {
+      "hook": "filter:user.profileMenu",
+      "method": "careerMenu"
+    },
+    {
+      "hook": "filter:register.complete",
+      "method": "registered"
+    },
+    {
+      "hook": "static:user.delete",
+      "method": "deleteCareer"
     }
   ],
   "templates": "./templates",
   "scripts": [
-    "public/vvjob.js"
+    "public/vvjob.js",
+    "public/career.js"
   ],
   "scss": [
     "./scss/vvjob.scss",

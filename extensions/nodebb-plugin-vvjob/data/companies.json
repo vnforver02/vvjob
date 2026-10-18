@@ -1,0 +1,82 @@
+[
+  {
+    "id": "fpt",
+    "name": "FPT",
+    "aliases": "Tập đoàn FPT",
+    "website": "https://fpt.com/vi",
+    "industry": "Công nghệ",
+    "source": "https://fpt.com/vi",
+    "checkedAt": "2026-10-18",
+    "logoCandidateUrl": "https://fpt.com/fpt-logo.svg",
+    "logoCandidateSource": "https://fpt.com/vi"
+  },
+  {
+    "id": "vng",
+    "name": "VNG",
+    "aliases": "VNG Group",
+    "website": "https://vng.com.vn/",
+    "industry": "Công nghệ",
+    "source": "https://vng.com.vn/",
+    "checkedAt": "2026-10-18"
+  },
+  {
+    "id": "momo",
+    "name": "MoMo",
+    "aliases": "Momo",
+    "website": "https://www.momo.vn/",
+    "industry": "Công nghệ tài chính",
+    "source": "https://www.momo.vn/",
+    "checkedAt": "2026-10-18"
+  },
+  {
+    "id": "vietcombank",
+    "name": "Vietcombank",
+    "aliases": "Ngân hàng Ngoại thương Việt Nam",
+    "website": "https://www.vietcombank.com.vn/",
+    "industry": "Ngân hàng",
+    "source": "https://www.vietcombank.com.vn/",
+    "checkedAt": "2026-10-18",
+    "logoCandidateUrl": "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/Home-page/VCB-Logo/Logo-VCB-no-60.png?ts=20240605031450",
+    "logoCandidateSource": "https://www.vietcombank.com.vn/"
+  },
+  {
+    "id": "vnpt",
+    "name": "VNPT",
+    "aliases": "Tập đoàn Bưu chính Viễn thông Việt Nam",
+    "website": "https://vnpt.com.vn/",
+    "industry": "Viễn thông",
+    "source": "https://vnpt.com.vn/",
+    "checkedAt": "2026-10-18"
+  },
+  {
+    "id": "acb",
+    "name": "ACB",
+    "aliases": "Ngân hàng Á Châu",
+    "website": "https://acb.com.vn/",
+    "industry": "Ngân hàng",
+    "source": "https://acb.com.vn/",
+    "checkedAt": "2026-10-18",
+    "logoCandidateUrl": "https://acb.com.vn/_next/image?url=%2Fimages%2Flogo.svg&w=384&q=70",
+    "logoCandidateSource": "https://acb.com.vn/"
+  },
+  {
+    "id": "hoa-phat",
+    "name": "Hòa Phát",
+    "aliases": "Hoa Phat HPG",
+    "website": "https://www.hoaphat.com.vn/",
+    "industry": "Sản xuất",
+    "source": "https://www.hoaphat.com.vn/",
+    "checkedAt": "2026-10-18",
+    "logoCandidateUrl": "https://www.hoaphat.com.vn/assets/images/logo.png",
+    "logoCandidateSource": "https://www.hoaphat.com.vn/"
+  },
+  {
+    "id": "masan",
+    "name": "Masan",
+    "aliases": "Masan Group",
+    "website": "https://www.masangroup.com/",
+    "industry": "Hàng tiêu dùng",
+    "source": "https://www.masangroup.com/",
+    "checkedAt": "2026-10-18"
+  }
+]
