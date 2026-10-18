@@ -96,3 +96,17 @@ test('daily send quota survives new challenges', async () => {
   for(let i=0;i<5;i++){await request(f); f.advance(61000);}
   await assert.rejects(request(f)); assert.equal(f.messages.length,5);
 });
+
+test('PostgreSQL lock retains non-enumerable pool credentials without exposing them', async () => {
+  const options = { host: 'database', database: 'preview' };
+  Object.defineProperty(options, 'password', { value: 'synthetic-test-only' });
+  Object.defineProperty(options, 'ssl', { value: { rejectUnauthorized: true } });
+  const calls = []; let released = false;
+  class Pool {
+    constructor(config) { assert.equal(config.password, options.password); assert.equal(config.ssl, options.ssl); assert.equal(config.max, 1); }
+    async connect() { return { query: async sql => calls.push(sql), release() { released = true; } }; }
+  }
+  const lock = require('../extensions/nodebb-plugin-vvjob/lib/verification-lock')({ pool: { options } }, Pool);
+  assert.equal(await lock(async () => 'done'), 'done');
+  assert.equal(calls[0], 'BEGIN'); assert.match(calls[2], /pg_advisory_xact_lock/); assert.equal(calls.at(-1), 'COMMIT'); assert.equal(released, true);
+});

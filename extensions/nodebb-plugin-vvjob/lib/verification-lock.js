@@ -5,7 +5,9 @@ module.exports = function (db, Pool) {
   let pool;
   return async function withLock(work) {
     if (!db.pool || !db.pool.options) { throw Error('Verification requires the supported PostgreSQL deployment.'); }
-    pool ||= new Pool({ ...db.pool.options, max: 1, idleTimeoutMillis: 10000, connectionTimeoutMillis: 5000, allowExitOnIdle: true, application_name: 'vvjob-verification-lock' });
+    // pg-pool deliberately makes password/ssl non-enumerable; spreading its
+    // options alone silently drops credentials on authenticated deployments.
+    pool ||= new Pool({ ...db.pool.options, password: db.pool.options.password, ssl: db.pool.options.ssl, max: 1, idleTimeoutMillis: 10000, connectionTimeoutMillis: 5000, allowExitOnIdle: true, application_name: 'vvjob-verification-lock' });
     const client = await pool.connect();
     try {
       await client.query('BEGIN');
