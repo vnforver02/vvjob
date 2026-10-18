@@ -87,3 +87,13 @@ body.theme-harmony {
   &.template-reset #content { padding-top: 45px !important; > .flex-fill { padding: 24px; .card { border: 0; background: #fff !important; padding: 0; margin-top: 22px; } } .vvjob-auth-heading { margin-bottom: 25px; } }
 }
 @media(max-width:699px) { body.theme-harmony { .users-container >.vvjob-person-card { padding-left: 6px; padding-right: 6px; >.vvjob-person-link { padding: 22px 10px; min-height: 180px; } } .vvjob-chat-workspace { height: calc(100dvh - 160px) !important; min-height: 400px; [component="chat/nav-wrapper"] { padding: 12px; } } } }
+body.theme-harmony {
+ .vvjob-status-page { background: #fff; border: 1px solid #e3eaf3; border-radius: 16px; padding: 36px; max-width: 650px; margin: 24px auto; line-height: 1.8; h2 { font-size: 27px; margin-bottom: 25px; } >.mx-auto { max-width: 450px; } }
+ .vvjob-group-page { .groups-list { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 18px; >li { min-width: 0; border: 1px solid #e4eaf2; border-radius: 13px; background: #fff; overflow: hidden; } } .group-info { border: 1px solid #e4eaf2; border-radius: 14px; background: #fff; padding: 24px; } }
+}
+@media(max-width:699px) { body.theme-harmony .vvjob-status-page { padding: 25px 18px; h2 { font-size: 23px; } } }
+body.theme-harmony .vvjob-account-nav { .sticky-md-top { top: 96px !important; } }
+@media(max-width:767px) {
+ body.theme-harmony .vvjob-account-nav { >div { background: #f7f9fd; padding: 10px; border: 1px solid #e4eaf3; border-radius: 12px; margin-bottom: 18px; } .btn { font-size: 12px; } }
+ body.theme-harmony .vvjob-profile-shell .account-stats .stat .fs-2 { overflow-wrap: anywhere; font-size: 20px !important; line-height: 1.55; }
+}

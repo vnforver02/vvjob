@@ -44,3 +44,19 @@ $(function () {
   }).observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
   updateEditorState();
 });
+
+// NodeBB 4.6 can receive the same post via quick reply and a concurrent live
+// update. Its renderer removes already present posts before its scroll callback,
+// which then reads an empty array. Deduplicate only posts already in the main
+// discussion; leave new posts, nested replies and privilege handling native.
+require(['forum/topic/posts'], function (posts) {
+  const onNewPost = posts.onNewPost;
+  posts.onNewPost = function (data) {
+    if (data && Array.isArray(data.posts) && data.posts.length && data.posts.every(function (post) {
+      return $('ul.posts > [component="post"]').toArray().some(function (el) {
+        return String(el.getAttribute('data-pid')) === String(post.pid);
+      });
+    })) { return; }
+    return onNewPost.apply(this, arguments);
+  };
+});
