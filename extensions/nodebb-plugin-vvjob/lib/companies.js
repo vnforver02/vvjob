@@ -112,7 +112,9 @@ module.exports = function createDirectory(db) {
     if (input.jobFamilyId && (!family || (position.family && family.id !== position.family))) {
       throw Error('Vị trí không thuộc nhóm nghề đã chọn. Vui lòng chọn lại.');
     }
-    const data = { workStatus: input.workStatus, companyId: company ? company.id : '',
+    const previous = await db.getObject(`vvjob:career:${uid}`) || {};
+    const companyBinding = company && previous.companyId === company.id && previous.companyBinding ? previous.companyBinding : randomUUID();
+    const data = { workStatus: input.workStatus, companyId: company ? company.id : '', companyBinding,
       position: position.label, positionId: position.id, jobFamilyId: position.family || family?.id || '',
       industry: industry.label, industryId: industry.id, city: city.label, cityId: city.id, level: level.label, levelId: level.id,
       publicCompany: input.publicCompany === true ? 1 : 0, updatedAt: Date.now(), completed: 1 };
@@ -126,7 +128,10 @@ module.exports = function createDirectory(db) {
     const data = await db.getObject(`vvjob:career:${uid}`);
     if (!data || (Number(uid) !== Number(viewer) && Number(data.publicCompany) !== 1)) { return null; }
     const company = await resolve(data.companyId);
-    return { ...data, companyId: company ? company.id : '', companyName: company ? company.name : '', verification: 'unverified' };
+    const fields = ['workStatus', 'position', 'positionId', 'jobFamilyId', 'city', 'cityId', 'level', 'levelId', 'publicCompany', 'updatedAt', 'completed'];
+    if (Number(uid) === Number(viewer)) { fields.push('industry', 'industryId'); }
+    const visible = Object.fromEntries(fields.filter(field => Object.hasOwn(data, field)).map(field => [field, data[field]]));
+    return { ...visible, companyId: company ? company.id : '', companyName: company ? company.name : '', verification: 'unverified' };
   }
   async function importRows(uid, rows, dryRun = true) {
     if (!Array.isArray(rows) || rows.length > 200) { throw Error('Mỗi lần nhập tối đa 200 công ty.'); }

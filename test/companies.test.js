@@ -105,3 +105,11 @@ test('career taxonomy has 34 unique current provinces, valid role families and n
   for (const role of t.catalog.positions) { assert.ok(t.catalog.families.some(family => family.id === role.family)); }
   for (const kind of ['positions','levels','cities','industries']) { assert.equal(t.find(kind, ''), undefined); assert.equal(new Set(t.catalog[kind].map(row => row.id)).size, t.catalog[kind].length); }
 });
+
+test('company binding survives edits but changes after switching away and back; internal bindings never reach profiles', async () => {
+  const db = memory(), d = create(db); await d.importRows(1, [{ ...company, id:'a' },{ ...company, id:'b' }], false);
+  await d.saveProfile(4,{workStatus:'employed',companyId:'a',publicCompany:true}); const first=(await db.getObject('vvjob:career:4')).companyBinding;
+  await d.saveProfile(4,{workStatus:'employed',companyId:'a',position:'New title',publicCompany:true}); assert.equal((await db.getObject('vvjob:career:4')).companyBinding,first);
+  await d.saveProfile(4,{workStatus:'employed',companyId:'b'}); await d.saveProfile(4,{workStatus:'employed',companyId:'a',publicCompany:true}); assert.notEqual((await db.getObject('vvjob:career:4')).companyBinding,first);
+  assert.equal((await d.profile(4,0)).companyBinding,undefined); assert.equal((await d.profile(4,4)).companyBinding,undefined);
+});

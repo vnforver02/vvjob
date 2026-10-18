@@ -36,3 +36,5 @@ Compatibility baseline inspected from source: NodeBB **4.6.1** (`351c9abc6f3016a
 - [Company directory, optional career profiles and source/import workflow](docs/COMPANY_DIRECTORY.md)
 
 - [Structured company/career filters and optional registration reminders](docs/CAREER_FILTERS.md)
+
+- [Voluntary work-email verification, privacy and operator setup](docs/VERIFICATION.md)

@@ -4,21 +4,28 @@
 const host = name => require.main.require(`./src/${name}`);
 
 let careerRoutes;
+let verificationRoutes;
 exports.init = async ({ router, middleware }) => {
   host('routes/helpers').setupPageRoute(router, '/vvjob', [], exports.render);
   host('routes/helpers').setupPageRoute(router, '/vvjob/guide', [], exports.guide);
   const directory = require('./lib/companies')(host('database'));
-  careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'));
+  verificationRoutes = require('./lib/verification-routes')(host, directory, name => require.main.require('nconf').get(name), function (options) { return new (require.main.require('pg').Pool)(options); });
+  careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service);
   const helpers = host('routes/helpers');
   const member = [middleware.ensureLoggedIn, middleware.redirectToHomeIfBanned];
   helpers.setupPageRoute(router, '/vvjob/companies', [], careerRoutes.companies);
   helpers.setupPageRoute(router, '/vvjob/career', member, careerRoutes.career);
   helpers.setupPageRoute(router, '/vvjob/company-admin', [...member, careerRoutes.admin], careerRoutes.moderation);
+  helpers.setupPageRoute(router, '/vvjob/verification', member, verificationRoutes.page);
+  helpers.setupPageRoute(router, '/vvjob/verification-admin', [...member, careerRoutes.admin], verificationRoutes.adminPage);
+  helpers.setupApiRoute(router, 'get', '/api/vvjob/verification/status', member, verificationRoutes.status);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/companies', [], careerRoutes.search);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/companies/selected', [], careerRoutes.selected);
   for (const [path, handler, adminOnly] of [
     ['companies/submit', careerRoutes.submit], ['career', careerRoutes.save], ['career/skip', careerRoutes.skip],
     ['companies/review', careerRoutes.review, true], ['companies/import', careerRoutes.import, true],
+    ['verification/request', verificationRoutes.request], ['verification/confirm', verificationRoutes.confirm], ['verification/withdraw', verificationRoutes.withdraw],
+    ['verification/policy', verificationRoutes.policy, true], ['verification/settings', verificationRoutes.settings, true], ['verification/revoke', verificationRoutes.revoke, true],
   ]) {
     helpers.setupApiRoute(router, 'post', `/api/vvjob/${path}`, [...member, middleware.applyCSRF, ...(adminOnly ? [careerRoutes.admin] : [])], handler);
   }
@@ -79,4 +86,4 @@ exports.registered = async data => {
   return data;
 };
 
-exports.deleteCareer = async ({ uid }) => { await host('database').delete(`vvjob:career:${uid}`); };
+exports.deleteCareer = async ({ uid }) => { if (verificationRoutes) { await verificationRoutes.service.remove(uid); } await host('database').delete(`vvjob:career:${uid}`); };

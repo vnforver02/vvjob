@@ -171,3 +171,16 @@ body.vvjob-editor-open { .modal { z-index: 1100; } .modal-backdrop { z-index: 10
 .vvjob-career-reminder { display: flex; align-items: start; gap: 12px; padding: 14px 16px; border: 1px solid #dce8fa; border-radius: 12px; background: #f1f6ff; margin-bottom: 14px; position: relative; > i { margin-top: 3px; color: #467bce; } > div { flex: 1; min-width: 0; } strong { font-size: 12px; } p { font-size: 11px; color: #657a95; margin: 3px 0 5px; } a, button { font-size: 11px; } button { padding: 0; white-space: nowrap; } .vvjob-career-feedback:empty { display: none; } }
 
 .vvjob-career-fields-single { grid-template-columns: minmax(0, 1fr); }
+
+.vvjob-verification-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.vvjob-verification-method { display: flex; align-items: center; gap: 16px; border: 1px solid #dfe8f5; background: white; border-radius: 16px; padding: 20px; color: #233a59; text-decoration: none; min-width: 0; > div { flex: 1; min-width: 0; } h2 { font-size: 16px; margin: 0 0 5px; } p { font-size: 12px; margin: 0 0 6px; } small { font-size: 11px; color: #4d77b5; } &:is(a):hover { border-color: #568ce8; } }
+.vvjob-method-icon { display: grid; place-items: center; background: #edf4ff; color: #3674d4; border-radius: 12px; width: 46px; height: 46px; flex-shrink: 0; font-size: 21px; }
+.vvjob-method-unavailable { background: #f8faff; small { color: #7b8799; } .vvjob-career-badge { align-self: center; white-space: nowrap; } }
+.vvjob-verification-notice { background: #edf3ff; border-radius: 12px; padding: 16px; strong { font-size: 14px; color: #355d99; } }
+.vvjob-verification-page form { display: flex; flex-direction: column; gap: 12px; }
+.vvjob-verification-steps { padding-left: 20px; margin: 0; li { padding: 4px 0 14px 6px; } strong { font-size: 13px; } }
+.vvjob-verified-label { color: #157349; background: #e6f5ec; }
+.vvjob-otp { letter-spacing: .35em; font-size: 24px; text-align: center; }
+.vvjob-verification-policy { display: flex; gap: 5px; flex-direction: column; padding: 12px 0; border-bottom: 1px solid #e4ebf4; overflow-wrap: anywhere; font-size: 13px; }
+#verify-work-email { scroll-margin-top: 90px; }
+@media(max-width: 700px) { .vvjob-verification-methods { grid-template-columns: minmax(0, 1fr); } .vvjob-verification-method { padding: 16px; gap: 12px; } }
