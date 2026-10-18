@@ -44,7 +44,8 @@
   "scss": [
     "./scss/vvjob.scss",
     "./scss/global.scss",
-    "./scss/pages.scss"
+    "./scss/pages.scss",
+    "./scss/concept.scss"
   ],
   "languages": "./languages"
 }

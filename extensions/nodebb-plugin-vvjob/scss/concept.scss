@@ -1,0 +1,107 @@
+// Shared VVJOB concept: white cards, cobalt actions and readable Vietnamese text.
+body.theme-harmony {
+ --bs-primary: #0750f8; --bs-primary-rgb: 7,80,248;
+ --bs-link-color: #0750f8; --bs-body-color: #152449; --bs-body-bg: #f5f8fc;
+ background: #f5f8fc;
+ .btn-primary { --bs-btn-bg: #0750f8; --bs-btn-border-color: #0750f8; --bs-btn-hover-bg: #0642ce; --bs-btn-hover-border-color: #0642ce; }
+ .form-control,.form-select { background-color: #f8faff; color: #243657; border-color: #dee6f2; }
+ .card,[component="post"],.vvjob-career-panel,.login,.register { border-color: #e4eaf4; box-shadow: 0 3px 18px #233f6803; }
+ .vvjob-site-top .vv2-header-inner { max-width: 1380px; min-height: 76px; }
+ .vvjob-site-top .vv2-logo { color: #0750f8; }
+ .vvjob-site-top .vv2-logo > span:last-child { display: flex; align-items: center; gap: 12px; font-size: 35px; font-weight: 800; letter-spacing: -1.8px; }
+ .vvjob-site-top .vv2-logo-caption { font-size: 10px; font-weight: 400; letter-spacing: 0; margin: 5px 0 0; color: #637390; }
+ .vvjob-site-top .vv2-search { max-width: 350px; background: #f4f7fb; border-color: #e0e7f2; }
+ .vvjob-site-top .vv2-header-nav a { color: #192b4c; }
+ .vvjob-site-top .vv2-header-nav a.active { color: #0750f8; }
+ .vvjob-global-bottom .vv2-mobile-nav button { border-radius: 50%; box-shadow: 0 3px 9px #0750f840; }
+ .composer { border-color: #dce6f7; box-shadow: 0 18px 80px #19386520; }
+ .composer .title-container input.title { color: #152449; }
+}
+.vv2 {
+ --v-blue: #0750f8; --v-ink: #152449; --v-muted: #647492; --v-line: #e5ebf4; --v-bg: #f5f8fc;
+ .vv2-layout { max-width: 1380px; grid-template-columns: 220px minmax(0,1fr) 270px; gap: 16px; padding: 24px 28px 70px; }
+ .vv2-left { grid-column: 1; grid-row: 1 / span 2; top: 100px; padding-right: 8px; }
+ .vv2-feed { grid-column: 2; grid-row: 2; }
+ .vv2-right { grid-column: 3; grid-row: 2; }
+ .vvjob-concept-hero { grid-column: 2 / 4; grid-row: 1; position: relative; overflow: hidden; min-height: 152px; padding: 27px 32px; display: flex; align-items: center; justify-content: space-between; gap: 28px; background: linear-gradient(112deg,#e3efff,#ddecff); border-radius: 12px; isolation: isolate; }
+ .vvjob-concept-hero::before,.vvjob-concept-hero::after { position: absolute; font: 180px/1 Georgia,serif; color: #b6d3fc; opacity: .55; z-index: -1; pointer-events: none; }
+ .vvjob-concept-hero::before { content: '“'; left: 3px; top: -15px; }
+ .vvjob-concept-hero::after { content: '”'; right: 23%; top: -4px; }
+ .vvjob-concept-hero h1 { font: 700 clamp(28px,3vw,43px)/1.15 Georgia,'Times New Roman',serif; color: #092760; letter-spacing: -1.3px; margin: 0 0 7px; }
+ .vvjob-concept-hero p { font: 24px/1.25 Georgia,serif; color: #758db5; }
+ .vvjob-concept-hero >span { max-width: 185px; font-size: 13px; line-height: 1.65; color: #4e6892; }
+ .vv2-navigation { margin: 0 0 18px; }
+ .vv2-navigation a { color: #152449; font-size: 14px; padding: 13px 16px; }
+ .vv2-community-nav .vv2-section-label { display: none; }
+ .vv2-community-nav nav { gap: 8px; }
+ .vv2-community-nav nav a { font-size: 14px; padding: 9px 12px; line-height: 1.5; }
+ .vv2-community-nav nav a:nth-child(n) { display: flex; }
+ .vv2-community-nav nav a >i { display: none; }
+ .vv2-community-icon { background: transparent; color: #3aa07c; font-size: 21px; }
+ .vv2-community-nav nav a:nth-child(2) .vv2-community-icon { color: #ff8b24; background: transparent; }
+ .vv2-community-nav nav a:nth-child(3) .vv2-community-icon { color: #9a59ef; background: transparent; }
+ .vv2-community-nav nav a:nth-child(4) .vv2-community-icon { color: #f46d98; background: transparent; }
+ .vv2-all-link { font-size: 13px; color: #4c6083; margin: 20px 16px; }
+ .vv2-anonymous { background: transparent; border-top: 1px solid #e2e9f4; border-radius: 0; margin-top: 32px; padding-top: 20px; }
+ .vv2-left-footer { color: #51678c; font: 17px/1.6 Georgia,serif; margin-top: 32px; }
+ .vv2-compose { padding: 13px 16px; border-radius: 12px; }
+ .vv2-compose-main >button:not(.vv2-button) { border: 1px solid #e0e7f2; background: #f7f9fd; padding: 10px 13px; border-radius: 8px; color: #687b9c; }
+ .vv2-compose-avatar { width: 40px; height: 40px; background: linear-gradient(135deg,#e2edff,#bed5ff); color: #0750f8; }
+ .vv2-compose-main .vv2-button { padding: 11px 16px; font-size: 13px; }
+ .vv2-feed-tabs { background: #fff; border-radius: 8px; margin: 8px 0 12px; padding: 12px 16px 0; }
+ .vv2-feed-tabs >span { display: none; }
+ .vv2-feed-tabs a { color: #4e607f; font-size: 13px; padding-bottom: 12px; }
+ .vv2-feed-tabs a.selected { color: #0750f8; }
+ .vv2-feed-tabs a.selected::after { width: 100%; height: 2px; }
+ .vv2-post { padding: 16px 22px 0; margin-bottom: 12px; border-radius: 12px; }
+ .vv2-post h2 { font-size: 20px; line-height: 1.4; margin: 12px 0 6px; letter-spacing: -.4px; }
+ .vv2-avatar { border: 0; background: #dfebff; color: #0750f8; }
+ .vv2-author >a { font-size: 14px; color: #17294c; }
+ .vv2-author >span { font-size: 11px; color: #697a96; }
+ .vv2-excerpt { font-size: 15px; line-height: 1.65; color: #53627e; max-height: 106px; }
+ .vv2-read-more { font-size: 13px; color: #0750f8; margin: 9px 0 12px; font-weight: 600; }
+ .vv2-post-stats { font-size: 11px; color: #72819b; margin-bottom: 10px; }
+ .vv2-post-actions { padding: 10px 0; }
+ .vv2-post-actions a { font-size: 12px; }
+ .vv2-trending { padding: 19px 17px 0; border-radius: 12px; }
+ .vv2-trending >header h2 { font-size: 16px; }
+ .vv2-flame,.vv2-week { display: none; }
+ .vv2-trending li { padding: 15px 0; }
+ .vv2-trending li::before { content: counter(trend); border-radius: 50%; width: 24px; height: 24px; flex-shrink: 0; display: grid; place-items: center; color: #0750f8; background: #edf4ff; font-size: 13px; }
+ .vv2-trending li a { font-size: 13px; font-weight: 500; }
+ .vv2-trending li div >span { font-size: 11px; color: #6f7f9b; }
+ .vv2-trending li >i { display: none; }
+ .vv2-join { margin-top: 12px; padding: 22px 18px; background: linear-gradient(145deg,#fff 45%,#f0f6ff); }
+ .vv2-join h2 { font-family: Georgia,'Times New Roman',serif; color: #092760; font-size: 21px; }
+ .vv2-join p { font-size: 14px; line-height: 1.65; color: #536580; }
+ .vv2-join .vv2-button { background: #0750f8; border-color: #0750f8; color: #fff; font-size: 13px; }
+ @media(max-width:1199px) { .vv2-layout { grid-template-columns: 185px minmax(0,1fr) 240px; padding: 22px; gap: 14px; } .vvjob-concept-hero { padding: 24px; } .vv2-community-nav nav a { font-size: 13px; } }
+ @media(max-width:1023px) { .vv2-layout { grid-template-columns: 180px minmax(0,1fr); max-width: 940px; } .vvjob-concept-hero { grid-column: 2; } .vvjob-concept-hero >span { display: none; } }
+ @media(max-width:699px) {
+  .vv2-layout { display: block; padding: 10px 12px 100px; }
+  .vv2-navigation { display: none; }
+  .vv2-community-nav { margin: 0 -12px 12px; }
+  .vv2-community-nav nav { gap: 7px; padding: 0 12px; }
+  .vv2-community-nav nav a { padding: 5px 10px; font-size: 11px; border-radius: 18px; background: #fff; }
+  .vv2-community-nav nav a:nth-child(n) { display: flex; }
+  .vv2-community-icon { width: 21px; height: 21px; font-size: 14px; }
+  .vvjob-concept-hero { min-height: 132px; padding: 21px 18px; margin-bottom: 12px; gap: 14px; }
+  .vvjob-concept-hero h1 { font-size: 29px; max-width: 240px; letter-spacing: -.8px; }
+  .vvjob-concept-hero p { font-size: 18px; }
+  .vvjob-concept-hero::after { right: 14px; font-size: 135px; }
+  .vvjob-concept-hero::before { display: none; }
+  .vv2-compose { padding: 10px; }
+  .vv2-compose-main { gap: 8px; }
+  .vv2-compose-main >button:not(.vv2-button) { font-size: 12px; padding: 9px; }
+  .vv2-compose-main .vv2-button { padding: 10px; font-size: 12px; }
+  .vv2-compose-avatar { width: 32px; height: 32px; }
+  .vv2-feed-tabs { margin-top: 8px; padding-left: 12px; }
+  .vv2-post { padding: 15px 16px 0; }
+  .vv2-post h2 { font-size: 19px; margin-top: 12px; }
+  .vv2-excerpt { font-size: 14px; max-height: 140px; }
+  .vv2-author >span { font-size: 10px; }
+  .vv2-mobile-nav button { border-radius: 50%; }
+ }
+}
+@media(max-width:699px) { body.theme-harmony .vvjob-site-top .vv2-logo >span:last-child { font-size: 31px; gap: 8px; } body.theme-harmony .vvjob-site-top .vv2-logo-caption { font-size: 8px; } }
+@media(max-width:379px) { body.theme-harmony .vvjob-site-top .vv2-logo-caption { display: none; } }

@@ -7,7 +7,7 @@ const templates = require('./template-source');
 const root = path.resolve(__dirname, '..');
 async function build() {
   await fs.mkdir(path.join(root, 'dist'), { recursive: true });
-  for (const name of ['vvjob', 'global', 'pages']) {
+  for (const name of ['vvjob', 'global', 'pages', 'concept']) {
     const css = sass.compile(path.join(root, `extensions/nodebb-plugin-vvjob/scss/${name}.scss`));
     await fs.writeFile(path.join(root, `dist/${name}.css`), css.css);
   }
