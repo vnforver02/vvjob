@@ -8,7 +8,7 @@
       <div class="vv2-left-footer">Một góc nhìn mới.<br>Một bước tiến xa hơn.</div>
     </aside>
     <section class="vv2-feed" id="vvjob-feed" aria-label="Bảng tin cộng đồng">
-<header class="vv2-feed-intro"><div><span class="vv2-section-label">GÓC NHÌN TỪ NGƯỜI ĐI LÀM</span><h1>Chuyện công việc.<br>Cùng nhau chia sẻ.</h1></div><span class="vv2-intro-spark" aria-hidden="true">✳</span></header>
+<header class="vv2-feed-intro"><div><span class="vv2-section-label">Chuyện thật nơi công sở.</span><h1>Real Work.<br>Real Talk.</h1></div><span class="vv2-intro-spark" aria-hidden="true">✳</span></header>
       <section class="vv2-compose" aria-label="Chia sẻ bài viết"><div class="vv2-compose-main"><span class="vv2-compose-avatar" aria-hidden="true"><i class="fa fa-pencil"></i></span><button type="button" data-vvjob-compose>Hôm nay đi làm có gì mới?</button><button type="button" class="vv2-button" data-vvjob-compose>Viết bài <i class="fa fa-plus" aria-hidden="true"></i></button></div></section>
       <nav class="vv2-feed-tabs" aria-label="Sắp xếp bảng tin"><div><a class="{{{ if !isPopular }}}selected{{{ end }}}" href="{config.relative_path}/vvjob" {{{ if !isPopular }}}aria-current="page"{{{ end }}}>Mới nhất</a><a class="{{{ if isPopular }}}selected{{{ end }}}" href="{config.relative_path}/vvjob?sort=popular" {{{ if isPopular }}}aria-current="page"{{{ end }}}>Được quan tâm</a></div><span><i class="fa fa-sliders" aria-hidden="true"></i> Bảng tin cộng đồng</span></nav>
       <div class="vv2-posts">{{{ each topics }}}

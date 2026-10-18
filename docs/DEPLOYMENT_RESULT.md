@@ -49,3 +49,7 @@ The v0.4 plugin applies a shared VVJOB shell and component styling beyond the ho
 ## Route rebuild and default-category cleanup — 2026-10-18
 
 Current release is v0.5, with 33 owned templates and route-specific discussion/reply layouts. Original default category IDs 1–4 were removed; topics 1 and 2 were moved to workplace category 5 and counts recalculated. Current plugin/build mounts and rollback are documented in [Deep UI](DEEP_UI.md).
+
+## Community polish and onboarding acceptance — 2026-10-18
+
+Version 0.6 adds Vietnamese wording, community guidance and guarded category/welcome copy updates. Current source/build mounts, backup paths, verified onboarding/report workflows and the remaining production SMTP configuration are recorded in [Community readiness](COMMUNITY_READINESS.md).
