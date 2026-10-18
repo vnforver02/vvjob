@@ -11,7 +11,7 @@ $(window).on('action:ajaxify.end', function () {
   const name = ajaxify.data.template.name;
   const section = name === 'vvjob' && ajaxify.data.isPopular ? 'popular' : name === 'vvjob' || ['recent', 'popular', 'unread'].includes(name) ? 'feed' :
     name === 'category' || name === 'categories' ? 'communities' :
-      name === 'users' ? 'people' : name === 'notifications' ? 'notifications' :
+      ['users', 'vvjob-people'].includes(name) ? 'people' : name === 'notifications' ? 'notifications' :
         name.startsWith('account/') ? 'profile' : '';
   $('[data-vvjob-nav]').each(function () {
     const active = $(this).attr('data-vvjob-nav') === section || (section === 'popular' && $(this).attr('data-vvjob-nav') === 'feed' && $(this).closest('[component="bottombar"]').length > 0);
@@ -60,4 +60,14 @@ require(['forum/topic/posts'], function (posts) {
     })) { return; }
     return onNewPost.apply(this, arguments);
   };
+});
+
+// Share a real permalink; clipboard fallback stays within the user's explicit click.
+$(document).on('click.vvjobShare','[data-vvjob-share]',async function(){
+ const button=this,feedback=$(button).siblings('.vvjob-share-feedback');
+ const url=new URL(button.dataset.url,window.location.origin).href;
+ button.disabled=true;feedback.text('');
+ try { if(navigator.share){await navigator.share({title:button.dataset.title,url})} else if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(url);feedback.text('Đã sao chép liên kết')} else { window.prompt('Sao chép liên kết bài viết',url); } }
+ catch(error){if(error.name!=='AbortError')feedback.text('Chưa thể chia sẻ. Vui lòng thử lại.')}
+ finally{button.disabled=false}
 });

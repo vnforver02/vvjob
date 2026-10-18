@@ -15,6 +15,12 @@ exports.init = async ({ router, middleware }) => {
   careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service, evidenceRoutes.service);
   const helpers = host('routes/helpers');
   const member = [middleware.ensureLoggedIn, middleware.redirectToHomeIfBanned];
+  const people = require('./lib/people')(host, directory);
+  // Plugin routes mount before core routes. Both page and ajax JSON require login.
+  helpers.setupPageRoute(router, '/users', member, people.page);
+  helpers.setupPageRoute(router, '/vvjob/people', member, people.page);
+  router.use(['/user', '/uid', '/api/user', '/api/uid', '/api/v3/users'], middleware.authenticateRequest, middleware.ensureLoggedIn);
+
   helpers.setupPageRoute(router, '/vvjob/companies', [], careerRoutes.companies);
   helpers.setupPageRoute(router, '/vvjob/career', member, careerRoutes.career);
   helpers.setupPageRoute(router, '/vvjob/company-admin', [...member, careerRoutes.admin], careerRoutes.moderation);

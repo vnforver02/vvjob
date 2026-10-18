@@ -165,3 +165,5 @@ body.theme-harmony .vvjob-mobile-discovery { display: none; }
  }
  .vv2 .vv2-feed-tabs { margin: 10px 0; }
 }
+
+.vv2 .vvjob-conversation-actions { gap: 8px; flex-wrap: wrap; padding: 7px 0; >a,>button { flex: 1; justify-content: center; display: inline-flex; gap: 9px; align-items: center; min-height: 38px; border: 0; background: transparent; border-radius: 8px; color: #6a7b95; font-size: 12px; font-weight: 550; margin: 0; &:hover { background: #f3f6fc; color: #0750f8; } i { font-size: 16px; } } >button:disabled { opacity: .5; } .vvjob-share-feedback { width: 100%; text-align: center; font-size: 10px; color: #7085a8; &:empty { display: none; } } }

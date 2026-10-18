@@ -19,7 +19,7 @@ test('registers route via NodeBB page helper and advertises homepage', async () 
   const plugin = load({ 'routes/helpers': { setupPageRoute: (...value) => { routes.push(value); }, setupApiRoute() {} } });
   const posts = [];
   const middleware = { ensureLoggedIn() {}, redirectToHomeIfBanned() {}, applyCSRF() {}, authenticateRequest() {}, applyBlacklist() {}, maintenanceMode() {}, registrationComplete() {} };
-  await plugin.init({ router: { get() {}, post: (...args) => posts.push(args) }, middleware });
+  await plugin.init({ router: { use() {}, get() {}, post: (...args) => posts.push(args) }, middleware });
   assert.equal(posts[0][0], '/api/vvjob/evidence/submit');
   assert(posts[0].indexOf(middleware.applyCSRF) < posts[0].length - 3);
   assert(posts[0].indexOf(middleware.ensureLoggedIn) < posts[0].length - 3);

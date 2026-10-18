@@ -39,13 +39,15 @@
     "public/select.js",
     "public/career.js",
     "public/verification.js",
-    "public/evidence.js"
+    "public/evidence.js",
+    "public/people.js"
   ],
   "scss": [
     "./scss/vvjob.scss",
     "./scss/global.scss",
     "./scss/pages.scss",
-    "./scss/concept.scss"
+    "./scss/concept.scss",
+    "./scss/people.scss"
   ],
   "languages": "./languages"
 }
