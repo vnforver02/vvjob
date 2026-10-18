@@ -38,7 +38,8 @@
     "public/vvjob.js",
     "public/select.js",
     "public/career.js",
-    "public/verification.js"
+    "public/verification.js",
+    "public/evidence.js"
   ],
   "scss": [
     "./scss/vvjob.scss",

@@ -1,5 +1,7 @@
 # VVJOB 0.9 — voluntary workplace verification
 
+Version note: the formerly unavailable document card is implemented separately in 0.10; see [private work-document review](EVIDENCE.md). The 0.9 validation/rollout below is historical.
+
 ## Product model
 
 The [Maimai certification agreement](https://maimai.cn/static/html/certification_protocol.html) describes a separate application with several evidence methods, review, badges and periodic reassessment. VVJOB uses a method-choice center at `/vvjob/verification`, accessible from the member's profile and career page, without adding registration steps or blocking native posting/replies.

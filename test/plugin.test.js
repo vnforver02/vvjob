@@ -17,7 +17,13 @@ function load(host) {
 test('registers route via NodeBB page helper and advertises homepage', async () => {
   const routes = [];
   const plugin = load({ 'routes/helpers': { setupPageRoute: (...value) => { routes.push(value); }, setupApiRoute() {} } });
-  await plugin.init({ router: 'router', middleware: { ensureLoggedIn() {}, redirectToHomeIfBanned() {}, applyCSRF() {} } });
+  const posts = [];
+  const middleware = { ensureLoggedIn() {}, redirectToHomeIfBanned() {}, applyCSRF() {}, authenticateRequest() {}, applyBlacklist() {}, maintenanceMode() {}, registrationComplete() {} };
+  await plugin.init({ router: { post: (...args) => posts.push(args) }, middleware });
+  assert.equal(posts[0][0], '/api/vvjob/evidence/submit');
+  assert(posts[0].indexOf(middleware.applyCSRF) < posts[0].length - 3);
+  assert(posts[0].indexOf(middleware.ensureLoggedIn) < posts[0].length - 3);
+  assert.equal(typeof posts[0].at(-2), 'function');
   assert.equal(routes[0][1], '/vvjob');
   assert.equal(routes[0][3], plugin.render);
   assert.equal(routes[1][1], '/vvjob/guide');

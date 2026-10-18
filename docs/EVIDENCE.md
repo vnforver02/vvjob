@@ -1,0 +1,28 @@
+# VVJOB 0.10 — private work-document review
+
+The second method is `Giấy tờ chứng minh công việc`: employment certificate, employment contract, or BHXH/VssID participation record. A member saves their company, selects a type and document date, redacts unrelated personal data, attests ownership and consents to private manual review. No recruitment or CV submission module is introduced. Email verification remains independent and closed until its existing delivery prerequisites are met.
+
+## Scope and privacy
+
+- This is manual document comparison, not government identity verification or an official BHXH/VssID integration. An uploaded screenshot is not authenticated by the government. The badge says `Đã đối chiếu giấy tờ công tác`, explicitly does not attest current employment or job title. No automatic OCR/AI approval.
+- Members can submit 1–2 JPEG/PNG images, maximum 4 MiB each. PDFs, SVG, animated and malformed images are rejected. Sharp validates/decodes at most 16 million pixels, auto-orients and re-encodes to JPEG <=2 MiB/image without original EXIF metadata. Four concurrent in-memory upload slots bound per-process intake.
+- The dedicated multipart route authenticates and validates native CSRF **before** memory-only multipart parsing. It bypasses the native API helper's unbounded temporary disk uploader for this route only. No file is written to NodeBB public uploads or a public URL.
+- Processed images use AES-256-GCM with random IV and file-ID associated data; the key derives from the existing private NodeBB secret with a separate purpose prefix. Ciphertext is stored under private `vvjob:evidence:file:*` database objects with 7-day expiry. Full documents are not in profile JSON, logs or templates. Do not rotate the NodeBB secret casually; pending documents then become unreadable and prior proofs invalid.
+- Only native administrators may read decrypted images or review/revoke another user's application. Every view is audited. Image responses are authenticated, no-store, nosniff and have a restrictive CSP. No owner/public download API. Administrators must not retain or redistribute copies; browser screenshots cannot be technically prevented.
+- Members must redact ID numbers, home addresses, salary, social-insurance numbers, QR codes and unrelated third-party details, keeping name/company/dates legible. Never request VssID credentials, OTP, full account exports or messaging-based submissions.
+
+## Review, retention and integrity
+
+Member page `/vvjob/evidence`; administrator queue `/vvjob/evidence-admin`, linked from verification management. Statuses: pending, needs-more, approved, rejected, expired/invalidated and none after withdrawal. Members revisit the page for results; there is no promised automatic notification or review SLA.
+
+Administrators inspect the member profile and private images, select a decision and confirm comparison. Self-review is forbidden; application IDs prevent stale decisions. Needs-more/rejection uses predefined safe reasons. Every decision deletes original image objects before updating the status. A failed deletion cannot confer a badge. Needs-more allows a fresh submission. Withdrawal/revocation/account deletion deletes current images/proof and removes the queue entry; account deletion installs a guard against an in-flight submission. Changes serialize with the existing PostgreSQL advisory lock across processes.
+
+Images are inaccessible after seven days even if unreviewed. Database expiry removes ciphertext; pending queue entries are pruned during queue reads. Proof metadata expires within 190 days, approvals are valid at most 180 days and are bound to the saved company/binding and secret version. Changing company away and back cannot revive the proof. Only public career profiles expose the boolean document label; no type, document date, file ID, reviewer or reason is published. Pending resubmission replaces an earlier document proof; email proof is independent. Three submit reservations per UTC day/member survive withdrawals and failures. Audit records (UID/actor/action/time only) expire after 365 days; sorted-set indexes require eventual housekeeping at larger scale.
+
+Native object writes are serialized, not a single multi-object transaction. A crash can leave an orphan encrypted image with its seven-day TTL or a consumed quota. There is no invalid-code or client-supplied approval path. Database/config backup operators can recover historical encrypted material using the secret; backup retention must also follow the service's private-data retention policy. Current image deletion is not a claim of retroactive deletion from existing backups.
+
+## Build, verify, deploy
+
+Run `npm test && npm run build`, then a complete NodeBB 4.6.1 build with the plugin mounted. Validate on a cloned PostgreSQL/config/uploads runtime: real multipart upload with Sharp, authentication/CSRF before parsing, MIME spoofing/SVG/oversize denial, per-account isolation, admin-only image access, no-store headers, all review decisions, expired/stale requests, withdrawal, public profile privacy and responsive desktop/mobile pages. No real user documents should be used for QA.
+
+Deploy from dev using fresh plugin/build mounts; back up the private Compose file and PostgreSQL dump first. Do not copy preview accounts or database to production. Rollback to previous mounts; retain additive objects inert with their TTLs rather than overwriting new posts with an old whole-database restore. This feature uses existing PostgreSQL and native Sharp/multer dependencies; unsupported runtimes stay unavailable. No NodeBB core edits or new public storage mounts.

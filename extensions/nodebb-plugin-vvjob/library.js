@@ -5,12 +5,14 @@ const host = name => require.main.require(`./src/${name}`);
 
 let careerRoutes;
 let verificationRoutes;
+let evidenceRoutes;
 exports.init = async ({ router, middleware }) => {
   host('routes/helpers').setupPageRoute(router, '/vvjob', [], exports.render);
   host('routes/helpers').setupPageRoute(router, '/vvjob/guide', [], exports.guide);
   const directory = require('./lib/companies')(host('database'));
   verificationRoutes = require('./lib/verification-routes')(host, directory, name => require.main.require('nconf').get(name), function (options) { return new (require.main.require('pg').Pool)(options); });
-  careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service);
+  evidenceRoutes = require('./lib/evidence-routes')(host, directory, name => require.main.require('nconf').get(name), function (options) { return new (require.main.require('pg').Pool)(options); }, name => require.main.require(name));
+  careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service, evidenceRoutes.service);
   const helpers = host('routes/helpers');
   const member = [middleware.ensureLoggedIn, middleware.redirectToHomeIfBanned];
   helpers.setupPageRoute(router, '/vvjob/companies', [], careerRoutes.companies);
@@ -18,12 +20,19 @@ exports.init = async ({ router, middleware }) => {
   helpers.setupPageRoute(router, '/vvjob/company-admin', [...member, careerRoutes.admin], careerRoutes.moderation);
   helpers.setupPageRoute(router, '/vvjob/verification', member, verificationRoutes.page);
   helpers.setupPageRoute(router, '/vvjob/verification-admin', [...member, careerRoutes.admin], verificationRoutes.adminPage);
+  helpers.setupPageRoute(router, '/vvjob/evidence', member, evidenceRoutes.page);
+  helpers.setupPageRoute(router, '/vvjob/evidence-admin', [...member, careerRoutes.admin], evidenceRoutes.adminPage);
+  helpers.setupApiRoute(router, 'get', '/api/vvjob/evidence/file/:uid/:id/:index', [...member, careerRoutes.admin], evidenceRoutes.file);
+  // Native setupApiRoute parses multipart to public temporary disk before auth.
+  // Evidence must authenticate and enforce CSRF before bounded memory parsing.
+  router.post('/api/vvjob/evidence/submit', middleware.applyBlacklist, middleware.authenticateRequest, middleware.maintenanceMode, middleware.registrationComplete, ...member, middleware.applyCSRF, evidenceRoutes.uploadSlot, evidenceRoutes.upload, evidenceRoutes.submit);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/verification/status', member, verificationRoutes.status);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/companies', [], careerRoutes.search);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/companies/selected', [], careerRoutes.selected);
   for (const [path, handler, adminOnly] of [
     ['companies/submit', careerRoutes.submit], ['career', careerRoutes.save], ['career/skip', careerRoutes.skip],
     ['companies/review', careerRoutes.review, true], ['companies/import', careerRoutes.import, true],
+    ['evidence/withdraw', evidenceRoutes.withdraw], ['evidence/review', evidenceRoutes.review, true], ['evidence/revoke', evidenceRoutes.revoke, true],
     ['verification/request', verificationRoutes.request], ['verification/confirm', verificationRoutes.confirm], ['verification/withdraw', verificationRoutes.withdraw],
     ['verification/policy', verificationRoutes.policy, true], ['verification/settings', verificationRoutes.settings, true], ['verification/revoke', verificationRoutes.revoke, true],
   ]) {
@@ -86,4 +95,4 @@ exports.registered = async data => {
   return data;
 };
 
-exports.deleteCareer = async ({ uid }) => { if (verificationRoutes) { await verificationRoutes.service.remove(uid); } await host('database').delete(`vvjob:career:${uid}`); };
+exports.deleteCareer = async ({ uid }) => { if (evidenceRoutes) { await evidenceRoutes.service.remove(uid, uid, true); } if (verificationRoutes) { await verificationRoutes.service.remove(uid); } await host('database').delete(`vvjob:career:${uid}`); };

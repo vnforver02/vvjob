@@ -1,6 +1,6 @@
 'use strict';
 const taxonomy = require('./taxonomy');
-module.exports = function (host, directory, seed, verification) {
+module.exports = function (host, directory, seed, verification, evidence) {
   const safe = value => String(value || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const publicRow = row => Object.fromEntries(['id', 'name', 'aliases', 'website', 'domain', 'industry', 'industryId', 'city', 'cityId', 'source', 'checkedAt', 'logoUrl', 'logoSource', 'logoStatus', 'claimStatus'].map(k => [k, row[k] || '']));
   const templateRow = row => Object.fromEntries(Object.entries(row).map(([k, v]) => [k, typeof v === 'string' ? safe(v) : v]));
@@ -61,6 +61,7 @@ module.exports = function (host, directory, seed, verification) {
       const profile = await directory.profile(data.userData.uid, data.callerUID);
       if (profile) {
         profile.hasWorkEmailVerification = false;
+        profile.hasDocumentVerification = !!(evidence && await evidence.valid(data.userData.uid));
         if (verification && await verification.valid(data.userData.uid)) { profile.verification = 'work-email'; profile.hasWorkEmailVerification = true; }
         data.userData.vvjobCareer = templateRow(profile);
       }
