@@ -1,37 +1,43 @@
-# VVJOB local development (NodeBB)
+# Local development
 
-Requirements: Docker Desktop with Docker Compose, macOS.
+Requires Docker Compose, Node.js 20+, and an inspected NodeBB image with the official image's `/usr/src/app` and `/opt/config` layout. The existing `docker-compose.yml` is preserved. `compose.dev.yml` is a separate stack with separate volumes and port 14567. Do not attach it to production data or run it with production Compose files.
 
 ```sh
-git clone https://github.com/vnforver02/vvjob.git
+git clone --branch dev https://github.com/vnforver02/vvjob.git
 cd vvjob
-git checkout dev
-docker compose up -d
-docker compose logs -f nodebb
+npm ci --ignore-scripts
+npm test
+npm run build
+cp .env.example .env
+# Set NODEBB_IMAGE to an inspected release/digest compatible with NodeBB 4.6.1.
+docker compose --env-file .env -f compose.dev.yml config --quiet
+docker compose --env-file .env -f compose.dev.yml up -d
 ```
 
-Visit **http://localhost:4567** on the same Mac. On the first launch follow the NodeBB installer; choose **Redis** with host `redis` and port `6379`. Complete the administrator account setup locally. Redis is not published to the host. The web service binds only to loopback.
+Open http://localhost:14567 and complete the native installer. Set forum URL to `http://localhost:14567`; Redis host `redis`, port `6379`. Create the administrator locally. No credentials should be placed in source control. A different Docker distribution (including `nodebb/docker`) may use different paths: inspect its version, working directory, entrypoint and volumes before adapting this file.
 
-The NodeBB image is currently tagged `latest` for bootstrapping only; pin to a tested immutable release before sharing a deployed environment.
+After setup, in this **development** stack only:
 
-To stop without deleting test data:
 ```sh
-docker compose down
+docker compose -f compose.dev.yml exec nodebb ./nodebb activate nodebb-plugin-vvjob --config=/opt/config/config.json
+docker compose -f compose.dev.yml exec nodebb ./nodebb build --config=/opt/config/config.json
+docker compose -f compose.dev.yml restart nodebb
 ```
 
-To inspect status:
+In ACP:
+
+1. Select Harmony; verify version 2.1.21. Keep the native composer, markdown, search and moderation plugins active.
+2. Set site title/browser title to `VVJOB`, default language to `vi`, and homepage to `VVJOB — Bảng tin` (`vvjob`). Existing users may need to reset personal homepage/language preferences.
+3. Create real categories: `Thảo luận công việc`, `Thảo luận công ty`, `Lương & phúc lợi`, `Kinh nghiệm nghề nghiệp`. Configure guest/member read and posting privileges explicitly. Category IDs/slugs are read dynamically; no assumed IDs or global search substitutes.
+4. Do not create a public anonymous-posting category. The sidebar explains that anonymous exchange is unavailable.
+5. Add `/vvjob` as the main navigation/home link. Keep native notifications, search and user menus available.
+
+Visit `/vvjob` before switching the homepage. The plugin does not automatically mutate site settings, categories, or existing user preferences. An empty database displays an honest empty state.
+
+Stop while preserving development data:
+
 ```sh
-docker compose ps
+docker compose -f compose.dev.yml down
 ```
 
-No automated deployment, no production service or domain, and no GitHub Actions are configured.
-
-## VVJOB V1 scope
-
-1. Vietnamese-first community (categories: Thảo luận công việc, Công ty, Lương & phúc lợi, Kinh nghiệm nghề nghiệp).
-2. NodeBB registration, authentication, posts, replies, moderation and search.
-3. VVJOB presentation/theme and navigation.
-4. Anonymous discussions as a separate, security-reviewed feature. **Never treat a renamed account as anonymous.**
-5. Company review and structured salary records after a basic moderation/privacy design is approved.
-
-The `extensions/nodebb-plugin-vvjob` folder contains the first presentation extension prototype. It is not enabled in the Docker image automatically; activation and NodeBB-version compatibility testing are outstanding.
+Never use `down -v` against existing data. The custom plugin is mounted read-only at its package location. Rebuild NodeBB and restart after template/style changes. No production deployment runs automatically.

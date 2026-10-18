@@ -1,0 +1,8 @@
+{
+  "name": "vvjob-v1",
+  "private": true,
+  "version": "0.2.0",
+  "scripts": {"test": "node --test test/*.test.js", "build": "node scripts/build.js"},
+  "devDependencies": {"benchpressjs": "2.5.5", "sass": "1.93.2", "nodebb-theme-harmony": "2.1.21"},
+  "engines": {"node": ">=20"}
+}

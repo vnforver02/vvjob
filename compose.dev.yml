@@ -1,0 +1,25 @@
+# Standalone isolated development stack. Never combine with production Compose.
+name: vvjob-v1-dev
+services:
+  nodebb:
+    image: ${NODEBB_IMAGE:?Set NODEBB_IMAGE to an inspected version or digest compatible with NodeBB 4.6.1}
+    restart: unless-stopped
+    depends_on:
+      - redis
+    ports:
+      - "127.0.0.1:14567:4567"
+    volumes:
+      - config:/opt/config
+      - build:/usr/src/app/build
+      - uploads:/usr/src/app/public/uploads
+      - ./extensions/nodebb-plugin-vvjob:/usr/src/app/node_modules/nodebb-plugin-vvjob:ro
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis:/data
+volumes:
+  config:
+  build:
+  uploads:
+  redis:

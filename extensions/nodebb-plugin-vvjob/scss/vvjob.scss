@@ -1,20 +1,39 @@
-// VVJOB pilot visual identity. Loaded when the plugin is installed and activated.
-:root {
-  --vvjob-primary: #2563eb;
-  --vvjob-ink: #15243b;
-  --vvjob-soft: #f4f7fb;
-}
-body {
-  background-color: var(--vvjob-soft);
-}
-.navbar-brand, .forum-title {
-  font-weight: 800;
-  letter-spacing: -.025em;
-}
-a {
-  text-underline-offset: 3px;
-}
-.btn-primary {
-  background-color: var(--vvjob-primary);
-  border-color: var(--vvjob-primary);
+// Scoped to the custom page so Harmony moderation and account screens keep working.
+.vvjob {
+  --vv-blue: #125de5; --vv-ink: #172943; --vv-muted: #65758b; --vv-border: #e6ecf4;
+  color: var(--vv-ink); font-family: Inter, system-ui, sans-serif; padding-bottom: 32px;
+  a { text-decoration: none; }
+  a:hover { color: var(--vv-blue); }
+  a:focus-visible, button:focus-visible { outline: 3px solid #79a9ff; outline-offset: 4px; }
+  .vvjob-masthead { display: flex; align-items: center; gap: 32px; padding: 20px 0 28px; border-bottom: 1px solid var(--vv-border); margin-bottom: 28px; }
+  .vvjob-logo { display: flex; align-items: center; gap: 9px; color: var(--vv-blue); font-size: 26px; font-weight: 850; letter-spacing: -1px; }
+  .vvjob-mark { display: grid; place-items: center; background: var(--vv-blue); color: white; border-radius: 12px 12px 4px 12px; width: 38px; height: 38px; }
+  .vvjob-beta { font-size: 9px; letter-spacing: 1px; margin-left: 5px; color: var(--vv-muted); }
+  .vvjob-search { background: #f3f6fb; padding: 12px 20px; border-radius: 24px; color: var(--vv-muted); font-size: 13px; flex: 1; max-width: 480px; i { margin-right: 8px; } }
+  .vvjob-account { margin-left: auto; font-size: 12px; color: var(--vv-ink); white-space: nowrap; }
+  .vvjob-layout { display: grid; grid-template-columns: 205px minmax(0, 1fr) 265px; gap: 26px; align-items: start; }
+  .vvjob-eyebrow { font-size: 10px; font-weight: 750; letter-spacing: 1.5px; color: var(--vv-muted); margin-bottom: 15px; }
+  .vvjob-nav { display: grid; gap: 6px; margin: 0 0 32px; a { color: var(--vv-ink); font-size: 13px; padding: 12px; border-radius: 9px; i { width: 25px; } } .active { color: var(--vv-blue); background: #edf4ff; font-weight: 700; } }
+  .vvjob-communities { display: grid; gap: 17px; a { color: #42536b; font-size: 13px; } span { color: #8da4c5; margin-right: 7px; } }
+  .vvjob-privacy { margin-top: 25px; background: #f3f6fa; padding: 16px; border-radius: 12px; font-size: 12px; display: grid; gap: 8px; i { color: var(--vv-blue); font-size: 20px; } span { color: var(--vv-muted); line-height: 1.6; } }
+  .vvjob-side-note { color: #91a0b3; font-size: 12px; line-height: 1.8; margin-top: 28px; }
+  .vvjob-feed { min-width: 0; }
+  .vvjob-hero { padding: 28px; border-radius: 16px; background: #eaf2ff; position: relative; overflow: hidden; margin-bottom: 18px; .vvjob-eyebrow { color: #3972bf; position: relative; z-index: 1; } h1 { font-size: clamp(26px, 3vw, 38px); font-weight: 800; letter-spacing: -1.5px; position: relative; z-index: 1; } p { font-size: 13px; color: #4a6485; line-height: 1.8; max-width: 80%; position: relative; z-index: 1; } a { color: var(--vv-blue); font-size: 12px; font-weight: 750; position: relative; z-index: 1; } }
+  .vvjob-hero-art { position: absolute; right: -15px; bottom: -67px; font-size: 235px; font-weight: 900; color: #d7e6ff; transform: rotate(-12deg); line-height: 1; span { color: #c8ddfd; margin-left: -125px; } }
+  .vvjob-composer { border: 1px solid var(--vv-border); border-radius: 12px; padding: 16px; display: flex; gap: 12px; align-items: center; button:not(.btn) { background: transparent; border: 0; color: var(--vv-muted); text-align: left; flex: 1; font-size: 12px; } .btn { white-space: nowrap; font-size: 12px; } }
+  .vvjob-compose-icon { background: #edf4ff; color: var(--vv-blue); padding: 10px 13px; border-radius: 50%; }
+  .btn-primary { background: var(--vv-blue); border-color: var(--vv-blue); border-radius: 8px; padding: 10px 16px; }
+  .vvjob-tabs { display: flex; align-items: center; gap: 24px; border-bottom: 1px solid var(--vv-border); margin: 12px 0 0; a { color: var(--vv-muted); padding: 18px 0 14px; font-size: 13px; } .selected { color: var(--vv-blue); font-weight: 750; border-bottom: 3px solid var(--vv-blue); } > span { margin-left: auto; font-size: 10px; color: #8995a7; } }
+  .vvjob-post { border: 1px solid var(--vv-border); border-radius: 12px; margin-top: 16px; padding: 22px; h2 { font-size: 20px; font-weight: 750; line-height: 1.5; margin: 18px 0 12px; a { color: var(--vv-ink); overflow-wrap: anywhere; } } footer { display: flex; flex-wrap: wrap; gap: 18px; border-top: 1px solid var(--vv-border); margin-top: 20px; padding-top: 14px; color: var(--vv-muted); font-size: 11px; a { color: inherit; } i { margin-right: 4px; } } }
+  .vvjob-post-meta { display: flex; align-items: center; gap: 10px; > i { font-size: 32px; color: #83a8d9; } div { display: grid; gap: 3px; a { font-size: 13px; font-weight: 700; color: var(--vv-ink); } span { color: var(--vv-muted); font-size: 11px; } } .vvjob-post-open { margin-left: auto; color: var(--vv-muted); } }
+  .vvjob-excerpt { font-size: 14px; color: #53647a; line-height: 1.8; max-height: 125px; overflow: hidden; overflow-wrap: anywhere; img { max-width: 100%; } }
+  .vvjob-read { display: inline-block; font-size: 12px; margin-top: 12px; color: var(--vv-blue); }
+  .vvjob-panel { border: 1px solid var(--vv-border); border-radius: 14px; padding: 22px; margin-bottom: 18px; h2 { font-size: 18px; font-weight: 750; line-height: 1.5; span { color: var(--vv-blue); } } }
+  .vvjob-trending { padding-left: 21px; margin: 0; li { padding: 16px 0 0 5px; font-size: 13px; color: var(--vv-blue); } a { color: var(--vv-ink); font-weight: 650; overflow-wrap: anywhere; } span { display: block; color: var(--vv-muted); font-size: 10px; margin-top: 6px; } .vvjob-no-trend { color: var(--vv-muted); list-style: none; margin-left: -20px; line-height: 1.7; } }
+  .vvjob-welcome { background: #f1f6ff; border: 0; h2 { font-size: 24px; letter-spacing: -.7px; margin: 20px 0 12px; } p { font-size: 12px; color: var(--vv-muted); line-height: 1.8; } a { color: var(--vv-blue); font-size: 12px; font-weight: 700; } }
+  .vvjob-fine, .vvjob-copyright { color: var(--vv-muted); font-size: 10px; line-height: 1.9; }
+  .vvjob-empty { text-align: center; border: 1px dashed #c4d5ee; border-radius: 12px; padding: 40px 20px; margin: 18px 0; > i { font-size: 36px; color: var(--vv-blue); } h2 { font-size: 20px; margin: 20px 0 12px; } p { font-size: 13px; color: var(--vv-muted); } }
+  @media (max-width: 1199px) { .vvjob-layout { grid-template-columns: 180px minmax(0, 1fr); gap: 20px; } .vvjob-right { grid-column: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; } .vvjob-beta { display: none; } }
+  @media (max-width: 767px) { .vvjob-masthead { flex-wrap: wrap; gap: 15px; padding: 12px 0 18px; margin-bottom: 16px; } .vvjob-logo { font-size: 23px; } .vvjob-search { order: 3; flex-basis: 100%; max-width: none; } .vvjob-layout { display: flex; flex-direction: column; gap: 18px; } .vvjob-sidebar, .vvjob-feed, .vvjob-right { width: 100%; } .vvjob-sidebar > .vvjob-eyebrow, .vvjob-side-note { display: none; } .vvjob-nav { display: flex; overflow-x: auto; margin-bottom: 12px; gap: 4px; a { flex-shrink: 0; font-size: 11px; padding: 10px; } } .vvjob-communities { display: flex; overflow-x: auto; padding-bottom: 8px; gap: 10px; a { white-space: nowrap; background: #f3f6fb; padding: 7px 10px; border-radius: 20px; font-size: 11px; } } .vvjob-privacy { margin: 8px 0 0; display: block; font-size: 11px; padding: 12px; i, strong { margin-right: 6px; } } .vvjob-hero { padding: 24px; } .vvjob-composer { gap: 5px; padding: 12px; } .vvjob-compose-icon { display: none; } .vvjob-tabs { gap: 22px; > span { display: none; } } .vvjob-post { padding: 18px; h2 { font-size: 18px; } } .vvjob-right { display: block; } }
+  @media (prefers-color-scheme: dark) { /* Honor Harmony's selected skin instead of forcing browser mode. */ }
 }
