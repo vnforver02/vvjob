@@ -67,6 +67,8 @@ module.exports = function createDirectory(db) {
       const target = await get(input.targetId);
       if (!target || target.status !== 'approved' || target.id === row.id) { throw Error('Công ty đích không hợp lệ.'); }
       changes.status = 'merged'; changes.mergedInto = target.id;
+      const aliases = [...new Set([target.aliases, row.name, row.aliases].filter(Boolean))].join('; ').slice(0, 300);
+      await db.setObjectField(key(target.id), 'aliases', aliases);
     } else { changes.status = input.action === 'approve' ? 'approved' : 'rejected'; }
     changes.reviewNote = text(input.note || '', 300);
     await db.setObject(key(row.id), changes);

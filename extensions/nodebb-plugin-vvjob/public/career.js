@@ -4,7 +4,9 @@
   const base = () => config.relative_path || '';
   async function post(path, data) {
     const response = await fetch(`${base()}/api/vvjob/${path}`, { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json', 'x-csrf-token': config.csrf_token }, body: JSON.stringify(data) });
-    const result = await response.json();
+    if (response.redirected) { ajaxify.go('login'); throw Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'); }
+    let result;
+    try { result = await response.json(); } catch { throw Error('Không thể lưu. Vui lòng tải lại trang rồi thử lại.'); }
     if (!response.ok) { throw Error(result.error || result.status && result.status.message || 'Không thể lưu. Vui lòng thử lại.'); }
     return result;
   }

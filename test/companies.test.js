@@ -43,10 +43,11 @@ test('private career data stays private even from administrators; client cannot 
   await assert.rejects(d.saveProfile(4, { workStatus: 'employed', companyId: 'missing' }));
 });
 test('merging keeps existing profiles linked and rejects cycles; hiding removes selection', async () => {
-  const d = create(memory()); await d.importRows(1, [{ ...company, id: 'a' }, { ...company, id: 'b' }], false);
+  const d = create(memory()); await d.importRows(1, [{ ...company, id: 'a', name: 'Old Brand' }, { ...company, id: 'b' }], false);
   await d.saveProfile(4, { workStatus: 'employed', companyId: 'a', publicCompany: true });
   await d.review(1, { id: 'a', action: 'merge', targetId: 'b' });
   assert.equal((await d.profile(4, 0)).companyId, 'b');
+  assert.equal((await d.list('approved', 'old brand')).total, 1);
   await assert.rejects(d.review(1, { id: 'b', action: 'merge', targetId: 'a' }));
   await d.review(1, { id: 'b', action: 'reject' }); assert.equal(await d.resolve('a'), null);
 });
