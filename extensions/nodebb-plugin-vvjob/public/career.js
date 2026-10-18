@@ -38,6 +38,12 @@
       } catch (err) { if (version === searchVersion) { $('#career-company-results').text(err.message); } }
     }, 250);
   });
+  $(document).on('pointerdown.vvjobCareer', function (event) {
+    if (!$(event.target).closest('.vvjob-company-picker, .vvjob-picker-filters').length) {
+      searchVersion++; clearTimeout(searchTimer);
+      $('#career-company-results').empty(); $('#career-company-query').attr('aria-expanded', 'false');
+    }
+  });
   $(document).on('focus.vvjobCareer', '#career-company-query', function () {
     // Opening suggestions must not clear an existing selection until typing starts.
     if (!this.value) { $(this).trigger('input'); }
@@ -112,7 +118,7 @@
     form.dataset.ready = '1';
     form.elements.workStatus.value = form.dataset.workStatus || 'unspecified';
     form.elements.publicCompany.checked = form.dataset.publicCompany === '1';
-    form.querySelectorAll('select').forEach(select => { select.dispatchEvent(new Event('change', { bubbles: true })); select.dispatchEvent(new Event('vvjob:refresh')); });
+    form.querySelectorAll('select[name]').forEach(select => { select.dispatchEvent(new Event('change', { bubbles: true })); select.dispatchEvent(new Event('vvjob:refresh')); });
     const requested = new URLSearchParams(location.search).get('company');
     if (requested && /^[a-zA-Z0-9-]{1,64}$/.test(requested)) {
       fetch(`${base()}/api/vvjob/companies/selected?id=${encodeURIComponent(requested)}`).then(r => r.ok ? r.json() : null).then(row => { if (row && form.isConnected) { choose(form, row); } }).catch(() => {});
