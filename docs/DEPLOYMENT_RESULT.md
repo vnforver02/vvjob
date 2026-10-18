@@ -1,5 +1,7 @@
 # VVJOB rollout — 2026-10-18
 
+The latest production release is documented in [Feed interactions and demo members](INTERACTIONS.md#validation-and-production-rollout--2026-10-19). It includes current HTTPS runtime paths, 62 passing tests, browser acceptance, the authorized 500-member demo import and rollback instructions. The sections below record earlier releases.
+
 ## Result
 
 VVJOB is served at http://bbs.cloudverify.vn/ through the existing aaPanel Nginx virtual host. The original NodeBB 1.19.7 container is stopped; its PostgreSQL database and configuration are retained. Other application containers and virtual hosts were not changed.

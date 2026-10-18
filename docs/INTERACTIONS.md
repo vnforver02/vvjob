@@ -25,4 +25,23 @@ node /opt/vvjob-source/scripts/seed-demo-users.js           # inspect only
 node /opt/vvjob-source/scripts/seed-demo-users.js --apply   # explicit operation
 ```
 
-Build/test and production verification results are recorded after the rollout.
+## Validation and production rollout — 2026-10-19
+
+Release `806e3762ade7d3d65c8b11fa2288488f6fb80756` is deployed at https://bbs.cloudverify.vn/ on NodeBB 4.6.1 / Harmony 2.1.21. This changes only the VVJOB plugin, its compiled assets and the explicitly authorized demo batch; no NodeBB core files were edited.
+
+- All 62 repository tests pass; all five Sass entry points and 49 templates compile. The native NodeBB production build completed in 20.371 seconds.
+- Isolated browser checks passed at widths 1440, 390 and 320: inline replies, targeted replies, emoji insertion, pagination, duplicate prevention, failed-draft retention, locked topics, period/community ranking filters and compact topic navigation. Native chat creation, delivery and unread counts were exercised between test accounts. The chat composer remains above the mobile navigation.
+- Demo cards and profiles were visually checked for explicit illustration/simulation labels, distinct simulated verification badges, avatar rendering and mobile layout. A second isolated seed run created zero users and found the same 500 existing users.
+- The production import created exactly 500 demo users, including 250 simulated verification states and 250 unverified states. The importer checked unique mapped UIDs and absence of passwords, emails and real verification records. Incoming chats and digests are disabled for these accounts.
+- After deployment and the final import/restart, production browser smoke checks passed for inline guest comments, ranked discussions and period APIs, 1440/390/320 layouts, single-post navigation, native chat login gating, guest profile/API restrictions and demo avatar endpoints. No JavaScript page errors were observed. Write interactions were tested in the isolated environment; the production smoke was read-only.
+
+Current server paths:
+
+- Plugin source: `/home/ucloud/vvjob-interactions-release/extensions/nodebb-plugin-vvjob` (read-only container mount).
+- Compiled assets: `/home/ucloud/vvjob-interactions-build`.
+- Compose/config: `/home/ucloud/vvjob-v1-runtime/compose.json` and `config/config.json` (private; never commit their contents).
+- Protected rollback backup: `/home/ucloud/vvjob-backups/20261019-interactions`, containing the preceding Compose/config and a PostgreSQL custom-format dump verified with `pg_restore --list`.
+
+Only `vvjob-v1-web-1` was recreated/restarted. Other services, the production database container, TLS/proxy settings and existing content were retained. The isolated preview container, cloned test database and private temporary configuration/dump were removed after acceptance.
+
+For UI rollback, restore the preceding Compose file from that backup and recreate only the VVJOB `web` service. Its previous plugin/assets remain at `/home/ucloud/vvjob-network-source` and `/home/ucloud/vvjob-network-build`. Keep the current production database and guest privacy settings; restoring the whole database would discard subsequent legitimate writes. Demo removal is a separate explicit operation using the batch-map checks above. Keep backups and the previous assets until release acceptance.
