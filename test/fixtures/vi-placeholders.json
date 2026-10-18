@@ -162,5 +162,33 @@
     "notificationType-post-edit": [],
     "notificationType-new-post-flag": [],
     "notificationType-new-user-flag": []
+  },
+  "user": {
+    "emailUpdate.intro": [],
+    "emailUpdate.optional": [],
+    "emailUpdate.required": [],
+    "emailUpdate.change-instructions": [],
+    "emailUpdate.password-challenge": [],
+    "emailUpdate.pending": []
+  },
+  "email": {
+    "email.verify-your-email.subject": [],
+    "welcome-to": [
+      "%1"
+    ],
+    "welcome.text1": [
+      "%1"
+    ],
+    "welcome.text2": [],
+    "welcome.cta": [],
+    "password-reset-requested": [],
+    "reset.text1": [],
+    "reset.text2": [],
+    "reset.cta": [],
+    "reset.notify.subject": [],
+    "reset.notify.text1": [
+      "%1"
+    ],
+    "reset.notify.text2": []
   }
 }

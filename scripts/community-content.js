@@ -38,7 +38,7 @@ const meta = host('src/meta');
   await fs.writeFile(backup, JSON.stringify({ date: new Date().toISOString(), categories: current, topic, post }, null, 2), { flag: 'wx', mode: 0o600 });
   for (const community of manifest) {
     const { cid, ...fields } = community;
-    await categories.setCategoryFields(cid, { ...fields, descriptionParsed: fields.description });
+    await categories.update({ [cid]: fields });
   }
   if (untouchedSeed) {
     const prefix = nconf.get('relative_path') || '';

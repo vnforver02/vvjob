@@ -1,0 +1,8 @@
+{
+  "emailUpdate.intro": "Thêm email để có thể khôi phục tài khoản khi quên mật khẩu và nhận thông báo theo cài đặt của bạn.",
+  "emailUpdate.optional": "<strong>Email là tùy chọn.</strong> Nếu bỏ qua, bạn sẽ không thể đặt lại mật khẩu qua email.",
+  "emailUpdate.required": "<strong>Vui lòng cung cấp địa chỉ email.</strong>",
+  "emailUpdate.change-instructions": "Chúng tôi sẽ gửi một liên kết để xác nhận email này thuộc về bạn. Bạn có thể cập nhật email trong cài đặt tài khoản.",
+  "emailUpdate.password-challenge": "Nhập mật khẩu hiện tại để xác nhận đây là tài khoản của bạn.",
+  "emailUpdate.pending": "Email đang chờ xác nhận. Hãy kiểm tra hộp thư và thư rác, hoặc nhập lại email bên dưới để yêu cầu liên kết mới."
+}

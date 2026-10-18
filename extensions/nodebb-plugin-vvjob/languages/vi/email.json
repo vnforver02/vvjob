@@ -1,0 +1,14 @@
+{
+  "email.verify-your-email.subject": "Xác nhận email của bạn trên VVJOB",
+  "welcome-to": "Chào mừng bạn đến với %1",
+  "welcome.text1": "Cảm ơn bạn đã tham gia %1.",
+  "welcome.text2": "Vui lòng xác nhận địa chỉ email để hoàn tất việc xác minh tài khoản.",
+  "welcome.cta": "Xác nhận email",
+  "password-reset-requested": "Đặt lại mật khẩu VVJOB",
+  "reset.text1": "Chúng tôi nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Nếu không phải bạn yêu cầu, hãy bỏ qua email này.",
+  "reset.text2": "Để tạo mật khẩu mới, hãy mở liên kết dưới đây:",
+  "reset.cta": "Đặt lại mật khẩu",
+  "reset.notify.subject": "Mật khẩu VVJOB đã được thay đổi",
+  "reset.notify.text1": "Mật khẩu tài khoản của bạn đã được thay đổi vào %1.",
+  "reset.notify.text2": "Nếu bạn không thực hiện thay đổi này, vui lòng liên hệ quản trị viên ngay."
+}
