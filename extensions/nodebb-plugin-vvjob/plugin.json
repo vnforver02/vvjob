@@ -23,6 +23,7 @@
   ],
   "scss": [
     "./scss/vvjob.scss",
-    "./scss/global.scss"
+    "./scss/global.scss",
+    "./scss/pages.scss"
   ]
 }

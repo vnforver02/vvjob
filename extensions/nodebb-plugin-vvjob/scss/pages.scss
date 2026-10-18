@@ -1,0 +1,82 @@
+// Route layouts, separate from shared tokens. All selectors stay within native
+// route/component contracts so realtime and ajax-loaded content shares the layout.
+body.theme-harmony {
+  .vvjob-page-intro { margin: 2px 0 28px; > span { color: #8b9ab1; font-size: 10px; font-weight: 700; letter-spacing: 1.6px; } h1 { font-size: 32px; font-weight: 750; margin: 10px 0; letter-spacing: -1px; } p { color: #8090a7; font-size: 14px; line-height: 1.8; max-width: 580px; margin: 0; } }
+  &.template-topic {
+    #content { max-width: 1160px; }
+    .vvjob-discussion { min-width: 0; }
+    .vvjob-discussion > .d-flex > .d-flex { background: #fff; border: 1px solid #e5eaf1; padding: 28px 30px; border-radius: 14px; }
+    [component="post/header"] { font-size: 30px !important; line-height: 1.4; margin: 0 !important; }
+    .vvjob-discussion-layout { display: grid; grid-template-columns: minmax(0,1fr) 190px; gap: 26px; align-items: start; }
+    .topic .vvjob-discussion-posts { width: 100%; max-width: none; min-width: 0; }
+    .vvjob-discussion-rail { min-width: 0; .sticky-top { top: 96px !important; } > .sticky-top > div { align-items: stretch !important; } [component="topic/navigator"] { max-height: 340px; } .btn { white-space: normal; } }
+    .vvjob-topic-toolbar { position: static !important; margin: 0 0 16px; padding: 0; background: transparent; }
+    .vvjob-topic-toolbar > nav { margin: 0 !important; > div { padding: 10px !important; background: #fff !important; border-color: #e5eaf1 !important; border-radius: 12px !important; gap: 10px; flex-wrap: wrap; } }
+    ul.posts { width: 100%; margin: 0; padding: 0 !important; }
+    ul.posts > [component="post"] { position: relative; margin: 0 0 16px !important; padding: 26px !important; width: 100%; min-width: 0; border: 1px solid #e5eaf1 !important; border-radius: 14px; background: #fff; &::before,&::after { display: none !important; } > .post-container-parent { margin: 0 !important; } }
+    .vvjob-post-layout { width: 100%; min-width: 0; > div:first-child { flex-shrink: 0; } }
+    .vvjob-post-body { width: 0 !important; flex: 1 1 0 !important; min-width: 0; }
+    .post-header { min-height: 48px; align-items: center !important; line-height: 1.65 !important; > div:first-child { min-width: 0; gap: 4px 10px !important; white-space: normal; } a[data-uid] { color: #28374f; font-size: 14px; } .post-index { font-size: 11px; white-space: nowrap; } }
+    [component="post/content"] { margin: 0; padding: 8px 0 20px; font-size: 16px; line-height: 1.9; color: #35465f; overflow-wrap: anywhere; > :last-child { margin-bottom: 0; } iframe,video { max-width: 100%; } pre { max-width: 100%; overflow: auto; } table { display: block; max-width: 100%; overflow-x: auto; } }
+    .vvjob-post-footer { border-top: 1px solid #edf1f6; border-bottom: 0 !important; padding-top: 12px; padding-bottom: 0 !important; }
+    .vvjob-post-footer-row { align-items: center; gap: 10px !important; }
+    [component="post/actions"] { flex: 1 1 auto; flex-wrap: wrap; justify-content: flex-end; gap: 3px !important; .btn { min-width: 32px; min-height: 32px; padding: 6px 8px; font-size: 12px; } .votes { flex-shrink: 0; } }
+    [component="post/tools"] { border: 0; padding: 0; }
+    [component="post/parent"] { margin: 0 0 16px !important; padding: 14px 16px; background: #f5f8fd; border: 1px solid #e8edf6; border-radius: 10px; max-width: 100%; }
+    [component="post/reply-count"] { max-width: 100%; flex-wrap: wrap; padding: 7px !important; .replies-last { display: none; } }
+    [component="post/replies/container"] { width: 100%; max-width: 100%; margin: 14px 0 0 !important; padding: 14px !important; border-radius: 10px !important; background: #f8faff; > [component="post"] { border: 0 !important; padding: 12px 0 !important; margin: 0 !important; background: transparent; .post-container-parent { margin: 0 !important; } .post-header { min-height: 32px; } .post-footer { border: 0 !important; } } }
+    .timeline-event { margin: 0 0 14px !important; padding: 10px 18px; border: 0 !important; background: #eaf0fa; border-radius: 9px; font-size: 12px; &::before,&::after { display: none !important; } }
+    .quick-reply { width: 100%; padding: 22px !important; margin-top: 20px; > form { min-width: 0; } textarea { min-height: 140px; border: 1px solid #dfe7f3; background: #fbfcff; font-size: 15px; line-height: 1.8; } }
+    [component="post"].highlight { border-color: #96b0f3 !important; box-shadow: 0 0 0 3px #2858df0a; }
+    [component="post"].selected { border-color: #2858df !important; .post-container { background: transparent; } }
+  }
+  &.template-category {
+    .category-header { background: #fff; border: 1px solid #e4eaf3; border-radius: 15px; padding: 28px; h1 { font-size: 30px !important; } .description { max-width: 700px; line-height: 1.8; } }
+    .category .category-main-buttons { background: #fff; border: 1px solid #e5eaf1; border-radius: 12px; padding: 10px; flex-wrap: wrap; }
+    [component="category/topic"] { > .content { min-width: 0; } [component="topic/header"] { font-size: 19px; color: #2a3951; } .topic-title { line-height: 1.55; } .stats { border-left: 1px solid #edf1f6; } }
+    .topics-list { padding: 0; }
+  }
+  &.template-categories .categories-list { gap: 20px; [component="categories/category"] { padding: 26px !important; border-radius: 15px; .description { color: #7c8da6 !important; } .title a { color: #273950; } .stats { font-size: 10px; } } }
+  &.template-users {
+    .users > .d-flex { background: #fff; border: 1px solid #e5eaf1; padding: 14px; border-radius: 12px; gap: 14px; align-items: center; }
+    .users > hr { display: none; }
+    #users-container { margin: 8px -10px 0; --bs-gutter-x: 20px; --bs-gutter-y: 20px; }
+    .users-box { min-height: 190px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; a { color: #293c57; } }
+  }
+  .vvjob-profile-shell { border: 1px solid #e1e8f3; box-shadow: 0 6px 28px #233b5c04; padding: 28px; .cover { border: 1px solid #e1e8f3; } .avatar-wrapper { box-shadow: 0 3px 12px #203b5f10; } > .d-flex:first-of-type { align-items: flex-start; } .account-sub-links { gap: 8px; } .account-content { min-width: 0; padding-top: 0; } .account-stats { background: transparent; border: 0; padding: 0; .card { border: 1px solid #e7ecf4 !important; border-radius: 12px !important; background: #f9fbff; } .stat-label { color: #7b8da8; font-weight: 550; } } }
+  &[class*="page-user-"] { .account-content > form, .account-content > .settings { border: 1px solid #e7ecf4; border-radius: 12px; padding: 22px; } .account .nav > a { font-size: 12px; } }
+  .vvjob-notifications .notifications { padding: 22px; .btn-toolbar { gap: 12px; } .notifications-list > li { padding: 18px 12px; .notification-body { line-height: 1.7; } } [component="notifications/list"]:empty::after { content: 'Bạn chưa có thông báo mới.'; display: block; padding: 50px 20px; text-align: center; color: #8293ad; } }
+  .vvjob-search { max-width: 100%; #advanced-search { padding: 26px; } .search-result-text { line-height: 1.8; } }
+  &[class*="template-chats"] { #content { max-width: 1280px; } .chats-full { background: #fff; border: 1px solid #e4eaf3; border-radius: 14px; overflow: hidden; } [component="chat/recent"] { background: #f9fbfe; border-right: 1px solid #e4eaf3; } [component="chat/message/content"] { line-height: 1.75; } }
+  &.admin { .content-header { border-bottom: 1px solid #e2e8f1; padding-bottom: 18px; margin-bottom: 24px; } .card { overflow: hidden; } .table-responsive { border: 1px solid #e5eaf1; border-radius: 12px; } }
+}
+@media(max-width:991px) {
+ body.theme-harmony.template-topic { .vvjob-discussion-layout { grid-template-columns: minmax(0,1fr); } .vvjob-discussion-rail { display: none !important; } .vvjob-topic-toolbar { display: block !important; } }
+}
+@media(max-width:699px) {
+ body.theme-harmony {
+  .vvjob-page-intro { margin-bottom: 22px; > span { font-size: 9px; } h1 { font-size: 27px; } p { font-size: 13px; } }
+  &.template-topic {
+   .vvjob-discussion > .d-flex > .d-flex { padding: 20px; border-radius: 12px; }
+   [component="post/header"] { font-size: 25px !important; }
+   .topic-info { gap: 6px !important; }
+   ul.posts > [component="post"] { padding: 18px !important; margin-bottom: 12px !important; }
+   .vvjob-post-layout { gap: 0 !important; }
+   .post-header { min-height: 40px; align-items: flex-start !important; > div:first-child { gap: 4px 7px !important; } a[data-uid] { font-size: 13px; } > div:last-child { align-self: flex-start; } }
+   .post-header .d-sm-none { margin-right: 5px; }
+   [component="post/content"] { font-size: 15px; padding: 14px 0 18px; }
+   .vvjob-post-footer-row { display: flex; flex-direction: column; align-items: stretch; }
+   [component="post/actions"] { width: 100%; justify-content: flex-end !important; }
+   [component="post/reply-count"] { align-self: flex-start; }
+   [component="post/replies/container"] { padding: 10px !important; .post-header a[data-uid] { max-width: 140px; } }
+   .quick-reply { padding: 16px !important; gap: 10px !important; .icon { display: none; } }
+   .vvjob-topic-toolbar .btn { padding: 8px; font-size: 11px; }
+  }
+  &.template-category .category-header { padding: 22px; h1 { font-size: 25px !important; } }
+  &.template-categories .categories-list [component="categories/category"] { padding: 22px !important; }
+  &.template-users { #users-container { --bs-gutter-x: 12px; --bs-gutter-y: 12px; margin-left: -6px; margin-right: -6px; } .users > .d-flex { align-items: stretch; > div { width: 100%; } .input-group { width: 100%; } } .users-box { min-height: 175px; padding: 18px 10px; } }
+  .vvjob-profile-shell { padding: 20px; .avatar-wrapper { align-self: flex-start !important; } .avatar-wrapper .avatar { width: 100px !important; height: 100px !important; line-height: 100px !important; font-size: 55px !important; } .account-stats .fs-2 { font-size: 21px !important; } .account-stats .card { padding: 16px !important; } }
+  .vvjob-functional-page #advanced-search { padding: 18px; }
+  .vvjob-notifications .notifications { padding: 16px; }
+ }
+}
