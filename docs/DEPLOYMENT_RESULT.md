@@ -57,3 +57,7 @@ Version 0.6 adds Vietnamese wording, community guidance and guarded category/wel
 ## Company directory and optional career onboarding (0.7)
 
 Company search, moderated suggestions/import, optional post-registration career details and private-by-default profile cards are deployed. Current mounts, source provenance, identity boundaries and acceptance evidence are recorded in [Company directory](COMPANY_DIRECTORY.md). Catalog presence is not an enterprise claim or employment verification.
+
+## Structured filters and lightweight onboarding (0.8)
+
+Company filters and searchable career selectors replace plain entry fields. Registration now retains its native destination and shows only an optional dismissible feed reminder. Current mounts and final verification supersede 0.7: see [Career filters](CAREER_FILTERS.md). No employment certification or recruitment capability is implied.
