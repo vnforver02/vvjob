@@ -3,7 +3,7 @@
 body.template-vvjob {
   background: #f4f6f9;
   > .layout-container { padding-bottom: 0 !important; }
-  [component="sidebar/left"], [component="sidebar/right"], [component="bottombar"], .brand-container, #footer { display: none !important; }
+  [component="sidebar/left"], [component="sidebar/right"], .brand-container, #footer { display: none !important; }
   #panel { margin-top: 0 !important; gap: 0 !important; }
   #content { width: 100%; max-width: none; padding: 0 !important; margin: 0 !important; gap: 0 !important; }
 }

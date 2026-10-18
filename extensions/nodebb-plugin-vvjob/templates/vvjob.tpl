@@ -1,12 +1,4 @@
 <div class="vvjob vv2" lang="vi">
-  <header class="vv2-header">
-    <div class="vv2-header-inner">
-      <a class="vv2-logo" href="{config.relative_path}/vvjob" aria-label="VVJOB — Bảng tin"><span class="vv2-symbol" aria-hidden="true">v<span>v</span></span><span>vvjob<span class="vv2-logo-caption">KẾT NỐI ĐỂ TIẾN XA</span></span></a>
-      <form class="vv2-search" action="{config.relative_path}/search" method="get" role="search"><i class="fa fa-search" aria-hidden="true"></i><input type="search" name="term" placeholder="Tìm câu chuyện, chủ đề, cộng đồng" aria-label="Tìm kiếm trên VVJOB"><kbd aria-hidden="true">↵</kbd></form>
-      <nav class="vv2-header-nav" aria-label="Điều hướng chính"><a class="active" href="{config.relative_path}/vvjob">Bảng tin</a><a href="{config.relative_path}/categories">Cộng đồng</a></nav>
-      <div class="vv2-header-actions"><a class="vv2-mobile-search" href="{config.relative_path}/search" aria-label="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></a><a class="vv2-icon-button" href="{config.relative_path}/notifications" aria-label="Thông báo"><i class="fa fa-bell-o" aria-hidden="true"></i></a>{{{ if viewerLoggedIn }}}<a class="vv2-button vv2-button-small" href="{config.relative_path}/me">Hồ sơ của tôi</a>{{{ else }}}<a class="vv2-login" href="{config.relative_path}/login">Đăng nhập</a><a class="vv2-button vv2-button-small" href="{config.relative_path}/register">Tham gia</a>{{{ end }}}</div>
-    </div>
-  </header>
   <div class="vv2-layout">
     <aside class="vv2-left" aria-label="Điều hướng cộng đồng">
       <div class="vv2-intro"><span class="vv2-intro-mark" aria-hidden="true">↗</span><h2>Đi làm có nhau.</h2><p>Góc nhìn thật từ<br>người đi làm Việt Nam.</p></div>
@@ -30,5 +22,5 @@
       <div class="vv2-guidelines"><i class="fa fa-heart-o" aria-hidden="true"></i><div><strong>Một cộng đồng tử tế.</strong><p>Tôn trọng khác biệt. Bảo vệ thông tin cá nhân. Báo cáo nội dung không phù hợp ngay trong bài viết.</p></div></div><footer class="vv2-footer"><span>© VVJOB · Cộng đồng người đi làm</span><span>Được xây dựng trên NodeBB</span></footer>
     </aside>
   </div>
-  <nav class="vv2-mobile-nav" aria-label="Điều hướng di động"><a class="active" href="{config.relative_path}/vvjob"><i class="fa fa-home" aria-hidden="true"></i><span>Bảng tin</span></a><a href="{config.relative_path}/categories"><i class="fa fa-compass" aria-hidden="true"></i><span>Cộng đồng</span></a><button type="button" data-vvjob-compose aria-label="Viết bài"><i class="fa fa-plus" aria-hidden="true"></i></button><a href="{config.relative_path}/notifications"><i class="fa fa-bell-o" aria-hidden="true"></i><span>Thông báo</span></a><a href="{config.relative_path}/me"><i class="fa fa-user-o" aria-hidden="true"></i><span>Cá nhân</span></a></nav>
+
 </div>

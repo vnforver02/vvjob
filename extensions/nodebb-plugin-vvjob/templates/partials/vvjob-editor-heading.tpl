@@ -1,0 +1,1 @@
+<header class="vvjob-editor-heading"><span class="vvjob-editor-mark" aria-hidden="true"><i class="fa fa-pencil"></i></span><div><span>VVJOB / KHÔNG GIAN CHIA SẺ</span><h2>{{{ if isEditing }}}Chỉnh sửa bài viết{{{ else }}}{{{ if isTopic }}}Bạn muốn chia sẻ điều gì?{{{ else }}}Tiếp nối cuộc trò chuyện{{{ end }}}{{{ end }}}</h2></div></header>

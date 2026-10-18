@@ -1,15 +1,16 @@
 {
   "name": "vvjob-v1",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "scripts": {
     "test": "node --test test/*.test.js",
     "build": "node scripts/build.js"
   },
   "devDependencies": {
     "benchpressjs": "2.5.5",
-    "sass": "1.93.2",
-    "nodebb-theme-harmony": "2.1.21"
+    "nodebb-plugin-composer-default": "10.3.1",
+    "nodebb-theme-harmony": "2.1.21",
+    "sass": "1.93.2"
   },
   "engines": {
     "node": ">=20"

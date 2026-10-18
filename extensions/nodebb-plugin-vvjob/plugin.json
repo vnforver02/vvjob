@@ -22,6 +22,7 @@
     "public/vvjob.js"
   ],
   "scss": [
-    "./scss/vvjob.scss"
+    "./scss/vvjob.scss",
+    "./scss/global.scss"
   ]
 }

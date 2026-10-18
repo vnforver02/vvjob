@@ -8,7 +8,7 @@ test('empty feed shows truthful Vietnamese state and privacy notice', async () =
   const html = await benchpress.compileRender(template, { config: { relative_path: '/forum' }, topics: [], trending: [], communities: [] });
   assert.match(html, /Câu chuyện đầu tiên bắt đầu từ bạn/);
   assert.match(html, /Chưa mở\. Bài viết hiện tại gắn với tài khoản của bạn/);
-  assert.match(html, /href="\/forum\/search"/);
+
   assert.doesNotMatch(html, /class="vv2-post"/);
 });
 test('feed renders real topic, community, subdirectory links and selected sorting', async () => {
@@ -21,9 +21,15 @@ test('feed renders real topic, community, subdirectory links and selected sortin
   assert.doesNotMatch(html, /Câu chuyện đầu tiên bắt đầu từ bạn/);
 });
 
-test('member navigation uses native profile route instead of registration promotion', async () => {
-  const html = await benchpress.compileRender(template, { config: { relative_path: '/forum' }, topics: [], trending: [], communities: [], viewerLoggedIn: true });
-  assert.match(html, /href="\/forum\/me">Hồ sơ của tôi/);
-  assert.doesNotMatch(html, /href="\/forum\/register"/);
-  assert.match(html, /name="term"/);
+test('shared header preserves native member menus and guest registration', async () => {
+  const source = fs.readFileSync('extensions/nodebb-plugin-vvjob/templates/partials/header/brand.tpl', 'utf8');
+  const guest = await benchpress.compileRender(source, { relative_path: '/forum', config: { loggedIn: false } });
+  assert.match(guest, /action="\/forum\/search"/);
+  assert.match(guest, /name="term"/);
+  assert.match(guest, /href="\/forum\/register"/);
+  const member = await benchpress.compileRender(source, { relative_path: '/forum', config: { loggedIn: true } });
+  assert.match(member, /id="logged-in-menu"/);
+  assert.match(member, /component="notifications"/);
+  assert.match(member, /component="sidebar\/drafts"/);
+  assert.doesNotMatch(member, /href="\/forum\/register"/);
 });

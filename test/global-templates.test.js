@@ -1,0 +1,35 @@
+'use strict';
+const { test } = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs/promises');
+const benchpress = require('benchpressjs');
+const templates = require('../scripts/template-source');
+const path = require('node:path');
+test('redesigned editor keeps native title, category, draft, upload and submit hooks', async () => {
+  const source = await templates.expand(await fs.readFile(path.join(templates.own, 'composer.tpl'), 'utf8'));
+  const html = await benchpress.compileRender(source, { isTopic: true, isTopicOrMain: true, resizable: true, canUploadImage: true, canUploadFile: true, formatting: [], submitOptions: [], config: { relative_path: '' }, template: {} });
+  assert.match(html, /vvjob-editor-heading/);
+  assert.match(html, /component="composer"/);
+  assert.match(html, /data-component="composer\/title"/);
+  assert.match(html, /class="category-list-container/);
+  assert.match(html, /data-action="post"/);
+  assert.match(html, /data-action="hide"/);
+  assert.match(html, /data-action="discard"/);
+  assert.match(html, /data-format="picture"/);
+  assert.match(html, /type="file"/);
+  assert.match(html, /class="write /);
+  assert.match(html, /Bài viết gắn với tài khoản của bạn/);
+});
+test('auth refresh retains native login CSRF, credentials and registration extension slots', async () => {
+  const login = await templates.expand(await fs.readFile(path.join(templates.own, 'login.tpl'), 'utf8'));
+  const html = await benchpress.compileRender(login, { allowLocalLogin: true, widgets: {}, config: { csrf_token: 'test-csrf' } });
+  assert.match(html, /id="login-form"/);
+  assert.match(html, /name="_csrf" value="test-csrf"/);
+  assert.match(html, /id="password"/);
+  assert.match(html, /id="username"/);
+  assert.match(html, /vvjob-auth-heading/);
+  const registration = await fs.readFile(path.join(templates.own, 'register.tpl'), 'utf8');
+  assert.match(registration, /component="register\/local"/);
+  assert.match(registration, /id="password-confirm"/);
+  assert.match(registration, /each regFormEntry/);
+});
