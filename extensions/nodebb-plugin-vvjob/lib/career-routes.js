@@ -44,12 +44,12 @@ module.exports = function (host, directory, seed) {
     career: async (req, res) => {
       const profile = await directory.profile(req.uid, req.uid) || {};
       const careerOptions = {};
-      for (const [kind, field] of [['positions', 'position'], ['industries', 'industry'], ['cities', 'city'], ['levels', 'level']]) {
+      for (const [kind, field] of [['positions', 'position'], ['cities', 'city'], ['levels', 'level']]) {
         careerOptions[kind] = taxonomy.options(kind, profile[`${field}Id`], profile[field] || '', kind === 'positions' ? profile.jobFamilyId : '');
         careerOptions[`${field}Other`] = careerOptions[kind].some(row => row.id === 'other' && row.selected);
       }
       careerOptions.families = taxonomy.catalog.families.map(row => ({ ...row, selected: row.id === profile.jobFamilyId }));
-      res.render('vvjob-career', { title: 'Hồ sơ nghề nghiệp — VVJOB', ...careerOptions, companyIndustries: taxonomy.catalog.industries, companyCities: taxonomy.catalog.cities, career: templateRow(profile), companyAdmin: await host('user').isAdministrator(req.uid) });
+      res.render('vvjob-career', { title: 'Hồ sơ nghề nghiệp — VVJOB', ...careerOptions, companyCities: taxonomy.catalog.cities, career: templateRow(profile), companyAdmin: await host('user').isAdministrator(req.uid) });
     },
     moderation: async (req, res) => {
       const state = ['approved', 'pending', 'rejected', 'merged'].includes(req.query.state) ? req.query.state : 'pending';

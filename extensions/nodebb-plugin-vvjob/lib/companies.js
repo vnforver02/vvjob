@@ -116,6 +116,8 @@ module.exports = function createDirectory(db) {
       position: position.label, positionId: position.id, jobFamilyId: position.family || family?.id || '',
       industry: industry.label, industryId: industry.id, city: city.label, cityId: city.id, level: level.label, levelId: level.id,
       publicCompany: input.publicCompany === true ? 1 : 0, updatedAt: Date.now(), completed: 1 };
+    // Removing the optional industry control must not erase previously saved data.
+    if (!Object.hasOwn(input, 'industry') && !Object.hasOwn(input, 'industryId')) { delete data.industry; delete data.industryId; }
     // Client-supplied verification flags are deliberately never stored.
     await db.setObject(`vvjob:career:${uid}`, data);
     return data;

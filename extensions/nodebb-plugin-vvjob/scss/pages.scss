@@ -169,3 +169,5 @@ body.vvjob-editor-open { .modal { z-index: 1100; } .modal-backdrop { z-index: 10
 .vvjob-career-page [data-other-field] { margin: 8px 0; label { display: block; margin-bottom: 8px; } }
 @media (max-width: 650px) { .vvjob-company-search > .vvjob-directory-filters { grid-template-columns: minmax(0, 1fr); } .vvjob-select-options { max-height: 210px; } }
 .vvjob-career-reminder { display: flex; align-items: start; gap: 12px; padding: 14px 16px; border: 1px solid #dce8fa; border-radius: 12px; background: #f1f6ff; margin-bottom: 14px; position: relative; > i { margin-top: 3px; color: #467bce; } > div { flex: 1; min-width: 0; } strong { font-size: 12px; } p { font-size: 11px; color: #657a95; margin: 3px 0 5px; } a, button { font-size: 11px; } button { padding: 0; white-space: nowrap; } .vvjob-career-feedback:empty { display: none; } }
+
+.vvjob-career-fields-single { grid-template-columns: minmax(0, 1fr); }

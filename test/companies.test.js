@@ -79,6 +79,8 @@ test('structured career fields normalize aliases and reject invalid IDs or role/
   await d.saveProfile(4, { workStatus: 'employed', positionId: 'software-engineer', jobFamilyId: 'engineering', industryId: 'technology', cityId: 'ha-noi', levelId: 'senior' });
   const p = await d.profile(4, 4);
   assert.equal(p.position, 'Kỹ sư phần mềm'); assert.equal(p.city, 'Hà Nội'); assert.equal(p.levelId, 'senior');
+  await d.saveProfile(4, { workStatus: 'employed', positionId: 'software-engineer' });
+  assert.equal((await d.profile(4, 4)).industryId, 'technology');
   await assert.rejects(d.saveProfile(4, { workStatus: 'employed', positionId: 'software-engineer', jobFamilyId: 'marketing' }));
   await assert.rejects(d.saveProfile(4, { workStatus: 'employed', cityId: 'invalid' }));
   await assert.rejects(d.saveProfile(4, { workStatus: 'employed', positionId: 'other', position: '' }));
