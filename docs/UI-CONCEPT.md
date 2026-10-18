@@ -11,3 +11,11 @@ Deployment: fresh source `/home/ucloud/vvjob-concept-source` and build `/home/uc
 The same deployment removes the manually entered document date, including backend validation and the queue display. Reviewers inspect dates directly in the private images. Existing applications remain intact.
 
 Post-deploy browser checks passed at all three widths, with no client errors. Login, registration, categories and company pages also fit at 320px. The served evidence template contains no date field, and the guest publish action opens native login. Authenticated material uploads and review decisions were not repeated against real production documents for this presentation update.
+
+## Compact community feed follow-up
+
+Removed the large homepage masthead and replaced it with a short contextual title and description. Sidebar links now use `/vvjob?cid=<id>` and keep the same feed layout and selected community highlight. Recent/popular sorting retains the selected community; native recent-controller filtering, permission checks and pagination remain authoritative. Unavailable community IDs pass to the native not-found handler. The composer receives the selected community ID through its existing native `newTopic` API.
+
+53 tests and all Sass/template builds passed. Native NodeBB full asset build passed in 20.76 seconds. Live browser checks at 1440/390/320px exercised all four community links, matched titles and active navigation, confirmed that displayed posts belong to the selected community, preserved category filtering when sorting, and found no horizontal overflow or client errors. Large masthead is absent. No production posts or materials were created during QA.
+
+Fresh deployed mounts: `/home/ucloud/vvjob-community-source/extensions/nodebb-plugin-vvjob` and `/home/ucloud/vvjob-community-build`. Previous source/build remain for rollback. Private Compose and verified PostgreSQL dump: `/home/ucloud/vvjob-backups/20261018-community`. Only the VVJOB web service was recreated; no core changes or database restore occurred.
