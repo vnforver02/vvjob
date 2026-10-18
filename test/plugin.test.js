@@ -5,6 +5,7 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
 function load(host) {
+  host = { database: { getObject: async () => null }, ...host };
   const exports = {};
   const localRequire = name => require(path.resolve('extensions/nodebb-plugin-vvjob', name));
   localRequire.main = { require: name => name === 'nconf' ? { get: () => '' } : host[name.replace('./src/', '')] };
@@ -67,4 +68,14 @@ test('community guide shows readable local communities without the synthetic unc
   await plugin.guide({ uid: 9 }, { render: (name, data) => { rendered = { name, data }; } });
   assert.equal(rendered.name, 'vvjob-guide');
   assert.deepEqual(Array.from(rendered.data.communities, category => category.cid), [5]);
+});
+
+test('registration keeps native return destination and makes career reminder optional', async () => {
+  let pending;
+  const plugin = load({ database: { setObjectField: async (...args) => { pending = args; } } });
+  const data = await plugin.registered({ uid: 9, next: '/topic/17' });
+  assert.equal(data.next, '/topic/17');
+  assert.deepEqual(pending, ['vvjob:career:9', 'onboardingPending', 1]);
+  const unavailable = load({ database: { setObjectField: async () => { throw Error('unavailable'); } } });
+  assert.equal((await unavailable.registered({ uid: 9, next: '/' })).next, '/');
 });

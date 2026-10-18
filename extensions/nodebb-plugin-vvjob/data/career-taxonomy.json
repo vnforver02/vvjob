@@ -1,0 +1,913 @@
+{
+  "version": 1,
+  "industries": [
+    {
+      "id": "technology",
+      "label": "Công nghệ thông tin",
+      "aliases": "Công nghệ;IT;Software"
+    },
+    {
+      "id": "telecom",
+      "label": "Viễn thông",
+      "aliases": "Telecom"
+    },
+    {
+      "id": "banking",
+      "label": "Ngân hàng",
+      "aliases": "Banking"
+    },
+    {
+      "id": "fintech",
+      "label": "Công nghệ tài chính",
+      "aliases": "Fintech"
+    },
+    {
+      "id": "finance",
+      "label": "Tài chính / Đầu tư",
+      "aliases": "Finance;Investment"
+    },
+    {
+      "id": "insurance",
+      "label": "Bảo hiểm",
+      "aliases": "Insurance"
+    },
+    {
+      "id": "manufacturing",
+      "label": "Sản xuất",
+      "aliases": "Manufacturing"
+    },
+    {
+      "id": "consumer-goods",
+      "label": "Hàng tiêu dùng",
+      "aliases": "FMCG"
+    },
+    {
+      "id": "retail",
+      "label": "Bán lẻ / Bán buôn",
+      "aliases": "Retail"
+    },
+    {
+      "id": "ecommerce",
+      "label": "Thương mại điện tử",
+      "aliases": "E-commerce"
+    },
+    {
+      "id": "logistics",
+      "label": "Vận tải / Logistics",
+      "aliases": "Supply chain"
+    },
+    {
+      "id": "construction",
+      "label": "Xây dựng",
+      "aliases": "Construction"
+    },
+    {
+      "id": "real-estate",
+      "label": "Bất động sản",
+      "aliases": "Real estate"
+    },
+    {
+      "id": "education",
+      "label": "Giáo dục / Đào tạo",
+      "aliases": "Education"
+    },
+    {
+      "id": "healthcare",
+      "label": "Y tế / Dược phẩm",
+      "aliases": "Healthcare;Pharma"
+    },
+    {
+      "id": "hospitality",
+      "label": "Du lịch / Khách sạn / Nhà hàng",
+      "aliases": "Hospitality;Tourism"
+    },
+    {
+      "id": "media",
+      "label": "Truyền thông / Quảng cáo",
+      "aliases": "Media;Advertising"
+    },
+    {
+      "id": "consulting",
+      "label": "Tư vấn / Dịch vụ chuyên môn",
+      "aliases": "Consulting"
+    },
+    {
+      "id": "energy",
+      "label": "Năng lượng / Môi trường",
+      "aliases": "Energy"
+    },
+    {
+      "id": "agriculture",
+      "label": "Nông nghiệp / Thực phẩm",
+      "aliases": "Agriculture;Food"
+    },
+    {
+      "id": "automotive",
+      "label": "Ô tô / Xe máy",
+      "aliases": "Automotive"
+    },
+    {
+      "id": "electronics",
+      "label": "Điện / Điện tử",
+      "aliases": "Electronics"
+    },
+    {
+      "id": "public",
+      "label": "Cơ quan nhà nước / Tổ chức xã hội",
+      "aliases": "Government;NGO"
+    }
+  ],
+  "families": [
+    {
+      "id": "engineering",
+      "label": "Công nghệ / Dữ liệu",
+      "aliases": ""
+    },
+    {
+      "id": "product",
+      "label": "Sản phẩm / Dự án",
+      "aliases": ""
+    },
+    {
+      "id": "design",
+      "label": "Thiết kế / Sáng tạo",
+      "aliases": ""
+    },
+    {
+      "id": "marketing",
+      "label": "Marketing / Truyền thông",
+      "aliases": ""
+    },
+    {
+      "id": "sales",
+      "label": "Kinh doanh / Chăm sóc khách hàng",
+      "aliases": ""
+    },
+    {
+      "id": "hr",
+      "label": "Nhân sự / Hành chính",
+      "aliases": ""
+    },
+    {
+      "id": "accounting",
+      "label": "Kế toán / Tài chính",
+      "aliases": ""
+    },
+    {
+      "id": "operations",
+      "label": "Vận hành / Logistics",
+      "aliases": ""
+    },
+    {
+      "id": "production",
+      "label": "Kỹ thuật / Sản xuất",
+      "aliases": ""
+    },
+    {
+      "id": "construction",
+      "label": "Xây dựng / Bất động sản",
+      "aliases": ""
+    },
+    {
+      "id": "legal",
+      "label": "Pháp lý / Tuân thủ",
+      "aliases": ""
+    },
+    {
+      "id": "education",
+      "label": "Giáo dục / Nghiên cứu",
+      "aliases": ""
+    },
+    {
+      "id": "healthcare",
+      "label": "Y tế / Chăm sóc sức khỏe",
+      "aliases": ""
+    },
+    {
+      "id": "hospitality",
+      "label": "Dịch vụ / Du lịch",
+      "aliases": ""
+    },
+    {
+      "id": "leadership",
+      "label": "Quản lý / Điều hành",
+      "aliases": ""
+    }
+  ],
+  "positions": [
+    {
+      "id": "software-engineer",
+      "label": "Kỹ sư phần mềm",
+      "aliases": "Software Engineer;Developer;Lập trình viên",
+      "family": "engineering"
+    },
+    {
+      "id": "frontend",
+      "label": "Lập trình viên Frontend",
+      "aliases": "Frontend Developer",
+      "family": "engineering"
+    },
+    {
+      "id": "backend",
+      "label": "Lập trình viên Backend",
+      "aliases": "Backend Developer",
+      "family": "engineering"
+    },
+    {
+      "id": "fullstack",
+      "label": "Lập trình viên Full Stack",
+      "aliases": "Fullstack Developer",
+      "family": "engineering"
+    },
+    {
+      "id": "mobile",
+      "label": "Lập trình viên ứng dụng di động",
+      "aliases": "Mobile Developer",
+      "family": "engineering"
+    },
+    {
+      "id": "qa",
+      "label": "Kiểm thử phần mềm",
+      "aliases": "QA;QC;Tester",
+      "family": "engineering"
+    },
+    {
+      "id": "devops",
+      "label": "Kỹ sư DevOps",
+      "aliases": "DevOps Engineer;SRE",
+      "family": "engineering"
+    },
+    {
+      "id": "data-analyst",
+      "label": "Chuyên viên phân tích dữ liệu",
+      "aliases": "Data Analyst",
+      "family": "engineering"
+    },
+    {
+      "id": "data-engineer",
+      "label": "Kỹ sư dữ liệu",
+      "aliases": "Data Engineer",
+      "family": "engineering"
+    },
+    {
+      "id": "ai",
+      "label": "Kỹ sư AI / Machine Learning",
+      "aliases": "AI Engineer",
+      "family": "engineering"
+    },
+    {
+      "id": "security",
+      "label": "Chuyên viên an toàn thông tin",
+      "aliases": "Cybersecurity",
+      "family": "engineering"
+    },
+    {
+      "id": "it-support",
+      "label": "Chuyên viên hỗ trợ CNTT",
+      "aliases": "IT Support;Helpdesk",
+      "family": "engineering"
+    },
+    {
+      "id": "product-manager",
+      "label": "Quản lý sản phẩm",
+      "aliases": "Product Manager;PM",
+      "family": "product"
+    },
+    {
+      "id": "product-owner",
+      "label": "Chủ sở hữu sản phẩm",
+      "aliases": "Product Owner;PO",
+      "family": "product"
+    },
+    {
+      "id": "business-analyst",
+      "label": "Chuyên viên phân tích nghiệp vụ",
+      "aliases": "Business Analyst;BA",
+      "family": "product"
+    },
+    {
+      "id": "project-manager",
+      "label": "Quản lý dự án",
+      "aliases": "Project Manager",
+      "family": "product"
+    },
+    {
+      "id": "scrum-master",
+      "label": "Scrum Master",
+      "aliases": "Agile",
+      "family": "product"
+    },
+    {
+      "id": "ux-ui",
+      "label": "Thiết kế UX/UI",
+      "aliases": "UX Designer;UI Designer",
+      "family": "design"
+    },
+    {
+      "id": "graphic",
+      "label": "Thiết kế đồ họa",
+      "aliases": "Graphic Designer",
+      "family": "design"
+    },
+    {
+      "id": "video",
+      "label": "Biên tập video",
+      "aliases": "Video Editor",
+      "family": "design"
+    },
+    {
+      "id": "creative",
+      "label": "Giám đốc sáng tạo",
+      "aliases": "Creative Director",
+      "family": "design"
+    },
+    {
+      "id": "marketing",
+      "label": "Chuyên viên Marketing",
+      "aliases": "Marketing Executive",
+      "family": "marketing"
+    },
+    {
+      "id": "digital-marketing",
+      "label": "Chuyên viên Digital Marketing",
+      "aliases": "Digital Marketing",
+      "family": "marketing"
+    },
+    {
+      "id": "content",
+      "label": "Chuyên viên nội dung",
+      "aliases": "Content;Copywriter",
+      "family": "marketing"
+    },
+    {
+      "id": "seo",
+      "label": "Chuyên viên SEO",
+      "aliases": "SEO",
+      "family": "marketing"
+    },
+    {
+      "id": "brand",
+      "label": "Quản lý thương hiệu",
+      "aliases": "Brand Manager",
+      "family": "marketing"
+    },
+    {
+      "id": "pr",
+      "label": "Chuyên viên truyền thông",
+      "aliases": "PR;Communications",
+      "family": "marketing"
+    },
+    {
+      "id": "sales",
+      "label": "Nhân viên kinh doanh",
+      "aliases": "Sales",
+      "family": "sales"
+    },
+    {
+      "id": "account-manager",
+      "label": "Quản lý khách hàng",
+      "aliases": "Account Manager",
+      "family": "sales"
+    },
+    {
+      "id": "business-development",
+      "label": "Phát triển kinh doanh",
+      "aliases": "Business Development;BD",
+      "family": "sales"
+    },
+    {
+      "id": "customer-support",
+      "label": "Chăm sóc khách hàng",
+      "aliases": "Customer Support;CS",
+      "family": "sales"
+    },
+    {
+      "id": "customer-success",
+      "label": "Chuyên viên thành công khách hàng",
+      "aliases": "Customer Success",
+      "family": "sales"
+    },
+    {
+      "id": "recruiter",
+      "label": "Chuyên viên tuyển dụng",
+      "aliases": "Recruiter;Talent Acquisition",
+      "family": "hr"
+    },
+    {
+      "id": "hr-generalist",
+      "label": "Chuyên viên nhân sự tổng hợp",
+      "aliases": "HR Generalist",
+      "family": "hr"
+    },
+    {
+      "id": "hrbp",
+      "label": "Đối tác nhân sự",
+      "aliases": "HRBP",
+      "family": "hr"
+    },
+    {
+      "id": "payroll",
+      "label": "Chuyên viên lương và phúc lợi",
+      "aliases": "C&B;Payroll",
+      "family": "hr"
+    },
+    {
+      "id": "training",
+      "label": "Chuyên viên đào tạo",
+      "aliases": "Learning & Development",
+      "family": "hr"
+    },
+    {
+      "id": "admin",
+      "label": "Nhân viên hành chính",
+      "aliases": "Administrator",
+      "family": "hr"
+    },
+    {
+      "id": "accountant",
+      "label": "Kế toán viên",
+      "aliases": "Accountant",
+      "family": "accounting"
+    },
+    {
+      "id": "chief-accountant",
+      "label": "Kế toán trưởng",
+      "aliases": "Chief Accountant",
+      "family": "accounting"
+    },
+    {
+      "id": "auditor",
+      "label": "Kiểm toán viên",
+      "aliases": "Auditor",
+      "family": "accounting"
+    },
+    {
+      "id": "financial-analyst",
+      "label": "Chuyên viên phân tích tài chính",
+      "aliases": "Financial Analyst",
+      "family": "accounting"
+    },
+    {
+      "id": "banker",
+      "label": "Chuyên viên ngân hàng",
+      "aliases": "Banking Officer",
+      "family": "accounting"
+    },
+    {
+      "id": "investment",
+      "label": "Chuyên viên đầu tư",
+      "aliases": "Investment Analyst",
+      "family": "accounting"
+    },
+    {
+      "id": "operations",
+      "label": "Chuyên viên vận hành",
+      "aliases": "Operations",
+      "family": "operations"
+    },
+    {
+      "id": "procurement",
+      "label": "Chuyên viên thu mua",
+      "aliases": "Procurement;Purchasing",
+      "family": "operations"
+    },
+    {
+      "id": "supply-chain",
+      "label": "Chuyên viên chuỗi cung ứng",
+      "aliases": "Supply Chain",
+      "family": "operations"
+    },
+    {
+      "id": "logistics",
+      "label": "Chuyên viên logistics",
+      "aliases": "Logistics",
+      "family": "operations"
+    },
+    {
+      "id": "warehouse",
+      "label": "Nhân viên kho",
+      "aliases": "Warehouse",
+      "family": "operations"
+    },
+    {
+      "id": "driver",
+      "label": "Tài xế",
+      "aliases": "Driver",
+      "family": "operations"
+    },
+    {
+      "id": "mechanical",
+      "label": "Kỹ sư cơ khí",
+      "aliases": "Mechanical Engineer",
+      "family": "production"
+    },
+    {
+      "id": "electrical",
+      "label": "Kỹ sư điện / Điện tử",
+      "aliases": "Electrical Engineer",
+      "family": "production"
+    },
+    {
+      "id": "production",
+      "label": "Kỹ sư sản xuất",
+      "aliases": "Production Engineer",
+      "family": "production"
+    },
+    {
+      "id": "quality",
+      "label": "Chuyên viên quản lý chất lượng",
+      "aliases": "Quality Control",
+      "family": "production"
+    },
+    {
+      "id": "maintenance",
+      "label": "Kỹ thuật viên bảo trì",
+      "aliases": "Maintenance",
+      "family": "production"
+    },
+    {
+      "id": "worker",
+      "label": "Công nhân sản xuất",
+      "aliases": "Production Worker",
+      "family": "production"
+    },
+    {
+      "id": "civil",
+      "label": "Kỹ sư xây dựng",
+      "aliases": "Civil Engineer",
+      "family": "construction"
+    },
+    {
+      "id": "architect",
+      "label": "Kiến trúc sư",
+      "aliases": "Architect",
+      "family": "construction"
+    },
+    {
+      "id": "site-manager",
+      "label": "Chỉ huy trưởng công trình",
+      "aliases": "Site Manager",
+      "family": "construction"
+    },
+    {
+      "id": "real-estate-sales",
+      "label": "Chuyên viên kinh doanh bất động sản",
+      "aliases": "Real Estate Agent",
+      "family": "construction"
+    },
+    {
+      "id": "legal",
+      "label": "Chuyên viên pháp chế",
+      "aliases": "Legal Officer",
+      "family": "legal"
+    },
+    {
+      "id": "lawyer",
+      "label": "Luật sư",
+      "aliases": "Lawyer",
+      "family": "legal"
+    },
+    {
+      "id": "compliance",
+      "label": "Chuyên viên tuân thủ",
+      "aliases": "Compliance",
+      "family": "legal"
+    },
+    {
+      "id": "risk",
+      "label": "Chuyên viên quản trị rủi ro",
+      "aliases": "Risk Management",
+      "family": "legal"
+    },
+    {
+      "id": "teacher",
+      "label": "Giáo viên",
+      "aliases": "Teacher",
+      "family": "education"
+    },
+    {
+      "id": "lecturer",
+      "label": "Giảng viên",
+      "aliases": "Lecturer",
+      "family": "education"
+    },
+    {
+      "id": "researcher",
+      "label": "Chuyên viên nghiên cứu",
+      "aliases": "Researcher",
+      "family": "education"
+    },
+    {
+      "id": "education-consultant",
+      "label": "Tư vấn giáo dục",
+      "aliases": "Education Consultant",
+      "family": "education"
+    },
+    {
+      "id": "doctor",
+      "label": "Bác sĩ",
+      "aliases": "Doctor",
+      "family": "healthcare"
+    },
+    {
+      "id": "nurse",
+      "label": "Điều dưỡng",
+      "aliases": "Nurse",
+      "family": "healthcare"
+    },
+    {
+      "id": "pharmacist",
+      "label": "Dược sĩ",
+      "aliases": "Pharmacist",
+      "family": "healthcare"
+    },
+    {
+      "id": "medical-technician",
+      "label": "Kỹ thuật viên y tế",
+      "aliases": "Medical Technician",
+      "family": "healthcare"
+    },
+    {
+      "id": "receptionist",
+      "label": "Lễ tân",
+      "aliases": "Receptionist",
+      "family": "hospitality"
+    },
+    {
+      "id": "chef",
+      "label": "Đầu bếp",
+      "aliases": "Chef",
+      "family": "hospitality"
+    },
+    {
+      "id": "service",
+      "label": "Nhân viên phục vụ",
+      "aliases": "Service Staff",
+      "family": "hospitality"
+    },
+    {
+      "id": "tour-guide",
+      "label": "Hướng dẫn viên du lịch",
+      "aliases": "Tour Guide",
+      "family": "hospitality"
+    },
+    {
+      "id": "store-manager",
+      "label": "Quản lý cửa hàng",
+      "aliases": "Store Manager",
+      "family": "hospitality"
+    },
+    {
+      "id": "ceo",
+      "label": "Tổng giám đốc",
+      "aliases": "CEO",
+      "family": "leadership"
+    },
+    {
+      "id": "coo",
+      "label": "Giám đốc vận hành",
+      "aliases": "COO",
+      "family": "leadership"
+    },
+    {
+      "id": "cto",
+      "label": "Giám đốc công nghệ",
+      "aliases": "CTO",
+      "family": "leadership"
+    },
+    {
+      "id": "cfo",
+      "label": "Giám đốc tài chính",
+      "aliases": "CFO",
+      "family": "leadership"
+    },
+    {
+      "id": "founder",
+      "label": "Nhà sáng lập",
+      "aliases": "Founder;Co-founder",
+      "family": "leadership"
+    }
+  ],
+  "levels": [
+    {
+      "id": "intern",
+      "label": "Thực tập sinh",
+      "aliases": "Intern"
+    },
+    {
+      "id": "entry",
+      "label": "Mới đi làm",
+      "aliases": "Fresher;Entry level"
+    },
+    {
+      "id": "junior",
+      "label": "Nhân viên / Junior",
+      "aliases": "Junior"
+    },
+    {
+      "id": "middle",
+      "label": "Chuyên viên / Middle",
+      "aliases": "Middle"
+    },
+    {
+      "id": "senior",
+      "label": "Chuyên viên cao cấp / Senior",
+      "aliases": "Senior"
+    },
+    {
+      "id": "lead",
+      "label": "Trưởng nhóm",
+      "aliases": "Team Lead"
+    },
+    {
+      "id": "manager",
+      "label": "Trưởng phòng / Quản lý",
+      "aliases": "Manager"
+    },
+    {
+      "id": "director",
+      "label": "Giám đốc",
+      "aliases": "Director"
+    },
+    {
+      "id": "executive",
+      "label": "Lãnh đạo cấp cao",
+      "aliases": "Executive;C-level"
+    }
+  ],
+  "cities": [
+    {
+      "id": "ha-noi",
+      "label": "Hà Nội",
+      "aliases": "Hanoi;Ha Noi"
+    },
+    {
+      "id": "hai-phong",
+      "label": "Hải Phòng",
+      "aliases": ""
+    },
+    {
+      "id": "hue",
+      "label": "Huế",
+      "aliases": "Thành phố Huế"
+    },
+    {
+      "id": "da-nang",
+      "label": "Đà Nẵng",
+      "aliases": "Danang"
+    },
+    {
+      "id": "can-tho",
+      "label": "Cần Thơ",
+      "aliases": ""
+    },
+    {
+      "id": "thanh-pho-ho-chi-minh",
+      "label": "Thành phố Hồ Chí Minh",
+      "aliases": "TP.HCM;TP HCM;Hồ Chí Minh;Ho Chi Minh;HCMC;Saigon;Sài Gòn"
+    },
+    {
+      "id": "cao-bang",
+      "label": "Cao Bằng",
+      "aliases": ""
+    },
+    {
+      "id": "dien-bien",
+      "label": "Điện Biên",
+      "aliases": ""
+    },
+    {
+      "id": "ha-tinh",
+      "label": "Hà Tĩnh",
+      "aliases": ""
+    },
+    {
+      "id": "lai-chau",
+      "label": "Lai Châu",
+      "aliases": ""
+    },
+    {
+      "id": "lang-son",
+      "label": "Lạng Sơn",
+      "aliases": ""
+    },
+    {
+      "id": "nghe-an",
+      "label": "Nghệ An",
+      "aliases": ""
+    },
+    {
+      "id": "quang-ninh",
+      "label": "Quảng Ninh",
+      "aliases": ""
+    },
+    {
+      "id": "thanh-hoa",
+      "label": "Thanh Hóa",
+      "aliases": ""
+    },
+    {
+      "id": "son-la",
+      "label": "Sơn La",
+      "aliases": ""
+    },
+    {
+      "id": "tuyen-quang",
+      "label": "Tuyên Quang",
+      "aliases": ""
+    },
+    {
+      "id": "lao-cai",
+      "label": "Lào Cai",
+      "aliases": ""
+    },
+    {
+      "id": "thai-nguyen",
+      "label": "Thái Nguyên",
+      "aliases": ""
+    },
+    {
+      "id": "phu-tho",
+      "label": "Phú Thọ",
+      "aliases": ""
+    },
+    {
+      "id": "bac-ninh",
+      "label": "Bắc Ninh",
+      "aliases": ""
+    },
+    {
+      "id": "hung-yen",
+      "label": "Hưng Yên",
+      "aliases": ""
+    },
+    {
+      "id": "ninh-binh",
+      "label": "Ninh Bình",
+      "aliases": ""
+    },
+    {
+      "id": "quang-tri",
+      "label": "Quảng Trị",
+      "aliases": ""
+    },
+    {
+      "id": "quang-ngai",
+      "label": "Quảng Ngãi",
+      "aliases": ""
+    },
+    {
+      "id": "gia-lai",
+      "label": "Gia Lai",
+      "aliases": ""
+    },
+    {
+      "id": "khanh-hoa",
+      "label": "Khánh Hòa",
+      "aliases": ""
+    },
+    {
+      "id": "lam-dong",
+      "label": "Lâm Đồng",
+      "aliases": ""
+    },
+    {
+      "id": "dak-lak",
+      "label": "Đắk Lắk",
+      "aliases": ""
+    },
+    {
+      "id": "dong-nai",
+      "label": "Đồng Nai",
+      "aliases": ""
+    },
+    {
+      "id": "tay-ninh",
+      "label": "Tây Ninh",
+      "aliases": ""
+    },
+    {
+      "id": "vinh-long",
+      "label": "Vĩnh Long",
+      "aliases": ""
+    },
+    {
+      "id": "dong-thap",
+      "label": "Đồng Tháp",
+      "aliases": ""
+    },
+    {
+      "id": "ca-mau",
+      "label": "Cà Mau",
+      "aliases": ""
+    },
+    {
+      "id": "an-giang",
+      "label": "An Giang",
+      "aliases": ""
+    }
+  ],
+  "sources": [
+    "https://baochinhphu.vn/bang-danh-muc-va-ma-so-cua-34-tinh-thanh-moi-3321-don-vi-hanh-chinh-cap-xa-moi-102250704153652947.htm"
+  ]
+}

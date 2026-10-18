@@ -34,3 +34,5 @@ Compatibility baseline inspected from source: NodeBB **4.6.1** (`351c9abc6f3016a
 - [Composer close controls and compact homepage](docs/COMPACT_UI.md)
 
 - [Company directory, optional career profiles and source/import workflow](docs/COMPANY_DIRECTORY.md)
+
+- [Structured company/career filters and optional registration reminders](docs/CAREER_FILTERS.md)

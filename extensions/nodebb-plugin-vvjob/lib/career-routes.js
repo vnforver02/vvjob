@@ -1,7 +1,8 @@
 'use strict';
+const taxonomy = require('./taxonomy');
 module.exports = function (host, directory, seed) {
   const safe = value => String(value || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const publicRow = row => Object.fromEntries(['id', 'name', 'aliases', 'website', 'domain', 'industry', 'city', 'source', 'checkedAt', 'logoUrl', 'logoSource', 'logoStatus', 'claimStatus'].map(k => [k, row[k] || '']));
+  const publicRow = row => Object.fromEntries(['id', 'name', 'aliases', 'website', 'domain', 'industry', 'industryId', 'city', 'cityId', 'source', 'checkedAt', 'logoUrl', 'logoSource', 'logoStatus', 'claimStatus'].map(k => [k, row[k] || '']));
   const templateRow = row => Object.fromEntries(Object.entries(row).map(([k, v]) => [k, typeof v === 'string' ? safe(v) : v]));
   async function admin(req, res, next) {
     if (!await host('user').isAdministrator(req.uid)) { return res.status(403).json({ error: 'Bạn không có quyền quản trị.' }); }
@@ -13,7 +14,7 @@ module.exports = function (host, directory, seed) {
   return {
     admin,
     search: json(async req => {
-      const result = await directory.list('approved', req.query.q, req.query.page);
+      const result = await directory.list('approved', req.query.q, req.query.page, req.query);
       return { ...result, companies: result.companies.map(publicRow) };
     }),
     selected: json(async req => {
@@ -29,13 +30,26 @@ module.exports = function (host, directory, seed) {
     companies: async (req, res) => {
       const page = Math.max(0, Math.floor(Number(req.query.page) || 0));
       const query = String(req.query.q || '').slice(0, 100);
-      const result = await directory.list('approved', query, page);
-      res.render('vvjob-companies', { title: 'Khám phá công ty — VVJOB', ...result,
+      const filters = { industry: String(req.query.industry || '').slice(0, 64), city: String(req.query.city || '').slice(0, 64), sort: req.query.sort === 'name' ? 'name' : 'recent' };
+      const result = await directory.list('approved', query, page, filters);
+      const params = new URLSearchParams({ q: query, ...filters });
+      const filterOptions = {
+        industryFilters: taxonomy.catalog.industries.map(row => ({ ...row, selected: row.id === filters.industry })),
+        cityFilters: taxonomy.catalog.cities.map(row => ({ ...row, selected: row.id === filters.city })),
+        otherIndustrySelected: filters.industry === 'other', otherCitySelected: filters.city === 'other', unknownSelected: filters.city === 'unknown', sortByName: filters.sort === 'name',
+      };
+      res.render('vvjob-companies', { title: 'Khám phá công ty — VVJOB', ...result, ...filterOptions, filterQuery: safe(params.toString()), hasFilters: !!(query || filters.industry || filters.city),
         companies: result.companies.map(publicRow).map(templateRow), query: safe(query), nextPage: page + 1, prevPage: page - 1, hasPrev: page > 0, queryEncoded: encodeURIComponent(query) });
     },
     career: async (req, res) => {
       const profile = await directory.profile(req.uid, req.uid) || {};
-      res.render('vvjob-career', { title: 'Hồ sơ nghề nghiệp — VVJOB', career: templateRow(profile), companyAdmin: await host('user').isAdministrator(req.uid) });
+      const careerOptions = {};
+      for (const [kind, field] of [['positions', 'position'], ['industries', 'industry'], ['cities', 'city'], ['levels', 'level']]) {
+        careerOptions[kind] = taxonomy.options(kind, profile[`${field}Id`], profile[field] || '', kind === 'positions' ? profile.jobFamilyId : '');
+        careerOptions[`${field}Other`] = careerOptions[kind].some(row => row.id === 'other' && row.selected);
+      }
+      careerOptions.families = taxonomy.catalog.families.map(row => ({ ...row, selected: row.id === profile.jobFamilyId }));
+      res.render('vvjob-career', { title: 'Hồ sơ nghề nghiệp — VVJOB', ...careerOptions, companyIndustries: taxonomy.catalog.industries, companyCities: taxonomy.catalog.cities, career: templateRow(profile), companyAdmin: await host('user').isAdministrator(req.uid) });
     },
     moderation: async (req, res) => {
       const state = ['approved', 'pending', 'rejected', 'merged'].includes(req.query.state) ? req.query.state : 'pending';

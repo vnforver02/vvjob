@@ -47,6 +47,8 @@ exports.render = async (req, res, next) => {
   data.trending = (await host('topics').getSortedTopics({ uid: req.uid, start: 0, stop: 4, sort: 'posts', term: 'week' })).topics;
   data.isPopular = sort === 'posts';
   data.viewerLoggedIn = Number(req.uid) > 0;
+  const career = data.viewerLoggedIn ? await host('database').getObject(`vvjob:career:${req.uid}`) : null;
+  data.showCareerReminder = !!(career && Number(career.onboardingPending) === 1 && Number(career.completed) !== 1);
   data.title = 'VVJOB — Real Work. Real Talk.';
   data.breadcrumbs = [];
   res.render('vvjob', data);
@@ -71,7 +73,8 @@ exports.careerMenu = async data => {
 };
 exports.registered = async data => {
   if (Number(data.uid) > 0) {
-    data.next = `${require.main.require('nconf').get('relative_path') || ''}/vvjob/career`;
+    // Optional onboarding must never redirect or prevent successful registration.
+    try { await host('database').setObjectField(`vvjob:career:${data.uid}`, 'onboardingPending', 1); } catch { /* Nonessential reminder; leave registration intact. */ }
   }
   return data;
 };

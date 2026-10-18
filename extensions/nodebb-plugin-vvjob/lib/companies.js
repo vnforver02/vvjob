@@ -1,6 +1,7 @@
 'use strict';
 const { randomUUID } = require('node:crypto');
 const { isIP } = require('node:net');
+const taxonomy = require('./taxonomy');
 const fold = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase().trim();
 function text(value, max, required = false) {
   if (typeof value !== 'string' || value.length > max || /[<>\x00-\x1f]/.test(value)) { throw Error('Thông tin không hợp lệ.'); }
@@ -21,10 +22,12 @@ function url(value, required = false) {
 function validate(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) { throw Error('Thông tin không hợp lệ.'); }
   const website = url(input.website, true);
+  const industry = taxonomy.field('industries', input.industryId, text(input.industry || '', 100));
+  const city = taxonomy.field('cities', input.cityId, text(input.city || '', 100));
   return {
     name: text(input.name, 140, true), aliases: text(input.aliases || '', 300),
     website, domain: new URL(website).hostname.replace(/^www\./, ''),
-    industry: text(input.industry || '', 100), city: text(input.city || '', 100),
+    industry: industry.label, industryId: industry.id, city: city.label, cityId: city.id,
     source: url(input.source || website, true), checkedAt: text(input.checkedAt || '', 30),
     // A website is a reference, never an automatically approved employment domain.
     logoUrl: '', logoSource: '', logoStatus: 'missing', claimStatus: 'unclaimed',
@@ -34,14 +37,25 @@ module.exports = function createDirectory(db) {
   const key = id => `vvjob:company:${id}`;
   const validId = id => typeof id === 'string' && /^[a-zA-Z0-9-]{1,64}$/.test(id);
   async function get(id) { return validId(id) ? db.getObject(key(id)) : null; }
-  async function list(state = 'approved', q = '', page = 0) {
+  async function list(state = 'approved', q = '', page = 0, filters = {}) {
     // Bounded per-request database work; search is capped at the first 5000 records.
     const ids = await db.getSortedSetRevRange(`vvjob:companies:${state}`, 0, 4999);
-    const rows = (await db.getObjects(ids.map(key))).filter(Boolean);
+    const rows = (await db.getObjects(ids.map(key))).filter(Boolean).filter(row => row.status === state).map(row => ({ ...row,
+      industryId: row.industryId || taxonomy.field('industries', undefined, row.industry || '').id,
+      cityId: row.cityId || taxonomy.field('cities', undefined, row.city || '').id,
+    }));
     const query = fold(String(q).slice(0, 100));
-    const filtered = rows.filter(row => row.status === state && (!query || fold(`${row.name} ${row.aliases} ${row.domain}`).includes(query)));
+    const filtered = rows.filter(row => (!query || fold(`${row.name} ${row.aliases} ${row.domain}`).includes(query)) &&
+      (!filters.industry || row.industryId === filters.industry) &&
+      (!filters.city || (filters.city === 'unknown' ? !row.city : row.cityId === filters.city)));
+    if (filters.sort === 'name') { filtered.sort((a, b) => a.name.localeCompare(b.name, 'vi')); }
+    const facets = {
+      industries: [...new Set(rows.map(row => row.industryId).filter(Boolean))].map(id => ({ id, label: taxonomy.find('industries', id)?.label || 'Khác' })),
+      cities: [...new Map(rows.filter(row => row.city).map(row => [row.cityId, { id: row.cityId, label: taxonomy.find('cities', row.cityId)?.label || row.city }])).values()],
+      unknownCity: rows.some(row => !row.city),
+    };
     const offset = Math.max(0, Math.min(Math.floor(Number(page) || 0), 1000)) * 24;
-    return { companies: filtered.slice(offset, offset + 24), total: filtered.length, hasMore: filtered.length > offset + 24 };
+    return { companies: filtered.slice(offset, offset + 24), total: filtered.length, hasMore: filtered.length > offset + 24, facets };
   }
   async function submit(uid, input) {
     const data = validate(input);
@@ -90,8 +104,17 @@ module.exports = function createDirectory(db) {
     if (!['employed', 'looking', 'freelance', 'student', 'unspecified'].includes(input.workStatus)) { throw Error('Tình trạng công việc không hợp lệ.'); }
     const company = input.companyId ? await resolve(input.companyId) : null;
     if (input.companyId && !company) { throw Error('Vui lòng chọn công ty đã được duyệt.'); }
+    const position = taxonomy.field('positions', input.positionId, text(input.position || '', 100));
+    const industry = taxonomy.field('industries', input.industryId, text(input.industry || '', 100));
+    const city = taxonomy.field('cities', input.cityId, text(input.city || '', 100));
+    const level = taxonomy.field('levels', input.levelId, text(input.level || '', 100));
+    const family = input.jobFamilyId ? taxonomy.find('families', input.jobFamilyId) : null;
+    if (input.jobFamilyId && (!family || (position.family && family.id !== position.family))) {
+      throw Error('Vị trí không thuộc nhóm nghề đã chọn. Vui lòng chọn lại.');
+    }
     const data = { workStatus: input.workStatus, companyId: company ? company.id : '',
-      position: text(input.position || '', 100), industry: text(input.industry || '', 100), city: text(input.city || '', 100),
+      position: position.label, positionId: position.id, jobFamilyId: position.family || family?.id || '',
+      industry: industry.label, industryId: industry.id, city: city.label, cityId: city.id, level: level.label, levelId: level.id,
       publicCompany: input.publicCompany === true ? 1 : 0, updatedAt: Date.now(), completed: 1 };
     // Client-supplied verification flags are deliberately never stored.
     await db.setObject(`vvjob:career:${uid}`, data);

@@ -36,6 +36,7 @@
   "templates": "./templates",
   "scripts": [
     "public/vvjob.js",
+    "public/select.js",
     "public/career.js"
   ],
   "scss": [

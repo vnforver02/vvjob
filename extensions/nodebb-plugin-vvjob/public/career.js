@@ -16,10 +16,11 @@
     try { await task(); } catch (err) { feedback(form, err.message, true); } finally { buttons.prop('disabled', false); }
   }
   function choose(form, row) {
+    searchVersion++; clearTimeout(searchTimer);
     form.elements.companyId.value = row.id;
     $('#career-company-query').val(row.name);
     $('#career-selected').text(`Đã chọn: ${row.name} · Chưa xác minh nghề nghiệp`);
-    $('#career-company-results').empty();
+    $('#career-company-results').empty(); $('#career-company-query').attr('aria-expanded', 'false');
   }
   let searchTimer, searchVersion = 0;
   $(document).on('input.vvjobCareer', '#career-company-query', function () {
@@ -28,25 +29,58 @@
     clearTimeout(searchTimer);
     searchTimer = setTimeout(async () => {
       try {
-        const response = await fetch(`${base()}/api/vvjob/companies?q=${encodeURIComponent(input.value)}`);
+        const response = await fetch(`${base()}/api/vvjob/companies?q=${encodeURIComponent(input.value)}&industry=${encodeURIComponent($('#picker-industry').val() || '')}&city=${encodeURIComponent($('#picker-city').val() || '')}`);
         if (!response.ok) { throw Error('Không thể tìm công ty. Vui lòng thử lại.'); }
         const data = await response.json(); if (version !== searchVersion || !input.isConnected) { return; }
-        const results = $('#career-company-results').empty();
-        data.companies.forEach(row => $('<button>', { type: 'button', class: 'vvjob-picker-result' }).append($('<strong>').text(row.name), $('<small>').text(row.domain)).on('click', () => choose(form, row)).appendTo(results));
+        const results = $('#career-company-results').empty(); $(input).attr('aria-expanded', 'true');
+        data.companies.forEach(row => $('<button>', { type: 'button', role: 'option', 'aria-selected': 'false', class: 'vvjob-picker-result' }).append($('<strong>').text(row.name), $('<small>').text(row.domain)).on('click', () => choose(form, row)).appendTo(results));
         if (!data.companies.length) { $('<p>').text('Chưa tìm thấy. Bạn có thể đề xuất công ty bên dưới.').appendTo(results); }
       } catch (err) { if (version === searchVersion) { $('#career-company-results').text(err.message); } }
     }, 250);
   });
+  $(document).on('focus.vvjobCareer', '#career-company-query', function () {
+    // Opening suggestions must not clear an existing selection until typing starts.
+    if (!this.value) { $(this).trigger('input'); }
+  });
+  $(document).on('change.vvjobCareer', '[data-company-filter]', function () {
+    const form = document.querySelector('#vvjob-career-form'), selected = form.elements.companyId.value, label = $('#career-selected').text();
+    $('#career-company-query').trigger('input');
+    form.elements.companyId.value = selected;
+    if (selected) { $('#career-selected').text(label); }
+  });
+  $(document).on('keydown.vvjobCareer', '#career-company-query', function (event) {
+    if (event.key === 'ArrowDown') { event.preventDefault(); $('#career-company-results button').first().trigger('focus'); }
+    if (event.key === 'Escape') { $('#career-company-results').empty(); $(this).attr('aria-expanded', 'false'); }
+  });
+  $(document).on('keydown.vvjobCareer', '#career-company-results button', function (event) {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); $(this)[event.key === 'ArrowDown' ? 'next' : 'prev']('button').trigger('focus'); }
+    if (event.key === 'Escape') { $('#career-company-results').empty(); $('#career-company-query').attr('aria-expanded', 'false').trigger('focus'); }
+  });
+  $(document).on('change.vvjobCareer', '#career-family', function () {
+    const position = document.querySelector('#career-position');
+    [...position.options].forEach(option => { option.hidden = !!(this.value && option.dataset.family && option.dataset.family !== this.value); });
+    if (position.selectedOptions[0]?.hidden) { position.value = ''; position.dispatchEvent(new Event('change', { bubbles: true })); }
+    position.dispatchEvent(new Event('vvjob:refresh'));
+  });
+  $(document).on('change.vvjobCareer', '#vvjob-career-form select', function () {
+    const container = document.querySelector(`[data-other-field="${this.name}"]`);
+    if (container) { container.hidden = this.value !== 'other'; const input = container.querySelector('input'); input.required = this.value === 'other'; }
+  });
   $(document).on('click.vvjobCareer', '[data-clear-company]', function () {
     searchVersion++; clearTimeout(searchTimer);
     const form = document.querySelector('#vvjob-career-form'); form.elements.companyId.value = '';
-    $('#career-company-query').val(''); $('#career-selected').text('Chưa chọn công ty.'); $('#career-company-results').empty();
+    $('#career-company-query').val('').attr('aria-expanded', 'false'); $('#career-selected').text('Chưa chọn công ty.'); $('#career-company-results').empty();
   });
   $(document).on('submit.vvjobCareer', '#vvjob-career-form', function (event) {
     event.preventDefault(); const form = this, data = Object.fromEntries(new FormData(form));
     data.publicCompany = form.elements.publicCompany.checked;
     if ($('#career-company-query').val().trim() && !data.companyId) { return feedback(form, 'Vui lòng chọn công ty từ kết quả hoặc bỏ chọn công ty.', true); }
     busy(form, async () => { await post('career', data); feedback(form, 'Đã lưu hồ sơ. Thông tin nghề nghiệp chưa được xác minh.'); });
+  });
+  $(document).on('click.vvjobCareer', '[data-career-dismiss]', function () {
+    const banner = this.closest('.vvjob-career-reminder'), button = this;
+    button.disabled = true;
+    post('career/skip', {}).then(() => banner.remove()).catch(err => { feedback(banner, err.message, true); button.disabled = false; });
   });
   $(document).on('click.vvjobCareer', '[data-career-skip]', function () {
     const form = this.form;
@@ -78,6 +112,7 @@
     form.dataset.ready = '1';
     form.elements.workStatus.value = form.dataset.workStatus || 'unspecified';
     form.elements.publicCompany.checked = form.dataset.publicCompany === '1';
+    form.querySelectorAll('select').forEach(select => { select.dispatchEvent(new Event('change', { bubbles: true })); select.dispatchEvent(new Event('vvjob:refresh')); });
     const requested = new URLSearchParams(location.search).get('company');
     if (requested && /^[a-zA-Z0-9-]{1,64}$/.test(requested)) {
       fetch(`${base()}/api/vvjob/companies/selected?id=${encodeURIComponent(requested)}`).then(r => r.ok ? r.json() : null).then(row => { if (row && form.isConnected) { choose(form, row); } }).catch(() => {});

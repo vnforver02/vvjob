@@ -73,3 +73,33 @@ test('routes block non-admin review and do not expose proposal submitter in publ
   let data; await routes.search({ query: {} }, { json: value => { data = value; } });
   assert.equal(data.companies[0].reviewedBy, undefined); assert.equal(data.companies[0].submittedBy, undefined);
 });
+
+test('structured career fields normalize aliases and reject invalid IDs or role/family combinations', async () => {
+  const d = create(memory());
+  await d.saveProfile(4, { workStatus: 'employed', positionId: 'software-engineer', jobFamilyId: 'engineering', industryId: 'technology', cityId: 'ha-noi', levelId: 'senior' });
+  const p = await d.profile(4, 4);
+  assert.equal(p.position, 'Kỹ sư phần mềm'); assert.equal(p.city, 'Hà Nội'); assert.equal(p.levelId, 'senior');
+  await assert.rejects(d.saveProfile(4, { workStatus: 'employed', positionId: 'software-engineer', jobFamilyId: 'marketing' }));
+  await assert.rejects(d.saveProfile(4, { workStatus: 'employed', cityId: 'invalid' }));
+  await assert.rejects(d.saveProfile(4, { workStatus: 'employed', positionId: 'other', position: '' }));
+  await d.saveProfile(4, { workStatus: 'employed', position: 'Developer', city: 'HCMC' });
+  assert.equal((await d.profile(4, 4)).positionId, 'software-engineer');
+  assert.equal((await d.profile(4, 4)).cityId, 'thanh-pho-ho-chi-minh');
+  await d.saveProfile(4, { workStatus: 'employed', position: 'Legacy title', city: 'Legacy location' });
+  assert.equal((await d.profile(4, 4)).position, 'Legacy title');
+});
+test('company filters combine search, normalized industry and city, before pagination', async () => {
+  const d = create(memory());
+  await d.importRows(1, [{ ...company, id: 'a', name: 'Zulu', industry: 'Công nghệ', city: 'Hà Nội' }, { ...company, id: 'b', name: 'Alpha', industryId: 'technology' }, { ...company, id: 'c', name: 'Bank', industryId: 'banking', cityId: 'ha-noi' }], false);
+  assert.equal((await d.list('approved', '', 0, { industry: 'technology' })).total, 2);
+  assert.equal((await d.list('approved', '', 0, { industry: 'technology', city: 'ha-noi' })).total, 1);
+  assert.equal((await d.list('approved', '', 0, { city: 'unknown' })).total, 1);
+  assert.equal((await d.list('approved', 'bank', 0, { industry: 'technology' })).total, 0);
+  assert.equal((await d.list('approved', '', 0, { sort: 'name' })).companies[0].name, 'Alpha');
+});
+test('career taxonomy has 34 unique current provinces, valid role families and no empty-string matching', () => {
+  const t = require('../extensions/nodebb-plugin-vvjob/lib/taxonomy');
+  assert.equal(t.catalog.cities.length, 34); assert.equal(new Set(t.catalog.cities.map(row => row.id)).size, 34);
+  for (const role of t.catalog.positions) { assert.ok(t.catalog.families.some(family => family.id === role.family)); }
+  for (const kind of ['positions','levels','cities','industries']) { assert.equal(t.find(kind, ''), undefined); assert.equal(new Set(t.catalog[kind].map(row => row.id)).size, t.catalog[kind].length); }
+});
