@@ -54,3 +54,14 @@ test('homepage forwards failures to native error handler', async () => {
   await plugin.home({ req: { query: {} }, res: {}, next: value => { error = value; } });
   assert.equal(error.message, 'database unavailable');
 });
+
+test('community guide shows readable local communities without the synthetic uncategorized bucket', async () => {
+  let rendered;
+  const plugin = load({ categories: { getCategoriesByPrivilege: async (set, uid, privilege) => {
+    assert.equal(uid, 9); assert.equal(privilege, 'read');
+    return [{ cid: -1, name: 'Uncategorized' }, { cid: 5 }, { cid: 6, disabled: true }, { cid: 7, link: 'https://example.invalid' }];
+  } } });
+  await plugin.guide({ uid: 9 }, { render: (name, data) => { rendered = { name, data }; } });
+  assert.equal(rendered.name, 'vvjob-guide');
+  assert.deepEqual(Array.from(rendered.data.communities, category => category.cid), [5]);
+});
