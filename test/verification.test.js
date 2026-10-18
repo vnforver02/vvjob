@@ -119,3 +119,13 @@ test('rendered verification form accepts exactly six digits through Benchpress',
   const regex = new RegExp(`^(?:${pattern})$`);
   assert.equal(regex.test('123456'), true); assert.equal(regex.test('12345'), false); assert.equal(regex.test('1234567'), false); assert.equal(regex.test('12345a'), false);
 });
+
+test('work email accepts a legacy saved company and repairs its missing private binding', async () => {
+  const f = fixture(); await f.init(); await f.db.delete('vvjob:career:1');
+  await f.db.setObject('vvjob:career:1', { companyId: 'a', publicCompany: 0, position: 'Legacy role' });
+  const pending = await request(f); assert.equal(pending.status, 'pending');
+  const career = await f.db.getObject('vvjob:career:1'); assert.match(career.companyBinding, /^[a-f0-9-]{36}$/);
+  assert.equal(career.publicCompany, 0); assert.equal(career.position, 'Legacy role');
+  assert.equal(await f.service.valid(1), false);
+  assert.equal((await f.service.confirm(1, { challengeId: pending.challengeId, code: '123456' })).status, 'verified');
+});

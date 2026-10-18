@@ -11,7 +11,7 @@ module.exports = function ({ db, directory, secret, withLock, processImage, now 
   const stateKey = uid => `vvjob:evidence:user:${uid}`, fileKey = id => `vvjob:evidence:file:${id}`;
   const uidOf = value => { const uid = Number(value); if (!Number.isSafeInteger(uid) || uid <= 0) fail('Vui lòng đăng nhập lại.'); return uid; };
   const seal = (buffer, id) => { const iv = crypto.randomBytes(12), cipher = crypto.createCipheriv('aes-256-gcm', key, iv); cipher.setAAD(Buffer.from(id)); return { iv: iv.toString('base64'), tag: '', data: Buffer.concat([cipher.update(buffer),cipher.final()]).toString('base64'), getTag: () => cipher.getAuthTag().toString('base64') }; };
-  async function context(uid) { const career = await db.getObject(`vvjob:career:${uid}`) || {}; return { career, company: await directory.resolve(career.companyId) }; }
+  async function context(uid, ensureBinding = false) { return require('./career-context')(db, directory, uid, ensureBinding); }
   async function clearFiles(row) { for (const id of String(row?.files || '').split(',').filter(Boolean)) await db.delete(fileKey(id)); }
   async function audit(uid, actor, action) { const id = crypto.randomBytes(16).toString('hex'); await db.setObject(`vvjob:evidence:audit:${id}`,{uid,actor,action,at:now()}); await db.expire(`vvjob:evidence:audit:${id}`,365*86400); await db.sortedSetAdd('vvjob:evidence:audit',now(),id); }
   async function valid(uid) { const row = await db.getObject(stateKey(uid)), {career,company} = await context(uid); return !!(row && row.status === 'approved' && row.version === version && Number(row.expiresAt) > now() && company && company.id === row.companyId && career.companyBinding === row.binding); }
@@ -30,7 +30,7 @@ module.exports = function ({ db, directory, secret, withLock, processImage, now 
     // Reserve quota before decoding images; do not hold the database lock during decoding.
     const binding = await withLock(async()=>{
       if (await db.getObject(`vvjob:evidence:deleted:${uid}`)) fail('Tài khoản không còn khả dụng.');
-      const {career,company}=await context(uid); if (!company || !career.companyBinding) fail('Vui lòng chọn và lưu công ty trước.');
+      const {career,company}=await context(uid, true); if (!company || !career.companyBinding) fail('Vui lòng chọn và lưu công ty trước.');
       const old=await db.getObject(stateKey(uid)); if (old?.status === 'pending' && Number(old.fileExpiresAt)>now()) fail('Đang chờ duyệt. Hãy hủy hồ sơ cũ nếu cần gửi lại.');
       const quota=`vvjob:evidence:quota:${uid}:${Math.floor(now()/DAY)}`; const count=Number(await db.incrObjectField(quota,'count'));await db.expire(quota,172800);if(count>3)fail('Tối đa 3 lượt gửi mỗi ngày. Vui lòng thử lại sau.');
       return {companyId:company.id,companyName:company.name,binding:career.companyBinding};

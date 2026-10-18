@@ -40,11 +40,9 @@ module.exports = function createVerification({ db, directory, secret, withLock, 
     return { available: !!(transport && Number(settings.enabled) === 1 && deliveryConfirmed), transportReady: !!transport, enabled: Number(settings.enabled) === 1, deliveryConfirmed };
   }
   async function policy(name) { return db.getObject(policyKey(name)); }
-  async function context(uid) {
+  async function context(uid, ensureBinding = false) {
     if (await db.getObject(`vvjob:verification:deleted:${uid}`)) { return { career: {}, company: null }; }
-    const career = await db.getObject(`vvjob:career:${uid}`) || {};
-    const company = await directory.resolve(career.companyId);
-    return { career, company };
+    return require('./career-context')(db, directory, uid, ensureBinding);
   }
   async function isValid(uid, state) {
     if (!state || state.status !== 'verified' || state.keyVersion !== keyVersion || Number(state.expiresAt) <= now()) { return false; }
@@ -82,7 +80,7 @@ module.exports = function createVerification({ db, directory, secret, withLock, 
     let pending, otp;
     await withLock(async () => {
       if (!(await readiness()).available) { failure('Xác minh email công ty chưa mở. Vui lòng quay lại sau.'); }
-      const { career, company } = await context(uid), rule = await policy(name);
+      const { career, company } = await context(uid, true), rule = await policy(name);
       if (!company || !career.companyBinding) { failure('Vui lòng chọn và lưu công ty trong hồ sơ trước.'); }
       if (!rule || Number(rule.active) !== 1 || rule.companyId !== company.id) { failure('Tên miền email này chưa được duyệt cho công ty đã chọn.'); }
       const old = await db.getObject(stateKey(uid));
