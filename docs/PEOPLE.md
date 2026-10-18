@@ -11,3 +11,9 @@ Feed actions use one read-more link plus comment/share. Share invokes the browse
 Validation: 56 repository tests; five Sass entry points and 45 templates compile. An isolated PostgreSQL clone tested guest directory/profile/API denial, private career fields, native follow/unfollow, following/follower lists and search, and desktop/390px/320px layouts. Share was checked with the browser share API stub to verify the actual topic permalink without sending it to another application. Only synthetic accounts were modified.
 
 For production, build fresh assets with `node nodebb --config /opt/config/config.json build`, back up Compose/database, apply the guest-privilege script, switch the VVJOB source/build mounts and recreate only the web service. Preserve the previous mounts for rollback. Guest privacy privileges should remain restricted even if the visual release is rolled back.
+
+## Production rollout — 2026-10-19 (Vietnam)
+
+Code revision `bbb62f1` was built with native NodeBB in 20.86 seconds. Source/build mounts: `/home/ucloud/vvjob-network-source/extensions/nodebb-plugin-vvjob` and `/home/ucloud/vvjob-network-build`. Private Compose and verified database backup: `/home/ucloud/vvjob-backups/20261019-network`. Guest and spider privileges were explicitly checked as false after applying the script. Only the VVJOB web service was recreated.
+
+Final isolated browser tests passed profile/API/socket denial, follow/unfollow persistence, following/follower views, search and private-career projection. Production smoke passed guest directory/profile/API/socket protection, people-login entry, public feed at desktop/390px/320px and the simplified post actions. The temporary preview container, database, private config and fixture files were removed. Production member relationships were not modified by QA.
