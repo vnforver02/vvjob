@@ -53,3 +53,7 @@ Current release is v0.5, with 33 owned templates and route-specific discussion/r
 ## Community polish and onboarding acceptance — 2026-10-18
 
 Version 0.6 adds Vietnamese wording, community guidance and guarded category/welcome copy updates. Current source/build mounts, backup paths, verified onboarding/report workflows and the remaining production SMTP configuration are recorded in [Community readiness](COMMUNITY_READINESS.md).
+
+## Company directory and optional career onboarding (0.7)
+
+Company search, moderated suggestions/import, optional post-registration career details and private-by-default profile cards are deployed. Current mounts, source provenance, identity boundaries and acceptance evidence are recorded in [Company directory](COMPANY_DIRECTORY.md). Catalog presence is not an enterprise claim or employment verification.
