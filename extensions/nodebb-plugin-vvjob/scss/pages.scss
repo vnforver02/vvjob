@@ -80,3 +80,10 @@ body.theme-harmony {
   .vvjob-notifications .notifications { padding: 16px; }
  }
 }
+body.theme-harmony {
+  .users-container > .vvjob-person-card { padding-left: 10px; padding-right: 10px; > .vvjob-person-link { border: 1px solid #e3eaf4; border-radius: 14px; background: #fff; padding: 26px 16px; min-height: 200px; color: #2a3a54; transition: border-color .2s,box-shadow .2s; &:hover { border-color: #a5bbf0; box-shadow: 0 8px 25px #1e3f7508; } > .avatar { width: 60px !important; height: 60px !important; line-height: 60px !important; font-size: 30px !important; } } }
+  .vvjob-chat-workspace { height: calc(100dvh - 210px) !important; min-height: 450px; .chats-full { padding: 0 !important; margin: 0 !important; gap: 0 !important; } [component="chat/nav-wrapper"] { padding: 18px; border-right: 1px solid #e5eaf1; } [component="chat/message/window"] { padding: 20px; } }
+  &.template-tags .tag-list { display: flex; flex-wrap: wrap; gap: 12px; >li { background: #fff; border: 1px solid #e2e9f4; border-radius: 12px; padding: 15px; } }
+  &.template-reset #content { padding-top: 45px !important; > .flex-fill { padding: 24px; .card { border: 0; background: #fff !important; padding: 0; margin-top: 22px; } } .vvjob-auth-heading { margin-bottom: 25px; } }
+}
+@media(max-width:699px) { body.theme-harmony { .users-container >.vvjob-person-card { padding-left: 6px; padding-right: 6px; >.vvjob-person-link { padding: 22px 10px; min-height: 180px; } } .vvjob-chat-workspace { height: calc(100dvh - 160px) !important; min-height: 400px; [component="chat/nav-wrapper"] { padding: 12px; } } } }
