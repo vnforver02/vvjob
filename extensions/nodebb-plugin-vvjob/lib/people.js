@@ -5,13 +5,13 @@ module.exports = function (host, directory) {
  const positive = value => Math.max(0, Number(value) || 0);
  async function card(row, viewer) {
   const uid = Number(row.uid);
-  const [career, following] = await Promise.all([directory.profile(uid, viewer), user.isFollowing(viewer, uid)]);
+  const [career, following, followerCount] = await Promise.all([directory.profile(uid, viewer), user.isFollowing(viewer, uid), user.getUserField(uid, 'followerCount')]);
   // Explicit projection: never forward native user objects or private career records.
   return { uid, userslug: row.userslug || '', displayname: row.displayname || row.username || '', picture: row.picture || '',
    initial: Array.from(row.displayname || row.username || 'V')[0].toUpperCase(),
    company: career?.companyName || '', position: career?.position || '', city: career?.city || '',
    hasCareer: !!(career?.companyName || career?.position), following: !!following,
-   postcount: positive(row.postcount), followerCount: positive(row.followerCount) };
+   postcount: positive(row.postcount), followerCount: positive(followerCount) };
  }
  async function page(req, res) {
   if (!(Number(req.uid) > 0)) { return res.status(401).json({error: 'Vui lòng đăng nhập để kết nối.'}); }

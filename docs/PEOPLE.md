@@ -1,0 +1,13 @@
+# Member connections
+
+`/users` now renders the VVJOB people center through the plugin route mounted before NodeBB's default directory; `/vvjob/people` is an alias. Native ACP user management remains available. The page includes discovery ordered by registration date, username search, following/follower lists, profile cards and native follow/unfollow. No personalized recommendation, mutual relationship, employment status or identity verification is inferred.
+
+The controller requires native login, non-banned status and `view:users` permission. Data is explicitly projected and returned with private/no-store headers. Cards omit the viewer, banned accounts and accounts blocked in either direction. Career fields use the same public-company privacy policy as profiles; private career information is visible only in the viewer's own sidebar. Follower counts come from native stored counts. Native write API owns follow actions, CSRF and authentication. Search always uses username, regardless of caller query parameters.
+
+Profile, UID and v3 user routes require login before the native handlers. Apply `scripts/restrict-guest-profiles.js --apply` inside NodeBB with `NODEBB_CONFIG` pointing to the current config to revoke guest/spider `view:users`, `search:users` and `view:users:info` global privileges. This also closes native websocket profile lookups through their existing global privilege checks. The script verifies all three privileges are false for guest/spider UIDs. Back up DB and configuration first; do not restore a whole database merely to roll back presentation. Public topic author names and avatars remain part of public discussions.
+
+Feed actions use one read-more link plus comment/share. Share invokes the browser share sheet, HTTPS clipboard fallback or a copy-link prompt. No static reaction buttons or fake interaction counts are added.
+
+Validation: 56 repository tests; five Sass entry points and 45 templates compile. An isolated PostgreSQL clone tested guest directory/profile/API denial, private career fields, native follow/unfollow, following/follower lists and search, and desktop/390px/320px layouts. Share was checked with the browser share API stub to verify the actual topic permalink without sending it to another application. Only synthetic accounts were modified.
+
+For production, build fresh assets with `node nodebb --config /opt/config/config.json build`, back up Compose/database, apply the guest-privilege script, switch the VVJOB source/build mounts and recreate only the web service. Preserve the previous mounts for rollback. Guest privacy privileges should remain restricted even if the visual release is rolled back.

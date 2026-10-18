@@ -17,8 +17,8 @@ exports.init = async ({ router, middleware }) => {
   const member = [middleware.ensureLoggedIn, middleware.redirectToHomeIfBanned];
   const people = require('./lib/people')(host, directory);
   // Plugin routes mount before core routes. Both page and ajax JSON require login.
-  helpers.setupPageRoute(router, '/users', member, people.page);
-  helpers.setupPageRoute(router, '/vvjob/people', member, people.page);
+  helpers.setupPageRoute(router, '/users', [...member, middleware.canViewUsers], people.page);
+  helpers.setupPageRoute(router, '/vvjob/people', [...member, middleware.canViewUsers], people.page);
   router.use(['/user', '/uid', '/api/user', '/api/uid', '/api/v3/users'], middleware.authenticateRequest, middleware.ensureLoggedIn);
 
   helpers.setupPageRoute(router, '/vvjob/companies', [], careerRoutes.companies);
