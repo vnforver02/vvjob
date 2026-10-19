@@ -8,6 +8,7 @@ let verificationRoutes;
 let evidenceRoutes;
 let socialService;
 let reactionService;
+let authorService;
 exports.init = async ({ router, middleware }) => {
   host('routes/helpers').setupPageRoute(router, '/vvjob', [], exports.render);
   host('routes/helpers').setupPageRoute(router, '/vvjob/guide', [], exports.guide);
@@ -17,7 +18,7 @@ exports.init = async ({ router, middleware }) => {
   careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service, evidenceRoutes.service, require('./data/companies-vnr500'));
   const helpers = host('routes/helpers');
   const identity = require('./lib/identity')(host('database'), evidenceRoutes.service, verificationRoutes.service);
-  const author = require('./lib/author')(directory, identity);
+  const author = authorService = require('./lib/author')(directory, identity);
   const avatars = require('./lib/avatars')(host);
   reactionService = require('./lib/reactions')(host);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/topics/:tid/comments', [], require('./lib/comments')(host, author, reactionService, avatars).list);
@@ -77,7 +78,8 @@ exports.render = async (req, res, next) => {
   res.set?.('Cache-Control', 'private, no-store');
   // Use the native controller: category privileges, blocks, pagination, and
   // deleted/scheduled topic visibility stay under NodeBB's control.
-  const sort = req.query.sort === 'popular' ? 'posts' : 'recent';
+  const circle = ['coworkers','network'].includes(req.query.circle) ? req.query.circle : '';
+  const sort = !circle && req.query.sort === 'popular' ? 'posts' : 'recent';
   const data = await host('controllers/recent').getData(req, 'vvjob', sort, sort === 'posts' && req.query.range !== 'all' ? 'weekly' : 'alltime');
   if (!data) { return next(); }
   const categories = await host('categories').getCategoriesByPrivilege('categories:cid', req.uid, 'read');
@@ -110,6 +112,7 @@ exports.render = async (req, res, next) => {
     data.ongoing = data.topics.slice(0, 6).map(topic => ({ ...topic, domId: `talk-${topic.tid}` }));
     data.topics.forEach(topic => { topic.domId = `rank-${topic.tid}`; });
   }
+  if (circle) Object.assign(data, await require('./lib/circles')(host)(circle, req.uid, selected?.cid));
   await (socialService || require('./lib/social')(host)).enrich(data, req.uid);
   if (data.isPopular && socialService) await socialService.highlights(data.ongoing, req.uid);
   data.viewerLoggedIn = Number(req.uid) > 0;
@@ -146,3 +149,5 @@ exports.registered = async data => {
 };
 
 exports.deleteCareer = async ({ uid }) => { if (reactionService) await reactionService.removeUser(uid); if (evidenceRoutes) { await evidenceRoutes.service.remove(uid, uid, true); } if (verificationRoutes) { await verificationRoutes.service.remove(uid); } await host('database').delete(`vvjob:career:${uid}`); };
+
+exports.decoratePosts = async data => { if (authorService) await Promise.all((data.posts || []).map(async post => { post.authorMeta = await authorService(post.uid || post.user?.uid, data.uid); })); return data; };

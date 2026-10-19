@@ -9,7 +9,7 @@ $(document).on('click.vvjob', '[data-vvjob-compose]', function () {
 
 $(window).on('action:ajaxify.end', function () {
   const name = ajaxify.data.template.name;
-  const section = name === 'vvjob' && ajaxify.data.isPopular ? 'popular' : name === 'vvjob' || ['recent', 'popular', 'unread'].includes(name) ? 'feed' :
+  const section = name === 'vvjob' && ajaxify.data.circle ? ajaxify.data.circle : name === 'vvjob' && ajaxify.data.isPopular ? 'popular' : name === 'vvjob' || ['recent', 'popular', 'unread'].includes(name) ? 'feed' :
     name === 'category' || name === 'categories' ? 'communities' :
       ['users', 'vvjob-people'].includes(name) ? 'people' : name === 'chats' ? 'chats' : name === 'notifications' ? 'notifications' :
         name.startsWith('account/') ? 'profile' : '';
@@ -84,4 +84,18 @@ $(document).on('click.vvjobShare','[data-vvjob-share]',async function(){
  try { if(navigator.share){await navigator.share({title:button.dataset.title,url})} else if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(url);feedback.text('Đã sao chép liên kết')} else { window.prompt('Sao chép liên kết bài viết',url); } }
  catch(error){if(error.name!=='AbortError')feedback.text('Chưa thể chia sẻ. Vui lòng thử lại.')}
  finally{button.disabled=false}
+});
+
+// Native Ajaxify preserves the app shell and browser Back behavior. Only a
+// deliberate comment action focuses the reply area; direct topic URLs stay normal.
+let pendingThread = false;
+document.addEventListener('click',function(event){
+ if(event.button||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||!event.target.closest('[data-vvjob-open-thread]'))return;
+ // Observe before native anchor delegation; never issue a second Ajaxify call.
+ pendingThread=true;
+},true);
+$(window).on('action:ajaxify.end',function(){
+ if(!pendingThread||ajaxify.data.template.name!=='topic')return;
+ pendingThread=false;
+ requestAnimationFrame(()=>{const target=document.querySelector('[component="post"][data-index="1"]')||document.querySelector('#vvjob-replies,[component="topic/reply"]');if(target){target.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});if(target.matches('button,a'))target.focus({preventScroll:true});}});
 });

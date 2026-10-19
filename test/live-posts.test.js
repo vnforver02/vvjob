@@ -9,7 +9,7 @@ test('live reply guard ignores already rendered main posts but forwards new and 
   let existing = [];
   const $ = () => ({ on() {}, toArray: () => existing.map(pid => ({ getAttribute: () => pid })) });
   vm.runInNewContext(fs.readFileSync('extensions/nodebb-plugin-vvjob/public/vvjob.js', 'utf8'), {
-    $, document: {}, window: {}, require(names, cb) { if (names[0] === 'forum/topic/posts') cb(native); },
+    $, document: { addEventListener() {} }, window: {}, require(names, cb) { if (names[0] === 'forum/topic/posts') cb(native); },
   });
   const fresh = { posts: [{ pid: 10 }] };
   native.onNewPost(fresh);

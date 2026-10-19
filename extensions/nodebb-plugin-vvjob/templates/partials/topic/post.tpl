@@ -46,6 +46,7 @@
 					<a class="fw-bold text-nowrap text-truncate" href="{{{ if ./user.userslug }}}{config.relative_path}/user/{./user.userslug}{{{ else }}}#{{{ end }}}" data-username="{posts.user.username}" data-uid="{posts.user.uid}">{posts.user.displayname}</a>
 				</div>
 
+				<!-- IMPORT partials/vvjob-author-badge.tpl -->
 				{{{ each posts.user.selectedGroups }}}
 				{{{ if posts.user.selectedGroups.slug }}}
 				<!-- IMPORT partials/groups/badge.tpl -->

@@ -244,3 +244,27 @@ body.vvjob-image-open { overflow: hidden; }
 .vvjob-react-status { font-size: 11px; color: #7c899c; &.is-error { color: #bd3545; } &:empty { display: none; } }
 .vvjob-legacy-votes { position: relative; summary { list-style: none; cursor: pointer; font-size: 10px; color: #91a0b5; padding: 7px; border: 1px solid #edf0f5; border-radius: 7px; } &[open] >div { position: absolute; right: 0; bottom: calc(100% + 5px); z-index: 20; min-width: 140px; padding: 8px; border: 1px solid #e2e9f2; border-radius: 9px; background: white; box-shadow: 0 5px 20px #20334b16; } }
 @media(prefers-reduced-motion:reduce) { .vvjob-reaction-menu .vvjob-reaction-emoji { transition: none; } }
+
+/* Threads-like actions: icons and counts, no redundant prompt or score UI. */
+.vvjob-conversation-actions .vvjob-thread-link { display: inline-flex; align-items: center; justify-content: center; gap: 5px; flex: 1; padding: 10px; color: #8792a5; text-decoration: none; border-radius: 20px; }
+[data-vvjob-like][aria-pressed="true"] .fa-heart { color: #ed5272; }
+.vvjob-legacy-votes { display: none; }
+.vvjob-reaction-options button small { display: none; }
+.vvjob-reaction-remove { font-size: 24px; line-height: 1; }
+.vvjob-circle-heading { background: white; border: 1px solid #e7edf6; border-radius: 16px; padding: 18px; margin-bottom: 12px; h1 { font-size: 20px; margin: 0 0 7px; } p { color: #748199; font-size: 13px; margin: 0 0 9px; } a { font-size: 13px; } }
+@media(max-width:699px) {
+ .vvjob-mobile-discovery form,.vv2-search { display:none !important; }
+ .vvjob-mobile-discovery { padding-bottom: 8px; }
+ .vvjob-mobile-discovery nav { scrollbar-width:none; }
+ .vvjob-mobile-discovery nav::-webkit-scrollbar { display:none; }
+ .vvjob-mobile-discovery nav a { white-space:nowrap; }
+}
+
+.vv2 .vv2-posts { background: #fff; border: 1px solid #e9edf3; border-radius: 16px; overflow: hidden; }
+.vv2 .vv2-posts .vv2-post { border: 0; border-bottom: 1px solid #edf0f4; border-radius: 0; box-shadow: none; margin: 0; padding: 20px; }
+.vv2 .vv2-posts .vv2-post:last-child { border-bottom: 0; }
+.vv2 .vvjob-conversation-actions { justify-content: flex-start; gap: 12px; border: 0; padding-top: 10px; }
+.vv2 .vvjob-conversation-actions button,.vv2 .vvjob-conversation-actions .vvjob-thread-link { flex: 0 0 auto; min-width: 44px; min-height: 44px; padding: 8px; background: transparent; }
+.vv2 .vvjob-conversation-actions [data-vvjob-like][aria-pressed="true"] { background: transparent; color: #ed5272; }
+@media(max-width:699px) { .vv2 .vv2-posts { border-left: 0; border-right: 0; border-radius: 0; } .vv2 .vv2-posts .vv2-post { padding: 16px 12px; } }
+@media(max-width:699px) { .vv2 .vv2-mobile-search { display: inline-flex !important; align-items: center; justify-content: center; } }

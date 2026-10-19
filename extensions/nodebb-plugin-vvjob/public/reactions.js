@@ -17,11 +17,11 @@
   document.querySelectorAll(`[data-vvjob-like="${Number(pid)}"]`).forEach(button=>{
    button.disabled=false;button.dataset.reactionLoaded='1';button.dataset.reactionSelected=selected;
    button.setAttribute('aria-pressed',String(!!selected));button.setAttribute('aria-haspopup','menu');
-   button.title=choice?.label||'Thể hiện cảm xúc';button.setAttribute('aria-label',choice?`${choice.label} · Đổi hoặc gỡ biểu cảm`:'Thể hiện cảm xúc');
+   button.removeAttribute('title');button.setAttribute('aria-label',choice?.label||'Thích');
    let icon=button.querySelector('[data-reaction-icon],i');
    if(!icon){icon=document.createElement('span');button.prepend(icon);}
    if(selected&&selected!=='like'){const span=document.createElement('span');span.dataset.reactionIcon='';span.className='vvjob-selected-emoji';span.setAttribute('aria-hidden','true');span.textContent=choice?.emoji||data.selectedEmoji||'';icon.replaceWith(span);}
-   else {const i=document.createElement('i');i.dataset.reactionIcon='';i.className='fa '+(selected?'fa-thumbs-up':'fa-thumbs-o-up');i.setAttribute('aria-hidden','true');icon.replaceWith(i);}
+   else {const i=document.createElement('i');i.dataset.reactionIcon='';i.className='fa '+(selected?'fa-heart':'fa-heart-o');i.setAttribute('aria-hidden','true');icon.replaceWith(i);}
    let count=button.querySelector('[data-like-count]');if(!count){count=document.createElement('span');count.dataset.likeCount='';button.append(count);}
    count.textContent=Number(data.total??data.likes)>0?String(data.total??data.likes):'';
   });
@@ -51,9 +51,9 @@
  }
  function render(data){
   menu.replaceChildren();const options=document.createElement('div');options.className='vvjob-reaction-options';
-  for(const choice of data.choices){const button=document.createElement('button');button.type='button';button.dataset.reactionChoice=choice.type;button.setAttribute('role','menuitemradio');button.setAttribute('aria-checked',String(data.selected===choice.type));button.setAttribute('aria-label',choice.label);button.title=choice.label;const emoji=document.createElement('span');emoji.className='vvjob-reaction-emoji';emoji.textContent=choice.emoji;emoji.setAttribute('aria-hidden','true');const label=document.createElement('small');label.textContent=choice.label;button.append(emoji,label);options.append(button);}
+  for(const choice of data.choices){const button=document.createElement('button');button.type='button';button.dataset.reactionChoice=choice.type;button.setAttribute('role','menuitemradio');button.setAttribute('aria-checked',String(data.selected===choice.type));button.setAttribute('aria-label',choice.label);const emoji=document.createElement('span');emoji.className='vvjob-reaction-emoji';emoji.textContent=choice.emoji;emoji.setAttribute('aria-hidden','true');button.append(emoji);options.append(button);}
   menu.append(options);
-  if(data.selected){const remove=document.createElement('button');remove.type='button';remove.dataset.reactionChoice='none';remove.className='vvjob-reaction-remove';remove.setAttribute('role','menuitem');remove.textContent='Gỡ biểu cảm';menu.append(remove);}
+  if(data.selected){const remove=document.createElement('button');remove.type='button';remove.dataset.reactionChoice='none';remove.className='vvjob-reaction-remove';remove.setAttribute('role','menuitem');remove.setAttribute('aria-label','Gỡ biểu cảm');remove.textContent='×';menu.append(remove);}
  }
  async function open(button,keyboard=false){
   if(!app.user.uid){ajaxify.go('login');return;}
@@ -64,20 +64,21 @@
   try{const data=await read(pid);if(current!==token||!button.isConnected)return;apply(pid,data);render(data);position();if(keyboard)menu.querySelector('button')?.focus();}
   catch(error){if(current!==token)return;const translator=await app.require('translator');feedback(button,await translator.translate(error.message||'Chưa tải được biểu cảm. Vui lòng thử lại.'),true);close();}
  }
- $(document).on('click.vvjobEmotion','[data-vvjob-like]',function(event){event.preventDefault();if(Date.now()<suppressClick)return;if(active===this&&!menu.hidden){return;}open(this,event.originalEvent?.detail===0);});
+ $(document).on('click.vvjobEmotion','[data-vvjob-like]',function(event){event.preventDefault();if(Date.now()<suppressClick)return;if(!app.user.uid){ajaxify.go('login');return;}select(this,this.dataset.reactionSelected?'none':'like');});
  $(document).on('mouseenter.vvjobEmotion','[data-vvjob-like]',function(){if(!app.user.uid||!matchMedia('(hover:hover)').matches)return;clearTimeout(closeTimer);clearTimeout(hoverTimer);hoverTimer=setTimeout(()=>open(this),250);});
  $(document).on('mouseleave.vvjobEmotion','[data-vvjob-like]',function(){clearTimeout(hoverTimer);if(active===this)closeTimer=setTimeout(()=>close(),350);});
  $(document).on('pointerdown.vvjobEmotion','[data-vvjob-like]',function(event){if(event.originalEvent.pointerType==='mouse')return;startPoint={x:event.clientX,y:event.clientY};clearTimeout(pressTimer);pressTimer=setTimeout(()=>{suppressClick=Date.now()+700;open(this)},450);});
  $(document).on('pointermove.vvjobEmotion',function(event){if(startPoint&&Math.hypot(event.clientX-startPoint.x,event.clientY-startPoint.y)>10){clearTimeout(pressTimer);startPoint=null;}});
  $(document).on('pointerup.vvjobEmotion pointercancel.vvjobEmotion',()=>{clearTimeout(pressTimer);startPoint=null;});
  $(document).on('contextmenu.vvjobEmotion','[data-vvjob-like]',event=>event.preventDefault());
- $(document).on('click.vvjobEmotion','[data-reaction-choice]',async function(){
-  const button=active;if(!button)return;const pid=Number(button.dataset.vvjobLike),type=this.dataset.reactionChoice;if(pending.has(pid))return;
+ async function select(button,type){
+  if(!button)return;ensureMenu();const pid=Number(button.dataset.vvjobLike);if(pending.has(pid))return;
   pending.add(pid);menu.querySelectorAll('button').forEach(option=>option.disabled=true);document.querySelectorAll(`[data-vvjob-like="${pid}"]`).forEach(trigger=>trigger.setAttribute('aria-busy','true'));
   try{const api=await app.require('api');const data=await api.put(`/api/vvjob/posts/${pid}/reaction`,{type});apply(pid,data);feedback(button,'',false);close();}
   catch(error){const translator=await app.require('translator');feedback(button,await translator.translate(error.message||'Chưa lưu được biểu cảm. Vui lòng thử lại.'),true);}
   finally{pending.delete(pid);menu?.querySelectorAll('button').forEach(option=>option.disabled=false);document.querySelectorAll(`[data-vvjob-like="${pid}"]`).forEach(trigger=>trigger.removeAttribute('aria-busy'));}
- });
+ }
+ $(document).on('click.vvjobEmotion','[data-reaction-choice]',function(){select(active,this.dataset.reactionChoice)});
  $(document).on('click.vvjobEmotionOutside',event=>{if(active&&!event.target.closest('[data-vvjob-like],.vvjob-reaction-menu'))close();});
  $(document).on('keydown.vvjobEmotion',event=>{if(event.key==='Escape'&&active){event.preventDefault();close(true);}});
  window.addEventListener('scroll',()=>{if(active)close()},{passive:true});window.addEventListener('resize',position,{passive:true});

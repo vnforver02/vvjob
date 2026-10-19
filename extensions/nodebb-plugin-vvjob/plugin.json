@@ -31,6 +31,10 @@
     {
       "hook": "static:user.delete",
       "method": "deleteCareer"
+    },
+    {
+      "hook": "filter:topic.getPosts",
+      "method": "decoratePosts"
     }
   ],
   "templates": "./templates",

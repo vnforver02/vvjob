@@ -9,7 +9,7 @@
     <div class="vvhot-story"><!-- IMPORT partials/vvjob-post-body.tpl -->
 
       <!-- IMPORT partials/vvjob-social-actions.tpl -->
-      <!-- IMPORT partials/vvjob-comment-panel.tpl -->
+
     </div>
   </article>
   {{{ end }}}

@@ -38,20 +38,20 @@ test('shared header preserves native member menus and guest registration', async
   assert.doesNotMatch(member, /href="\/forum\/register"/);
 });
 
-test('ranked feed renders native ranking, period links and inline comments without the home composer', async () => {
+test('ranked feed renders native ranking and native thread comment links without the home composer', async () => {
   const html = await benchpress.compileRender(await sources.expand(template), { config: { relative_path: '/forum' }, isPopular: true, hotAllUrl: '/vvjob?sort=popular&term=week', hotPeriods: [{ label: '7 ngày', active: true, url: '/vvjob?sort=popular&term=week' }], topics: [{ tid: 42, domId: '42', rank: 21, slug: '42/test', title: 'Câu chuyện', replyCount: 8, viewcount: 100, category: { name: 'Công việc' } }], communities: [] });
   assert.match(html, /aria-label="Hạng 21"/);
   assert.match(html, /aria-current="page">7 ngày/);
   assert.doesNotMatch(html, /vvhot-stats|vvhot-excerpt|vvhot-category/);
   assert.match(html, /data-vvjob-expand/);
-  assert.match(html, /aria-controls="vvcomments-42"/);
-  assert.match(html, /id="vvcomment-input-42"/);
+  assert.match(html, /data-vvjob-open-thread href="\/forum\/topic\/42\/test#vvjob-replies"/);
+  assert.doesNotMatch(html, /vvcomment-input/);
   assert.doesNotMatch(html, /vvjob-social-compose/);
 });
 
 test('ranked titles and ongoing image cards have distinct controls and real gallery metadata', async () => {
  const topic={tid:42,domId:'rank-42',rank:1,slug:'42/test',title:'Thảo luận',user:{displayname:'Lan',userslug:'lan'},socialPost:{pid:90,preview:'Bài viết',imageCount:2,images:[{src:'/assets/uploads/one.jpg',index:0},{src:'/assets/uploads/two.jpg',index:1}]},authorMeta:{isDemo:true,simulatedVerified:true,verified:false}};
  const html=await benchpress.compileRender(await sources.expand(template),{config:{relative_path:'/forum'},isPopular:true,topics:[topic],ongoing:[{...topic,domId:'talk-42',highlight:{pid:99,preview:'Góc nhìn thật'}}],communities:[]});
- assert.match(html,/id="vvcomments-rank-42"/);assert.match(html,/id="vvcomments-talk-42"/);assert.equal((html.match(/id="vvcomment-input-talk-42"/g)||[]).length,1);
- assert.match(html,/src="\/assets\/uploads\/one.jpg"/);assert.match(html,/vvjob-media-2/);assert.match(html,/vvjob-author-simulated/);assert.doesNotMatch(html,/vvjob-author-verified/);assert.match(html,/Bình luận nổi bật/);assert.match(html,/fa-thumbs-o-up/);
+ assert.equal((html.match(/data-vvjob-open-thread/g)||[]).length,2);assert.doesNotMatch(html,/vvcomment-input/);
+ assert.match(html,/src="\/assets\/uploads\/one.jpg"/);assert.match(html,/vvjob-media-2/);assert.match(html,/vvjob-author-simulated/);assert.doesNotMatch(html,/vvjob-author-verified/);assert.match(html,/Bình luận nổi bật/);assert.match(html,/fa-heart-o/);
 });

@@ -90,6 +90,7 @@
 						</div>
 						{{{ end }}}
 						{{{ if config.theme.enableQuickReply }}}
+						<span id="vvjob-replies" class="vvjob-reply-anchor" aria-hidden="true"></span>
 						<!-- IMPORT partials/topic/quickreply.tpl -->
 						{{{ end }}}
 					</div>
