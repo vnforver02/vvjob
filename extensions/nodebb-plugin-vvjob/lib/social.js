@@ -1,7 +1,7 @@
 "use strict";
 
 // Only native permission-filtered, parsed content and public vote state leave this module.
-module.exports = function (host, author = async () => ({})) {
+module.exports = function (host, author = async () => ({}), reactions = null, avatars = null) {
   const escape = text => String(text || '').replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-f]+);)/gi, '&amp;').replace(/[<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const reaction = post => ({ pid: post.pid, likes: Math.max(0, Number(post.upvotes) || 0), liked: !!post.upvoted, selfPost: !!post.selfPost });
   async function allowed(tid, uid) {
@@ -19,7 +19,7 @@ module.exports = function (host, author = async () => ({})) {
     const rows = await host('topics').getTopicPosts(topic, `tid:${tid}:posts`, 0, 0, req.uid, false);
     const post = rows.find(p => p && !Number(p.deleted) && String(p.pid) === String(topic.mainPid));
     if (!post) return respond(res, 404, new Error('[[error:no-post]]'));
-    return respond(res, 200, { ...reaction(post), content: post.content });
+    return respond(res, 200, { ...reaction(post), ...(reactions ? {reactions: await reactions.snapshot(post.pid, req.uid)} : {}), content: post.content });
   }
   async function votes(req, res) {
     res.set('Cache-Control', 'private, no-store');
@@ -55,6 +55,7 @@ module.exports = function (host, author = async () => ({})) {
     const [summaries, states] = await Promise.all([
       posts.getPostSummaryByPids(pids, uid, { stripTags: false }), posts.getVoteStatusByPostIDs(pids, uid),
     ]);
+    const avatarMap = avatars ? await avatars.batch([...summaries.map(post=>post.uid),uid]) : new Map();
     const rows = new Map(summaries.filter(p => !Number(p.deleted)).map(p => [String(p.pid), p]));
     const authors = new Map();
     await Promise.all(topics.map(async topic => {
@@ -65,10 +66,10 @@ module.exports = function (host, author = async () => ({})) {
       topic.socialPost = post ? { pid: post.pid, preview: plain(post.content, 420), likes: Math.max(0, Number(post.upvotes) || 0), liked: !!states.upvotes[index], selfPost: Number(uid) > 0 && Number(uid) === Number(post.uid),
         images: media.slice(0, 9).map((src, i) => ({ src, index: i, overflow: i === 8 && media.length > 9 ? media.length - 9 : 0 })), imageCount: Math.min(media.length, 9),
       } : null;
-      if (post) { if (!authors.has(post.uid)) authors.set(post.uid, author(post.uid, uid)); topic.authorMeta = await authors.get(post.uid); }
+      if (post) { if (!authors.has(post.uid)) authors.set(post.uid, author(post.uid, uid)); topic.authorMeta = await authors.get(post.uid); topic.avatar = avatarMap.get(Number(post.uid)) || avatars?.project(post.user); if (reactions) { topic.socialPost.reactions = await reactions.snapshot(post.pid, uid); topic.socialPost.likes=topic.socialPost.reactions.total; topic.socialPost.liked=!!topic.socialPost.reactions.selected; } }
     }));
     data.viewer = Number(uid) > 0 ? await host('user').getUserFields(uid, ['picture', 'username', 'userslug']) : null;
-    if (data.viewer) data.viewer = { picture: data.viewer.picture || '', username: data.viewer.username || '', userslug: data.viewer.userslug || '' };
+    if (data.viewer) data.viewer = {uid:Number(uid), avatar:avatarMap.get(Number(uid)), picture: data.viewer.picture || '', username: data.viewer.username || '', userslug: data.viewer.userslug || '' };
   }
   async function highlights(topics, uid) {
     // A real, positive-vote reply, using the native sorted set and viewer filtering.

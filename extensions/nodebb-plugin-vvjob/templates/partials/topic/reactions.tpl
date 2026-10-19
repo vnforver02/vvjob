@@ -1,0 +1,1 @@
+<button type="button" class="btn btn-ghost btn-sm vvjob-native-reaction" data-vvjob-like="{./pid}" aria-label="Thể hiện cảm xúc" title="Thể hiện cảm xúc" aria-haspopup="menu" aria-pressed="false"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i><span data-like-count></span></button>

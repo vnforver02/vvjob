@@ -42,6 +42,7 @@
     "public/evidence.js",
     "public/people.js",
     "public/comments.js",
+    "public/reactions.js",
     "public/social.js"
   ],
   "scss": [

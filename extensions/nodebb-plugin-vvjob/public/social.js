@@ -5,37 +5,7 @@
     const translator = await app.require('translator');
     return translator.translate(error.message || 'Chưa thể thực hiện. Vui lòng thử lại.');
   }
-  function showVote(pid, data) {
-    document.querySelectorAll(`[data-vvjob-like="${Number(pid)}"]`).forEach(button => {
-      button.setAttribute('aria-pressed', String(data.liked));
-      const icon = button.querySelector('i'); icon.classList.toggle('fa-thumbs-up', data.liked); icon.classList.toggle('fa-thumbs-o-up', !data.liked);
-      button.querySelector('[data-like-count]').textContent = Number(data.likes) > 0 ? data.likes : '';
-    });
-  }
-  const pending = new Set();
-  $(document).on('click.vvjobLike', '[data-vvjob-like]', async function () {
-    if (!app.user.uid) return ajaxify.go('login');
-    const pid = Number(this.dataset.vvjobLike);
-    if (!Number.isSafeInteger(pid) || pending.has(pid)) return;
-    const card = this.closest('[data-feed-tid]'), status = card.querySelector('.vvjob-share-feedback');
-    const buttons = Array.from(document.querySelectorAll(`[data-vvjob-like="${pid}"]`));
-    pending.add(pid); buttons.forEach(b => { b.disabled = true; });
-    let applied = false;
-    try {
-      const api = await app.require('api');
-      // Read fresh state before mutating: native PUT is a toggle, not an idempotent "set".
-      const current = await api.get(`/api/vvjob/posts/${pid}/reaction`, {});
-      if (current.selfPost) { showVote(pid, current); return; }
-      if (current.liked) await api.del(`/posts/${pid}/vote`, {});
-      else await api.put(`/posts/${pid}/vote`, { delta: 1 });
-      applied = true;
-      const updated = await api.get(`/api/vvjob/posts/${pid}/reaction`, {});
-      showVote(pid, updated);
-      if (status) status.textContent = '';
-    } catch (error) {
-      if (status) status.textContent = applied ? 'Đã lưu. Tải lại để cập nhật lượt thích.' : await errorText(error);
-    } finally { pending.delete(pid); buttons.forEach(b => { b.disabled = false; }); }
-  });
+  function showVote(pid,data) { $(document).trigger('vvjob:reaction',[pid,data.reactions||data]); }
   $(document).on('click.vvjobExpand', '[data-vvjob-expand], .vvjob-post-preview', async function (event) {
     if ($(event.target).closest('a').length) return;
     const card = this.closest('[data-feed-tid]');
@@ -62,17 +32,28 @@
     } catch (error) { status.classList.remove('visually-hidden'); status.textContent = await errorText(error); }
     finally { delete card.dataset.expanding; body.removeAttribute('aria-busy'); }
   });
+  let observedHeader, avatarSignature = '';
   function syncAvatar() {
-    const avatar = document.querySelector('.vv2-compose-avatar');
-    if (!avatar || !app.user.uid) return;
-    // app.user is refreshed by NodeBB after native profile/picture updates.
-    if (app.user.picture) {
-      let img = avatar.querySelector('img');
-      if (!img) { img = document.createElement('img'); img.alt = ''; avatar.replaceChildren(img); }
-      img.src = app.user.picture;
+    const uid = Number(app.user?.uid);
+    const header = document.querySelector('[component="header/avatar"]');
+    if (!uid || !header) return;
+    const source = header.querySelector('.avatar');
+    if (!source) return;
+    const signature = uid + source.outerHTML;
+    document.querySelectorAll(`[data-vvjob-avatar-uid="${uid}"]`).forEach(avatar => {
+      if (avatar.dataset.avatarSignature === signature) return;
+      const clone = source.cloneNode(true);
+      clone.removeAttribute('id'); clone.removeAttribute('component'); clone.setAttribute('aria-hidden','true');
+      avatar.replaceChildren(clone); avatar.dataset.avatarSignature = signature;
+    });
+    avatarSignature = signature;
+    if (observedHeader !== header) {
+      observedHeader = header;
+      new MutationObserver(() => window.requestAnimationFrame(syncAvatar)).observe(header,{childList:true,subtree:true,attributes:true,characterData:true});
     }
   }
-  $(window).on('action:ajaxify.end action:user.update action:profile.update', syncAvatar);
+  $(window).on('action:ajaxify.end action:user.update action:profile.update action:avatar.update',syncAvatar);
+  $(document).on('vvjob:avatars',syncAvatar);
   $(syncAvatar);
 
   let viewer, gallery = [], imageIndex = 0;

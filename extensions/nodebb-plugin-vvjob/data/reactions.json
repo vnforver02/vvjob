@@ -1,0 +1,9 @@
+[
+ {"type":"like","emoji":"👍","label":"Thích","color":"#2873e7"},
+ {"type":"love","emoji":"❤️","label":"Yêu thích","color":"#ed5272"},
+ {"type":"care","emoji":"🥰","label":"Quan tâm","color":"#e69529"},
+ {"type":"haha","emoji":"😆","label":"Haha","color":"#d39123"},
+ {"type":"wow","emoji":"😮","label":"Wow","color":"#d39123"},
+ {"type":"sad","emoji":"😢","label":"Buồn","color":"#d39123"},
+ {"type":"angry","emoji":"😡","label":"Phẫn nộ","color":"#df6545"}
+]

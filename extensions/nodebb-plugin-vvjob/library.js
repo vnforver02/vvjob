@@ -7,6 +7,7 @@ let careerRoutes;
 let verificationRoutes;
 let evidenceRoutes;
 let socialService;
+let reactionService;
 exports.init = async ({ router, middleware }) => {
   host('routes/helpers').setupPageRoute(router, '/vvjob', [], exports.render);
   host('routes/helpers').setupPageRoute(router, '/vvjob/guide', [], exports.guide);
@@ -17,11 +18,14 @@ exports.init = async ({ router, middleware }) => {
   const helpers = host('routes/helpers');
   const identity = require('./lib/identity')(host('database'), evidenceRoutes.service, verificationRoutes.service);
   const author = require('./lib/author')(directory, identity);
-  helpers.setupApiRoute(router, 'get', '/api/vvjob/topics/:tid/comments', [], require('./lib/comments')(host, author).list);
-  const social = socialService = require('./lib/social')(host, author);
+  const avatars = require('./lib/avatars')(host);
+  reactionService = require('./lib/reactions')(host);
+  helpers.setupApiRoute(router, 'get', '/api/vvjob/topics/:tid/comments', [], require('./lib/comments')(host, author, reactionService, avatars).list);
+  const social = socialService = require('./lib/social')(host, author, reactionService, avatars);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/topics/:tid/content', [], social.content);
-  helpers.setupApiRoute(router, 'get', '/api/vvjob/posts/:pid/reaction', [], social.votes);
+  helpers.setupApiRoute(router, 'get', '/api/vvjob/posts/:pid/reaction', [], reactionService.endpoint);
   const member = [middleware.ensureLoggedIn, middleware.redirectToHomeIfBanned];
+  helpers.setupApiRoute(router, 'put', '/api/vvjob/posts/:pid/reaction', [...member, middleware.applyCSRF], reactionService.endpoint);
   const people = require('./lib/people')(host, directory, identity);
   router.get('/vvjob/demo-avatar/:index.svg', (req, res) => {
     const index = Number(req.params.index);
@@ -141,4 +145,4 @@ exports.registered = async data => {
   return data;
 };
 
-exports.deleteCareer = async ({ uid }) => { if (evidenceRoutes) { await evidenceRoutes.service.remove(uid, uid, true); } if (verificationRoutes) { await verificationRoutes.service.remove(uid); } await host('database').delete(`vvjob:career:${uid}`); };
+exports.deleteCareer = async ({ uid }) => { if (reactionService) await reactionService.removeUser(uid); if (evidenceRoutes) { await evidenceRoutes.service.remove(uid, uid, true); } if (verificationRoutes) { await verificationRoutes.service.remove(uid); } await host('database').delete(`vvjob:career:${uid}`); };

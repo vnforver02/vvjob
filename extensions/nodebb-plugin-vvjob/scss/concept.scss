@@ -227,3 +227,20 @@ body.vvjob-image-open { overflow: hidden; }
 .vv2.vvhot .vvjob-conversation-actions { display: flex; gap: 0; >button { flex: 1 1 0; justify-content: center; min-height: 38px; margin: 0 !important; i { font-size: 18px; } &[aria-pressed="true"] { color: #2873e7; } } }
 
 @media(max-width:699px) { body.theme-harmony.vvjob-feed-page .vvjob-site-top { position: sticky; top: 0; } body.theme-harmony.vvjob-feed-page.vvjob-feed-scrolled .vvjob-site-top { position: fixed; } }
+// Native avatar parity and Facebook-style emotion selection.
+.vv2 {
+ .vvjob-letter-avatar { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: #fff; border-radius: 50%; font-size: inherit; font-weight: 600; line-height: 1; }
+ [data-vvjob-avatar-uid] >.avatar { width: 100% !important; height: 100% !important; line-height: 1 !important; display: flex; align-items: center; justify-content: center; font-size: inherit !important; border-radius: 50%; object-fit: cover; }
+ .vv2-avatar { font-size: 17px; }
+ .vvcomment-avatar { font-size: 13px; }
+}
+[data-vvjob-like] { touch-action: pan-y; -webkit-touch-callout: none; user-select: none; position: relative; }
+.vvjob-selected-emoji { display: inline-block; font-family: 'Apple Color Emoji','Segoe UI Emoji',sans-serif; font-size: 20px; line-height: 1; }
+[data-vvjob-like][data-reaction-selected="love"] { color: #ed5272 !important; }
+[data-vvjob-like][data-reaction-selected="like"] { color: #2873e7 !important; }
+[data-vvjob-like][aria-busy="true"] { opacity: .55; cursor: progress; }
+.vvjob-reaction-menu { position: fixed; z-index: 1070; background: #fff; border: 1px solid #e2e7ef; border-radius: 18px; padding: 9px 7px; box-shadow: 0 7px 30px #20334b26; color: #5f718b; font-size: 12px; max-width: calc(100vw - 16px); &[hidden] { display: none !important; } .vvjob-reaction-options { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: 2px; } button { border: 0; background: transparent; color: #748095; border-radius: 11px; padding: 6px 1px 5px; min-width: 0; cursor: pointer; &:hover,&:focus-visible { background: #eef4ff; color: #2165ce; outline: none; } &:focus-visible { box-shadow: inset 0 0 0 2px #86aff0; } &[aria-checked="true"] { background: #edf4ff; } &:disabled { opacity: .45; cursor: progress; } } .vvjob-reaction-emoji { display: block; font: 28px/1.2 'Apple Color Emoji','Segoe UI Emoji',sans-serif; transition: transform .12s; } button:hover .vvjob-reaction-emoji { transform: translateY(-3px) scale(1.15); } small { display: block; margin-top: 6px; font-size: 8px; line-height: 1.4; white-space: nowrap; } .vvjob-reaction-remove { display: block; width: 100%; border-top: 1px solid #edf0f5; margin-top: 7px; padding: 8px 4px 2px; border-radius: 0; font-size: 11px; color: #8290a5; } }
+.vvjob-native-reaction { display: inline-flex; gap: 5px; align-items: center; }
+.vvjob-react-status { font-size: 11px; color: #7c899c; &.is-error { color: #bd3545; } &:empty { display: none; } }
+.vvjob-legacy-votes { position: relative; summary { list-style: none; cursor: pointer; font-size: 10px; color: #91a0b5; padding: 7px; border: 1px solid #edf0f5; border-radius: 7px; } &[open] >div { position: absolute; right: 0; bottom: calc(100% + 5px); z-index: 20; min-width: 140px; padding: 8px; border: 1px solid #e2e9f2; border-radius: 9px; background: white; box-shadow: 0 5px 20px #20334b16; } }
+@media(prefers-reduced-motion:reduce) { .vvjob-reaction-menu .vvjob-reaction-emoji { transition: none; } }

@@ -21,10 +21,13 @@
     input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 180) + 'px';
   }
   async function append(panel, comments, canReply, revealPid) {
+    comments = comments.map(comment => ({...comment, avatar:comment.avatar || {uid:Number(comment.user?.uid)||(comment.selfPost?Number(app.user.uid):0),picture:comment.user?.picture||'',initial:String(comment.user?.['icon:text']||comment.user?.displayname||'?').slice(0,1),color:/^#[a-f0-9]{3,8}$/i.test(comment.user?.['icon:bgColor']||'')?comment.user['icon:bgColor']:'#5f91d8'}}));
     const templates = await app.require('benchpressjs');
     const fresh = comments.filter(comment => !Array.from(panel.querySelectorAll('[data-comment-pid]')).some(el => el.dataset.commentPid === String(comment.pid)));
     const html = await templates.render('partials/vvjob-comments', { comments: fresh, canReply, config: { relative_path: config.relative_path } });
     $(panel).find('.vvcomments-list').append(html);
+    window.vvjobReactionUi?.hydrate(panel,comments);
+    $(document).trigger('vvjob:avatars');
     panel.querySelectorAll('[data-comment-time]').forEach(el => {
       const date = new Date(Number(el.dataset.commentTime));
       if (!Number.isNaN(date.getTime())) {

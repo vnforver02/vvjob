@@ -2,7 +2,7 @@
 
 const PAGE_SIZE = 5;
 
-module.exports = function (host, author = async () => ({})) {
+module.exports = function (host, author = async () => ({}), reactions = null, avatars = null) {
   async function list(req, res) {
     res.set('Cache-Control', 'private, no-store');
     const tid = Number(req.params.tid);
@@ -23,10 +23,14 @@ module.exports = function (host, author = async () => ({})) {
       topics.getTopicPosts(topic, set, after, after + PAGE_SIZE - 1, req.uid, false),
       host('database').sortedSetCard(set),
     ]);
+    const avatarMap = avatars ? await avatars.batch(rows.map(post=>post?.uid)) : new Map();
+    const reactionMap = reactions ? new Map(await Promise.all(rows.filter(post=>post&&!Number(post.deleted)).map(async post=>[post.pid,await reactions.snapshot(post.pid,req.uid)]))) : new Map();
     const comments = await Promise.all(rows.filter(post => post && !Number(post.deleted) && String(post.pid) !== String(topic.mainPid)).map(async post => ({
       pid: post.pid, toPid: Number(post.toPid) || 0,
-      likes: Math.max(0, Number(post.upvotes) || 0), liked: !!post.upvoted, selfPost: !!post.selfPost,
+      likes: reactionMap.get(post.pid)?.total ?? Math.max(0, Number(post.upvotes) || 0), liked: reactionMap.has(post.pid) ? !!reactionMap.get(post.pid).selected : !!post.upvoted, selfPost: !!post.selfPost,
       authorMeta: await author(post.uid, req.uid),
+      avatar: avatarMap.get(Number(post.uid)) || avatars?.project(post.user),
+      reactions: reactionMap.get(post.pid),
       isTopicAuthor: Number(topic.uid) > 0 && Number(post.uid) === Number(topic.uid),
       content: post.content,
       timestamp: post.timestamp,

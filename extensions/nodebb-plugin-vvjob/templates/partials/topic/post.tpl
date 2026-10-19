@@ -117,7 +117,7 @@
 					{{{ end }}}
 
 					{{{ if !reputation:disabled }}}
-					<div class="d-flex votes align-items-center">
+					<details class="vvjob-legacy-votes"><summary title="Điểm cộng đồng từ hệ thống bình chọn NodeBB">Điểm {posts.votes}</summary><div class="d-flex votes align-items-center">
 						<a component="post/upvote" href="#" class="btn btn-ghost btn-sm{{{ if posts.upvoted }}} upvoted{{{ end }}}" title="[[topic:upvote-post]]">
 							<i class="fa fa-fw fa-thumbs-o-up"></i>
 						</a>
@@ -131,7 +131,7 @@
 							<i class="fa fa-fw fa-chevron-down text-primary"></i>
 						</a>
 						{{{ end }}}
-					</div>
+					</div></details>
 					{{{ end }}}
 
 					<!-- IMPORT partials/topic/post-menu.tpl -->
