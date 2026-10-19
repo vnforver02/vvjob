@@ -34,3 +34,24 @@
  .vvcomment-meta { gap: 12px; .vvcomment-like { display: inline-flex; align-items: center; gap: 4px; min-width: 22px; &[aria-pressed="true"] { color: #ee5273; } } }
  .vvcomments-emoji { max-width: 100%; flex-wrap: wrap; button { padding: 6px; font-size: 18px; } }
 }
+// Replies read as a conversation list, with a quiet hierarchy rather than chat bubbles.
+.vv2 .vvcomments {
+ .vvcomments-list { gap: 0; }
+ .vvcomments-heading { margin: 0 0 13px; }
+ .vvcomment { padding: 15px 0; gap: 10px; border-bottom: 1px solid #f0f2f6; &:last-child { border-bottom: 0; } }
+ .vvcomment-avatar { width: 33px; height: 33px; flex-basis: 33px; }
+ .vvcomment-bubble { background: transparent; border-radius: 0; padding: 0; }
+ .vvcomment-author { font-weight: 600; color: #58657b; font-size: 12px; }
+ .vvcomment-career { display: block; color: #8b95a6; font-size: 10px; margin-top: 2px; line-height: 1.5; }
+ .vvcomment-content { color: #26364f; font-size: 14px; line-height: 1.75; margin-top: 5px; }
+ .vvcomment-parent { color: #8d9cb1; font-size: 10px; padding-top: 3px; }
+ .vvcomment-meta { gap: 17px; padding: 8px 0 0; time { order: 0; margin-right: auto; font-size: 10px; color: #a1aab8; } [data-comment-reply] { order: 1; font-size: 11px; color: #8b96a7; } .vvcomment-like { order: 2; font-size: 12px; color: #8b96a7; &[aria-pressed="true"] { color: #2873e7; } } >a { order: 3; color: #99a4b4; } }
+ .vvcomment-children { margin-top: 5px; gap: 0; .vvcomment { padding: 12px 0 3px; border-bottom: 0; } .vvcomment-content { font-size: 13px; } }
+ .vvcomment-thread-more { border: 0; background: transparent; font-size: 11px; color: #4779c9; padding: 11px 0 2px; }
+ .vvcomments-form { margin-bottom: 7px; }
+ .vvcomments-input { border-radius: 22px; background: #f6f8fb; border-color: #edf0f5; padding: 5px 6px; textarea { padding: 6px 9px; min-height: 34px; } >button { width: 31px; height: 31px; flex-basis: 31px; font-size: 12px; } }
+ .vvcomments-form.is-nested { margin-top: 10px; }
+ .vvcomments-more { background: transparent; font-size: 12px; margin-left: 43px; padding: 9px 0; }
+}
+
+.vv2 .vvcomments .vvcomment-owner { font-size: 9px; border-radius: 3px; background: #f0f5ff; color: #4b7ac3; padding: 1px 4px; margin-left: 5px; }

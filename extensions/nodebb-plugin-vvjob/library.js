@@ -6,6 +6,7 @@ const host = name => require.main.require(`./src/${name}`);
 let careerRoutes;
 let verificationRoutes;
 let evidenceRoutes;
+let socialService;
 exports.init = async ({ router, middleware }) => {
   host('routes/helpers').setupPageRoute(router, '/vvjob', [], exports.render);
   host('routes/helpers').setupPageRoute(router, '/vvjob/guide', [], exports.guide);
@@ -14,12 +15,13 @@ exports.init = async ({ router, middleware }) => {
   evidenceRoutes = require('./lib/evidence-routes')(host, directory, name => require.main.require('nconf').get(name), function (options) { return new (require.main.require('pg').Pool)(options); }, name => require.main.require(name));
   careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service, evidenceRoutes.service);
   const helpers = host('routes/helpers');
-  helpers.setupApiRoute(router, 'get', '/api/vvjob/topics/:tid/comments', [], require('./lib/comments')(host).list);
-  const social = require('./lib/social')(host);
+  const identity = require('./lib/identity')(host('database'), evidenceRoutes.service, verificationRoutes.service);
+  const author = require('./lib/author')(directory, identity);
+  helpers.setupApiRoute(router, 'get', '/api/vvjob/topics/:tid/comments', [], require('./lib/comments')(host, author).list);
+  const social = socialService = require('./lib/social')(host, author);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/topics/:tid/content', [], social.content);
   helpers.setupApiRoute(router, 'get', '/api/vvjob/posts/:pid/reaction', [], social.votes);
   const member = [middleware.ensureLoggedIn, middleware.redirectToHomeIfBanned];
-  const identity = require('./lib/identity')(host('database'), evidenceRoutes.service, verificationRoutes.service);
   const people = require('./lib/people')(host, directory, identity);
   router.get('/vvjob/demo-avatar/:index.svg', (req, res) => {
     const index = Number(req.params.index);
@@ -68,6 +70,7 @@ exports.home = async ({ req, res, next }) => {
 };
 
 exports.render = async (req, res, next) => {
+  res.set?.('Cache-Control', 'private, no-store');
   // Use the native controller: category privileges, blocks, pagination, and
   // deleted/scheduled topic visibility stay under NodeBB's control.
   const sort = req.query.sort === 'popular' ? 'posts' : 'recent';
@@ -99,7 +102,12 @@ exports.render = async (req, res, next) => {
     data.communities.forEach(category => { category.hotUrl = hotUrl(term, category.cid); });
     data.topics.forEach((topic, index) => { topic.rank = Number.isInteger(topic.index) ? topic.index + 1 : index + 1; topic.topRank = topic.rank <= 3; topic.replyCount = Math.max(0, Number(topic.postcount || 0) - 1); });
   }
-  await require('./lib/social')(host).enrich(data, req.uid);
+  if (data.isPopular) {
+    data.ongoing = data.topics.slice(0, 6).map(topic => ({ ...topic, domId: `talk-${topic.tid}` }));
+    data.topics.forEach(topic => { topic.domId = `rank-${topic.tid}`; });
+  }
+  await (socialService || require('./lib/social')(host)).enrich(data, req.uid);
+  if (data.isPopular && socialService) await socialService.highlights(data.ongoing, req.uid);
   data.viewerLoggedIn = Number(req.uid) > 0;
   const career = data.viewerLoggedIn ? await host('database').getObject(`vvjob:career:${req.uid}`) : null;
   data.showCareerReminder = !!(career && Number(career.onboardingPending) === 1 && Number(career.completed) !== 1);

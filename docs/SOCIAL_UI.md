@@ -1,5 +1,7 @@
 # Compact social feed and 15-title discussion ranking
 
+The subsequent [workplace conversation/image refinement](CONVERSATION_UI.md) supersedes the original heart icons, bubble presentation and hot-board-only layout below.
+
 This release replaces the repeated desktop home link with a small community heading, keeps useful community/personal navigation, and uses the current member's native picture in the feed composer. The prompt itself opens the native composer; the duplicate “Viết bài” toolbar is removed. Anonymous visitors retain a neutral avatar and native login routing.
 
 Feed titles, excerpts and the chevron expand the original post in place through `/api/vvjob/topics/:tid/content`; the heading/chevron can collapse it again. This endpoint rechecks native topic/category privileges, deleted/scheduled/disabled state and the viewer's block filter on every read, uses native parsed content, returns a small explicit projection, and sets private/no-store. Previews use the original post rather than the last reply. Full discussion links remain available for native moderation/report tools.

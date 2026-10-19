@@ -1,7 +1,7 @@
 "use strict";
 
 // Only native permission-filtered, parsed content and public vote state leave this module.
-module.exports = function (host) {
+module.exports = function (host, author = async () => ({})) {
   const escape = text => String(text || '').replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-f]+);)/gi, '&amp;').replace(/[<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const reaction = post => ({ pid: post.pid, likes: Math.max(0, Number(post.upvotes) || 0), liked: !!post.upvoted, selfPost: !!post.selfPost });
   async function allowed(tid, uid) {
@@ -33,21 +33,52 @@ module.exports = function (host) {
     const state = await posts.hasVoted(pid, req.uid);
     return respond(res, 200, reaction({ ...post, ...state, selfPost: Number(req.uid) > 0 && Number(req.uid) === Number(post.uid) }));
   }
+  function images(content) {
+    const found = [], pattern = /<img\b[^>]*\bsrc\s*=\s*(["'])(.*?)\1[^>]*>/gi;
+    for (const match of String(content || '').matchAll(pattern)) {
+      if (/class=["'][^"']*\bemoji\b|\/emoji\//i.test(match[0])) continue;
+      const src = match[2].replace(/&amp;/gi, '&');
+      // Parsed post images only; never accept executable/data URLs or credentials.
+      const relative = src.startsWith('/') && !src.startsWith('//');
+      if (!relative && !/^https?:\/\//i.test(src)) continue;
+      try { const url = new URL(src, 'https://vvjob.invalid'); if (url.username || url.password) continue; } catch { continue; }
+      if (!found.includes(src)) found.push(src);
+    }
+    return found;
+  }
+  function plain(content, limit) {
+    return escape(host('utils').stripHTMLTags(String(content || '').replace(/<\/(?:p|div)>|<br\s*\/?>/gi, '\n')).trim().slice(0, limit));
+  }
   async function enrich(data, uid) {
-    const topics = data.topics || [], pids = topics.map(t => t.mainPid).filter(Boolean);
-    const posts = host('posts');
+    const topics = [...(data.topics || []), ...(data.ongoing || [])];
+    const pids = [...new Set(topics.map(t => t.mainPid).filter(Boolean))], posts = host('posts');
     const [summaries, states] = await Promise.all([
-      posts.getPostSummaryByPids(pids, uid, { stripTags: true }), posts.getVoteStatusByPostIDs(pids, uid),
+      posts.getPostSummaryByPids(pids, uid, { stripTags: false }), posts.getVoteStatusByPostIDs(pids, uid),
     ]);
     const rows = new Map(summaries.filter(p => !Number(p.deleted)).map(p => [String(p.pid), p]));
-    topics.forEach(topic => {
+    const authors = new Map();
+    await Promise.all(topics.map(async topic => {
       const post = rows.get(String(topic.mainPid)), index = pids.indexOf(topic.mainPid);
+      topic.domId = topic.domId || String(topic.tid);
       topic.replyCount = Math.max(0, Number(topic.postcount || 0) - 1);
-      topic.socialPost = post ? { pid: post.pid, preview: escape(host('utils').stripHTMLTags(String(post.content || '').replace(/<\/(?:p|div)>|<br\s*\/?>/gi, '\n')).trim().slice(0, 420)), likes: Math.max(0, Number(post.upvotes) || 0), liked: !!states.upvotes[index], selfPost: Number(uid) > 0 && Number(uid) === Number(post.uid) } : null;
-      // Never substitute another person's last reply as the original post preview.
-    });
+      const media = post ? images(post.content) : [];
+      topic.socialPost = post ? { pid: post.pid, preview: plain(post.content, 420), likes: Math.max(0, Number(post.upvotes) || 0), liked: !!states.upvotes[index], selfPost: Number(uid) > 0 && Number(uid) === Number(post.uid),
+        images: media.slice(0, 9).map((src, i) => ({ src, index: i, overflow: i === 8 && media.length > 9 ? media.length - 9 : 0 })), imageCount: Math.min(media.length, 9),
+      } : null;
+      if (post) { if (!authors.has(post.uid)) authors.set(post.uid, author(post.uid, uid)); topic.authorMeta = await authors.get(post.uid); }
+    }));
     data.viewer = Number(uid) > 0 ? await host('user').getUserFields(uid, ['picture', 'username', 'userslug']) : null;
     if (data.viewer) data.viewer = { picture: data.viewer.picture || '', username: data.viewer.username || '', userslug: data.viewer.userslug || '' };
   }
-  return { content, votes, enrich };
+  async function highlights(topics, uid) {
+    // A real, positive-vote reply, using the native sorted set and viewer filtering.
+    await Promise.all(topics.map(async topic => {
+      const current = await allowed(topic.tid, uid);
+      if (!current) return;
+      const rows = await host('topics').getTopicPosts(current, `tid:${topic.tid}:posts:votes`, 1, 3, uid, true);
+      const best = rows.find(post => post && !Number(post.deleted) && String(post.pid) !== String(current.mainPid) && Number(post.upvotes) > 0);
+      if (best) topic.highlight = { pid: best.pid, preview: plain(best.content, 140), likes: Math.max(0, Number(best.upvotes) || 0) };
+    }));
+  }
+  return { content, votes, enrich, highlights, images };
 };

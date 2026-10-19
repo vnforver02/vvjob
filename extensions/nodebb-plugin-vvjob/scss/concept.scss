@@ -195,3 +195,35 @@ body.theme-harmony .vvjob-mobile-discovery { display: none; }
  .vvhot-row.is-expanded { .vvjob-post-original { margin-top: 12px; } }
  @media(max-width:699px) { .vvjob-left-heading { display: none; } .vvjob-social-compose { padding: 12px; } .vvjob-social-compose .vv2-compose-main { padding-bottom: 0; } .vvjob-post-preview,.vvjob-post-original { font-size: 14px; } .vvhot-story h2 { font-size: 15px; } .vvjob-conversation-actions { gap: 14px; } }
 }
+// Content-first workplace conversations.
+.vv2 {
+ .vvjob-author-name { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; >a { color: #27374f; font-size: 14px; font-weight: 650; } }
+ .vvjob-author-career { color: #78869a; font-size: 11px; line-height: 1.5; }
+ .vvjob-author-verified { color: #2675e8; font-size: 13px; }
+ .vvjob-author-demo { color: #8b789e; background: #f5f1fa; border-radius: 3px; font-size: 9px; padding: 1px 4px; font-weight: 400; }
+ .vvjob-author-simulated { color: #a279bb; font-size: 12px; }
+ .vv2-post { box-shadow: none; border-color: #e9edf3; }
+ .vv2-post h2 { font-size: 18px; margin: 14px 0 7px; }
+ .vvjob-post-preview { font-size: 15px; line-height: 1.75; max-height: none; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; white-space: normal; }
+ .vvjob-media { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 5px; margin: 11px 0 4px; max-width: 490px; >button { position: relative; border: 0; padding: 0; border-radius: 8px; overflow: hidden; background: #eef2f7; aspect-ratio: 1; min-width: 0; &:focus-visible { outline: 3px solid #1765ed; outline-offset: 2px; } } img { width: 100%; height: 100%; display: block; object-fit: cover; } button >span { position: absolute; inset: 0; display: grid; place-items: center; background: #12233c80; color: white; font-size: 25px; font-weight: 600; } }
+ .vvjob-media-1 { grid-template-columns: minmax(0,230px); >button { aspect-ratio: 4 / 3; } }
+ .vvjob-media-2,.vvjob-media-4 { grid-template-columns: repeat(2,minmax(0,1fr)); max-width: 420px; }
+ .vvjob-post-original img { cursor: auto; }
+ .vvjob-conversation-actions { display: flex; gap: 0; padding: 7px 0; margin-top: 5px; border-top: 0; >button { flex: 1 1 0; min-height: 38px; justify-content: center; padding: 7px; margin: 0 !important; color: #8792a2; gap: 7px; font-size: 12px; i { font-size: 18px; } &[aria-pressed="true"] { color: #2873e7; } } .vvjob-share-feedback { flex-basis: 100%; } }
+ .vvjob-highlight { display: flex; align-items: baseline; gap: 8px; color: #8290a4; border-top: 1px solid #f0f2f6; padding: 12px 0; font-size: 12px; >span { flex: 0 0 auto; color: #e8a05e; font-size: 11px; font-weight: 600; } p { margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } >i { margin-left: auto; flex-shrink: 0; } }
+ .vvjob-ongoing { margin-top: 27px; >header { padding: 2px 3px 17px; >span { font-size: 19px; font-weight: 700; color: #243550; } i { color: #4482df; margin-right: 6px; } p { font-size: 12px; color: #8b98aa; margin: 5px 0 0; } } }
+ &.vvhot .vvhot-row { padding: 16px 19px; }
+ &.vvhot .vvhot-story h2 { margin: 0; line-height: 1.6; }
+ &.vvhot .vvhot-rank { line-height: 1.45; font-size: 21px; }
+ @media(max-width:699px) { .vv2-post { border-radius: 10px; margin-bottom: 10px; padding: 15px 15px 0; } .vv2-post h2 { font-size: 17px; line-height: 1.5; } .vvjob-post-preview,.vvjob-post-original { font-size: 15px; line-height: 1.7; } .vvjob-author-name >a { font-size: 13px; } .vvjob-media { max-width: 100%; gap: 4px; } .vvjob-media-1 { grid-template-columns: minmax(0,180px); } .vvjob-ongoing >header >span { font-size: 17px; } &.vvhot .vvhot-story h2 { font-size: 15px; } }
+}
+.vvjob-image-viewer { border: 0; padding: 45px 55px 15px; background: #142038; color: white; width: min(1100px,95vw); max-width: 95vw; height: min(850px,92dvh); max-height: 92dvh; border-radius: 13px; overflow: hidden; &[open] { display: flex; align-items: center; justify-content: center; gap: 10px; } &::backdrop { background: #09121de8; } figure { margin: 0; flex: 1; min-width: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; } img { max-width: 100%; max-height: calc(100% - 30px); object-fit: contain; } figcaption { color: #c4cddd; font-size: 12px; margin-top: 10px; } button { flex: 0 0 35px; border: 0; border-radius: 50%; width: 35px; height: 35px; color: white; background: #ffffff16; font-size: 23px; } [data-image-close] { position: absolute; top: 9px; right: 12px; font-size: 18px; } [hidden] { display: none !important; } }
+body.vvjob-image-open { overflow: hidden; }
+.vvjob-header-spacer[hidden] { display: none; }
+@media(max-width:699px) {
+ .vvjob-image-viewer { padding: 50px 6px 13px; width: 98vw; max-width: 98vw; gap: 3px; button { flex-basis: 27px; width: 27px; } }
+ body.theme-harmony.vvjob-feed-scrolled .vvjob-site-top { position: fixed; top: 0; left: 0; width: 100%; box-shadow: 0 3px 14px #2036560b; .vv2-header-inner { min-height: 51px; } .vvjob-mobile-discovery { padding-bottom: 3px; nav a { padding-bottom: 7px; font-size: 14px; } form { display: none; } } .vv2-mobile-search { display: inline-flex; } .vv2-logo-caption { display: none; } .vv2-logo >span:last-child { font-size: 27px; } }
+}
+.vv2.vvhot .vvjob-conversation-actions { display: flex; gap: 0; >button { flex: 1 1 0; justify-content: center; min-height: 38px; margin: 0 !important; i { font-size: 18px; } &[aria-pressed="true"] { color: #2873e7; } } }
+
+@media(max-width:699px) { body.theme-harmony.vvjob-feed-page .vvjob-site-top { position: sticky; top: 0; } body.theme-harmony.vvjob-feed-page.vvjob-feed-scrolled .vvjob-site-top { position: fixed; } }

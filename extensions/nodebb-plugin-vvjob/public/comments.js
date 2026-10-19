@@ -20,7 +20,7 @@
   function resize(input) {
     input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 180) + 'px';
   }
-  async function append(panel, comments, canReply) {
+  async function append(panel, comments, canReply, revealPid) {
     const templates = await app.require('benchpressjs');
     const fresh = comments.filter(comment => !Array.from(panel.querySelectorAll('[data-comment-pid]')).some(el => el.dataset.commentPid === String(comment.pid)));
     const html = await templates.render('partials/vvjob-comments', { comments: fresh, canReply, config: { relative_path: config.relative_path } });
@@ -29,14 +29,15 @@
       const date = new Date(Number(el.dataset.commentTime));
       if (!Number.isNaN(date.getTime())) {
         el.dateTime = date.toISOString();
-        el.textContent = date.toLocaleString('vi-VN', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' });
+        const minutes = Math.max(0, Math.floor((Date.now() - date.getTime()) / 60000));
+        el.textContent = minutes < 1 ? 'Vừa xong' : minutes < 60 ? `${minutes} phút trước` : minutes < 1440 ? `${Math.floor(minutes / 60)} giờ trước` : date.toLocaleDateString('vi-VN', { day: 'numeric', month: 'numeric' });
         el.title = date.toLocaleString('vi-VN');
       }
     });
-    arrangeReplies(panel);
+    arrangeReplies(panel, revealPid);
     panel.querySelector('.vvcomments-empty').hidden = !!panel.querySelector('[data-comment-pid]');
   }
-  function arrangeReplies(panel) {
+  function arrangeReplies(panel, revealPid) {
     panel.querySelectorAll('[data-comment-parent]').forEach(comment => {
       const pid = Number(comment.dataset.commentParent);
       if (!pid) return;
@@ -47,6 +48,19 @@
       let list = main.querySelector(':scope > .vvcomment-children');
       if (!list) { list = document.createElement('ol'); list.className = 'vvcomment-children'; list.setAttribute('aria-label', 'Các câu trả lời'); main.append(list); }
       if (comment.parentElement !== list) list.append(comment);
+    });
+    panel.querySelectorAll('.vvcomment-children').forEach(list => {
+      const children = Array.from(list.children);
+      if (revealPid && children.some(el => Number(el.dataset.commentPid) === Number(revealPid))) list.dataset.expanded = '1';
+      const expanded = list.dataset.expanded === '1';
+      children.forEach((el, i) => { el.hidden = !expanded && i >= 2; });
+      let more = list.parentElement.querySelector(':scope > [data-comment-thread-more]');
+      if (children.length > 2) {
+        if (!more) { more = document.createElement('button'); more.type = 'button'; more.dataset.commentThreadMore = ''; more.className = 'vvcomment-thread-more'; list.after(more); }
+        more.setAttribute('aria-expanded', String(expanded));
+        more.textContent = expanded ? 'Thu gọn câu trả lời' : `Xem thêm ${children.length - 2} câu trả lời`;
+        more.hidden = false;
+      } else if (more) more.hidden = true;
     });
   }
   async function load(ctx) {
@@ -79,6 +93,11 @@
     ctx.card.querySelector('[data-vvjob-comments]').setAttribute('aria-expanded', String(!ctx.panel.hidden));
     if (!ctx.panel.hidden && !ctx.state.loaded) await load(ctx);
     if (ctx.panel.hidden && this.hasAttribute('data-comments-close')) ctx.card.querySelector('[data-vvjob-comments]').focus();
+  });
+  $(document).on('click.vvcomments', '[data-comment-thread-more]', function () {
+    const list = this.parentElement.querySelector(':scope > .vvcomment-children');
+    list.dataset.expanded = list.dataset.expanded === '1' ? '0' : '1';
+    arrangeReplies(context(this).panel);
   });
   $(document).on('click.vvcomments', '[data-comments-more]', function () { load(context(this)); });
   $(document).on('click.vvcomments', '[data-comment-reply]', function () {
@@ -131,7 +150,7 @@
         status(panel, 'Bình luận đã gửi và đang chờ duyệt.');
       } else {
         // Native reply returns already parsed post content. No optimistic fake post.
-        await append(panel, [{ pid: data.pid, toPid: data.toPid, content: data.content, timestamp: data.timestamp, user: data.user, likes: data.upvotes || 0, liked: false, selfPost: true, replyTo: data.parent?.user?.username || '' }], true);
+        await append(panel, [{ pid: data.pid, toPid: data.toPid, content: data.content, timestamp: data.timestamp, user: data.user, likes: data.upvotes || 0, liked: false, selfPost: true, isTopicAuthor: Number(data.user?.uid) > 0 && Number(data.user?.uid) === Number(data.topic?.uid), replyTo: data.parent?.user?.username || '' }], true, data.pid);
         const count = card.querySelector('[data-feed-postcount]');
         if (count) { count.dataset.feedPostcount = Number(count.dataset.feedPostcount) + 1; count.textContent = count.dataset.feedPostcount + ' bài viết trong thảo luận'; }
         const replies = card.querySelector('[data-feed-replycount]');

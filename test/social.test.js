@@ -34,3 +34,14 @@ test('feed previews use original posts and expose only safe text, real likes and
  const f=fixture(),data={topics:[{mainPid:10,postcount:4,teaser:{content:'OTHER REPLY'}}]};await f.service.enrich(data,2);
  assert.equal(data.topics[0].socialPost.pid,10);assert.equal(data.topics[0].replyCount,3);assert.equal(data.topics[0].socialPost.preview,'Original text');assert.equal(data.topics[0].socialPost.likes,3);assert.equal(data.viewer.picture,'/avatar.png');assert.doesNotMatch(JSON.stringify(data.viewer),/SECRET|email/);
 });
+
+test('gallery uses parsed images, deduplicates URLs and rejects executable/credential URLs and emoji',()=>{
+ const f=fixture();
+ assert.deepEqual(f.service.images('<img src="/assets/uploads/1.jpg"><img src="/assets/uploads/1.jpg"><img src="https://cdn.example/image.jpg?a=1&amp;b=2"><img src="javascript:alert(1)"><img src="data:image/png;base64,abc"><img src="https://name:secret@example.com/a.png"><img src="/emoji/smile.png" class="emoji">'),['/assets/uploads/1.jpg','https://cdn.example/image.jpg?a=1&b=2']);
+});
+test('highlight is a real positive-vote native reply and never the original/deleted post',async()=>{
+ const f=fixture(),topic={tid:7};
+ await f.service.highlights([topic],9);assert.equal(topic.highlight,undefined);
+ f.post.pid=11;await f.service.highlights([topic],9);assert.equal(topic.highlight.pid,11);assert.equal(topic.highlight.likes,3);assert.doesNotMatch(JSON.stringify(topic.highlight),/SECRET/);assert.equal(f.calls.at(-1)[1],'tid:7:posts:votes');assert.deepEqual(f.calls.at(-1).slice(2),[1,3,9,true]);
+ f.post.deleted=1;const fresh={tid:7};await f.service.highlights([fresh],9);assert.equal(fresh.highlight,undefined);
+});

@@ -205,3 +205,13 @@ body.theme-harmony.template-chats {
   .vvjob-chat-workspace [component="chat/message/window"] { padding: 12px; }
  }
 }
+// Native topic replies share the quiet white-list treatment of inline conversations.
+body.theme-harmony.template-topic {
+ ul.posts { background: #fff; border: 1px solid #e9edf3; border-radius: 12px; overflow: visible; }
+ ul.posts > [component="post"][data-index] { border: 0 !important; border-bottom: 1px solid #edf0f5 !important; border-radius: 0 !important; margin: 0 !important; padding: 22px !important; &:last-child { border-bottom: 0 !important; } }
+ ul.posts > [component="post"][data-index]:not([data-index="0"]) { [component="post/content"] { font-size: 15px; line-height: 1.8; padding: 4px 0 12px; } .post-header { min-height: 34px; } .vvjob-post-footer { border-top: 0; padding-top: 0; } .vvjob-post-layout { gap: 12px !important; } .post-header a[data-uid] { font-size: 13px; font-weight: 600 !important; color: #657187; } }
+ [component="post/upvote"].upvoted { color: #2873e7; background: #eef5ff; }
+ @media(max-width:699px) { ul.posts > [component="post"][data-index] { padding: 16px !important; } }
+}
+
+body.theme-harmony.template-topic [component="post/replies/container"] { background: transparent; border-radius: 0 !important; border-left: 2px solid #edf1f6; }

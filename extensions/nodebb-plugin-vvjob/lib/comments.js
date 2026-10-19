@@ -2,7 +2,7 @@
 
 const PAGE_SIZE = 5;
 
-module.exports = function (host) {
+module.exports = function (host, author = async () => ({})) {
   async function list(req, res) {
     res.set('Cache-Control', 'private, no-store');
     const tid = Number(req.params.tid);
@@ -23,9 +23,11 @@ module.exports = function (host) {
       topics.getTopicPosts(topic, set, after, after + PAGE_SIZE - 1, req.uid, false),
       host('database').sortedSetCard(set),
     ]);
-    const comments = rows.filter(post => post && !Number(post.deleted) && String(post.pid) !== String(topic.mainPid)).map(post => ({
+    const comments = await Promise.all(rows.filter(post => post && !Number(post.deleted) && String(post.pid) !== String(topic.mainPid)).map(async post => ({
       pid: post.pid, toPid: Number(post.toPid) || 0,
       likes: Math.max(0, Number(post.upvotes) || 0), liked: !!post.upvoted, selfPost: !!post.selfPost,
+      authorMeta: await author(post.uid, req.uid),
+      isTopicAuthor: Number(topic.uid) > 0 && Number(post.uid) === Number(topic.uid),
       content: post.content,
       timestamp: post.timestamp,
       user: {
@@ -35,7 +37,7 @@ module.exports = function (host) {
       },
       // A label is enough; never return parent content or the full native user.
       replyTo: post.parent?.user?.username || '',
-    }));
+    })));
     return respond(200, {
       comments, next: after + PAGE_SIZE, hasMore: after + PAGE_SIZE <= Number(slots),
       canReply: Number(req.uid) > 0 && !!access['topics:reply'],
