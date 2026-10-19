@@ -24,3 +24,11 @@ The tested plugin is compared byte-for-byte with the `dev` release before cutove
 Before switching only the plugin/build mounts, save Compose/config and a PostgreSQL dump verified with `pg_restore --list` under `/home/ucloud/vvjob-backups/20261019-conversations`. Recreate only VVJOB `web`. This release does not modify company/verification records, demo accounts or the previously configured native length policy.
 
 For UI rollback, restore the saved Compose file and recreate only VVJOB `web`. Previous plugin/build paths remain `/home/ucloud/vvjob-social-refine-release` and `/home/ucloud/vvjob-social-refine-build`. Keep the current database and legitimate new writes; do not restore the full database merely to roll back UI. Keep backups and previous assets until acceptance.
+
+## Production acceptance — 2026-10-19
+
+Code release `9799a2368a89db2b28a0dce209eaefefea8100b4` is deployed at https://bbs.cloudverify.vn/. The plugin file set and bytes matched the tested source before switching mounts. The private backup was verified and only `vvjob-v1-web-1` was recreated. Other services, the production database container, uploads, existing members and verification records remain intact.
+
+Read-only production browser checks passed at 1440/390/320 pixels: white comment presentation, native thumbs controls and login gating, fifteen-title maximum plus actual ongoing cards, distinct control IDs, original content expansion, all four ranking filters, mobile compact scroll/restoration, private cache headers, no guest career captions, restricted guest profile APIs and the existing one-character reply policy. No JavaScript page errors were observed. All gallery and write interactions were tested in the isolated clone; production acceptance created no test accounts, posts, votes or messages.
+
+After acceptance, the isolated preview container, cloned database, temporary configuration/dump and fixture/archive files were removed. Live release/build, the protected backup and previous UI assets are retained for rollback.
