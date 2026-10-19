@@ -1,8 +1,8 @@
 'use strict';
 const taxonomy = require('./taxonomy');
-module.exports = function (host, directory, seed, verification, evidence) {
+module.exports = function (host, directory, seed, verification, evidence, catalog = []) {
   const safe = value => String(value || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const publicRow = row => Object.fromEntries(['id', 'name', 'aliases', 'website', 'domain', 'industry', 'industryId', 'city', 'cityId', 'source', 'checkedAt', 'logoUrl', 'logoSource', 'logoStatus', 'claimStatus'].map(k => [k, row[k] || '']));
+  const publicRow = row => Object.fromEntries(['id', 'name', 'aliases', 'website', 'domain', 'industry', 'industryId', 'city', 'cityId', 'source', 'checkedAt', 'logoUrl', 'logoSource', 'logoStatus', 'claimStatus', 'sourceName', 'sourceYear', 'taxId'].map(k => [k, row[k] || '']));
   const templateRow = row => Object.fromEntries(Object.entries(row).map(([k, v]) => [k, typeof v === 'string' ? safe(v) : v]));
   async function admin(req, res, next) {
     if (!await host('user').isAdministrator(req.uid)) { return res.status(403).json({ error: 'Bạn không có quyền quản trị.' }); }
@@ -26,7 +26,16 @@ module.exports = function (host, directory, seed, verification, evidence) {
     save: json(req => directory.saveProfile(req.uid, req.body)),
     skip: json(async req => { await host('database').setObjectField(`vvjob:career:${req.uid}`, 'completed', 1); return { skipped: true }; }),
     review: json(req => directory.review(req.uid, req.body)),
-    import: json(req => directory.importRows(req.uid, req.body.useSeed === true ? seed : req.body.companies, req.body.dryRun !== false)),
+    import: json(async req => {
+      const dryRun = req.body.dryRun !== false;
+      if (req.body.useSeed !== true) return directory.importRows(req.uid, req.body.companies, dryRun);
+      // Both catalogs are validated in preview before either can write.
+      await directory.importRows(req.uid, seed, true);
+      await directory.syncCatalog(req.uid, catalog, true);
+      const starter = await directory.importRows(req.uid, seed, dryRun);
+      const synced = await directory.syncCatalog(req.uid, catalog, dryRun);
+      return { ...synced, added: starter.added + synced.added, skipped: starter.skipped + synced.skipped };
+    }),
     companies: async (req, res) => {
       const page = Math.max(0, Math.floor(Number(req.query.page) || 0));
       const query = String(req.query.q || '').slice(0, 100);

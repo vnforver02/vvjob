@@ -33,7 +33,11 @@
         if (!response.ok) { throw Error('Không thể tìm công ty. Vui lòng thử lại.'); }
         const data = await response.json(); if (version !== searchVersion || !input.isConnected) { return; }
         const results = $('#career-company-results').empty(); $(input).attr('aria-expanded', 'true');
-        data.companies.forEach(row => $('<button>', { type: 'button', role: 'option', 'aria-selected': 'false', class: 'vvjob-picker-result' }).append($('<strong>').text(row.name), $('<small>').text(row.domain)).on('click', () => choose(form, row)).appendTo(results));
+        data.companies.forEach(row => {
+          const brand = $('<span>', { class: 'vvjob-picker-brand', 'aria-hidden': 'true' }).append($('<i>', { class: 'fa fa-building-o' }));
+          if (row.logoUrl) $('<img>', { class: 'vvjob-picker-logo', src: row.logoUrl, alt: '', loading: 'lazy', referrerpolicy: 'no-referrer' }).on('error', function () { this.hidden = true; }).appendTo(brand);
+          $('<button>', { type: 'button', role: 'option', 'aria-selected': 'false', class: 'vvjob-picker-result' }).append(brand, $('<span>', { class: 'vvjob-picker-description' }).append($('<strong>').text(row.name), $('<small>').text(row.domain || row.city || 'Thông tin từ danh bạ công ty'))).on('click', () => choose(form, row)).appendTo(results);
+        });
         if (!data.companies.length) { $('<p>').text('Chưa tìm thấy. Bạn có thể đề xuất công ty bên dưới.').appendTo(results); }
       } catch (err) { if (version === searchVersion) { $('#career-company-results').text(err.message); } }
     }, 250);

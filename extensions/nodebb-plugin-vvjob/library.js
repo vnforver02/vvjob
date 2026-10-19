@@ -14,7 +14,7 @@ exports.init = async ({ router, middleware }) => {
   const directory = require('./lib/companies')(host('database'));
   verificationRoutes = require('./lib/verification-routes')(host, directory, name => require.main.require('nconf').get(name), function (options) { return new (require.main.require('pg').Pool)(options); });
   evidenceRoutes = require('./lib/evidence-routes')(host, directory, name => require.main.require('nconf').get(name), function (options) { return new (require.main.require('pg').Pool)(options); }, name => require.main.require(name));
-  careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service, evidenceRoutes.service);
+  careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service, evidenceRoutes.service, require('./data/companies-vnr500'));
   const helpers = host('routes/helpers');
   const identity = require('./lib/identity')(host('database'), evidenceRoutes.service, verificationRoutes.service);
   const author = require('./lib/author')(directory, identity);

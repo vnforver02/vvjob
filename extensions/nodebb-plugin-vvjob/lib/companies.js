@@ -19,14 +19,14 @@ function url(value, required = false) {
   }
   return parsed.href;
 }
-function validate(input) {
+function validate(input, allowReferenceOnly = false) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) { throw Error('Thông tin không hợp lệ.'); }
-  const website = url(input.website, true);
+  const website = url(input.website, !allowReferenceOnly);
   const industry = taxonomy.field('industries', input.industryId, text(input.industry || '', 100));
   const city = taxonomy.field('cities', input.cityId, text(input.city || '', 100));
   return {
     name: text(input.name, 140, true), aliases: text(input.aliases || '', 300),
-    website, domain: new URL(website).hostname.replace(/^www\./, ''),
+    website, domain: website ? new URL(website).hostname.replace(/^www\./, '') : '',
     industry: industry.label, industryId: industry.id, city: city.label, cityId: city.id,
     source: url(input.source || website, true), checkedAt: text(input.checkedAt || '', 30),
     // A website is a reference, never an automatically approved employment domain.
@@ -45,7 +45,7 @@ module.exports = function createDirectory(db) {
       cityId: row.cityId || taxonomy.field('cities', undefined, row.city || '').id,
     }));
     const query = fold(String(q).slice(0, 100));
-    const filtered = rows.filter(row => (!query || fold(`${row.name} ${row.aliases} ${row.domain}`).includes(query)) &&
+    const filtered = rows.filter(row => (!query || fold(`${row.name} ${row.aliases} ${row.domain} ${row.taxId || ''}`).includes(query)) &&
       (!filters.industry || row.industryId === filters.industry) &&
       (!filters.city || (filters.city === 'unknown' ? !row.city : row.cityId === filters.city)));
     if (filters.sort === 'name') { filtered.sort((a, b) => a.name.localeCompare(b.name, 'vi')); }
@@ -151,7 +151,7 @@ module.exports = function createDirectory(db) {
     }
     return { dryRun, added: added.length, skipped: validated.length - added.length };
   }
-  return { get, list, submit, review, resolve, saveProfile, profile, importRows };
+  return { get, list, submit, review, resolve, saveProfile, profile, importRows, syncCatalog: require('./company-catalog')(db) };
 };
 module.exports.validate = validate;
 module.exports.fold = fold;

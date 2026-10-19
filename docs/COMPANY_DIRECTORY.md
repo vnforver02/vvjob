@@ -1,5 +1,7 @@
 # VVJOB 0.7 — company directory and career profiles
 
+The expanded catalog and current synchronization workflow are documented in [Company sync](COMPANY_SYNC.md). The release history below describes the original eight-company seed.
+
 ## Delivered behavior
 
 - `/vvjob/companies`: public, paginated company directory with Vietnamese accent-insensitive search across names, aliases and domains. Only approved records are returned. Public API fields exclude submitter and reviewer IDs.
