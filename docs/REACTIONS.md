@@ -28,3 +28,11 @@ Authorized rollout uses a fresh `dev` release checkout at `/home/ucloud/vvjob-re
 Before switching, protect a database dump and runtime Compose/config copies under `/home/ucloud/vvjob-backups/20261019-reactions` with directory 0700/files 0600. Verify the dump's archive listing. Roll back by restoring the previous plugin/build mounts from that Compose copy and recreating only `web`. Preserve new database writes; code rollback does not require restoring the database. Retain `/home/ucloud/vvjob-conversations-release` and `/home/ucloud/vvjob-conversations-build` for this purpose.
 
 After acceptance remove the isolated preview container, cloned database and private preview configuration. Keep production backups and active/rollback release/build directories. Production acceptance is recorded below after rollout.
+
+## Production acceptance
+
+Released functional commit `79d4077ea151d5c3f3197a767e92101c2b838861` from `dev` to https://bbs.cloudverify.vn on 2026-10-19. The verified pre-update backup is `/home/ucloud/vvjob-backups/20261019-reactions`. The tested plugin and fresh release checkout matched byte for byte before cutover; only `web` was recreated.
+
+Read-only production Chrome acceptance passed at 1440/390/320 pixels: canonical author avatar markup, seven-choice reaction API data, thumbs controls, inline comments, 15-title rankings/ongoing cards, unique IDs, full-text expansion, compact mobile header, no horizontal overflow or page errors, guest profile/career restrictions and reaction login redirect. Persisting/changing/removing reactions and avatar DOM updates were exercised on the isolated copy, not through production test accounts or votes.
+
+Cleanup completed: the preview container, cloned database and private preview config/dump were removed. Production/rollback directories and protected backups remain. Native production startup reports Ready; full native build completed in 20.802 seconds. Existing emoji-android compatibility and browser-data age warnings remain unchanged.
