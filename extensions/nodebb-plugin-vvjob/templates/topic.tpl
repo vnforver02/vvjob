@@ -10,6 +10,7 @@
 </div>
 {{{ end }}}
 
+<nav class="vvjob-discussion-back" aria-label="Điều hướng cuộc trò chuyện"><a href="{config.relative_path}/vvjob"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Cuộc trò chuyện</span></a><a href="{config.relative_path}/search" aria-label="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></a></nav>
 <div class="vvjob-discussion flex-fill" itemid="{url}" itemscope itemtype="https://schema.org/DiscussionForumPosting">
 	<meta itemprop="headline" content="{escape(titleRaw)}">
 	<meta itemprop="text" content="{escape(titleRaw)}">

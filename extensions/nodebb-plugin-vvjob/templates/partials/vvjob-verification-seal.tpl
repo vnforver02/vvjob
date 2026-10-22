@@ -1,0 +1,1 @@
+<svg class="vvjob-seal" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="m7.7 12 2.8 2.8 5.8-5.6" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg>

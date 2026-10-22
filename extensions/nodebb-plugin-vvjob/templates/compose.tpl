@@ -14,7 +14,8 @@
 			<input type="hidden" name="_csrf" value="{config.csrf_token}" />
 		</form>
 
-		<!-- IMPORT partials/composer-title-container.tpl -->
+		{{{ if !isEditing }}}<div class="vvjob-editor-identity"><span class="vvjob-editor-avatar" data-editor-avatar aria-hidden="true">V</span><div><strong data-editor-name>Bạn</strong><span>Chia sẻ với cộng đồng</span></div></div>{{{ end }}}
+<!-- IMPORT partials/composer-title-container.tpl -->
 
 		<!-- IMPORT partials/composer-formatting.tpl -->
 
@@ -23,5 +24,6 @@
 		{{{ if isTopicOrMain }}}
 		<!-- IMPORT partials/composer-tags.tpl -->
 		{{{ end }}}
+<footer class="vvjob-editor-footer"><span>Cộng đồng</span><button type="button" class="btn composer-submit" data-action="post">Đăng</button></footer>
 	</div>
 </div>

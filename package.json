@@ -4,7 +4,9 @@
   "version": "0.10.0",
   "scripts": {
     "test": "node --test test/*.test.js",
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "preview:ui": "npm run build && node scripts/preview-ui.js --serve",
+    "preview:people": "npm run build && node scripts/preview-people.js --serve"
   },
   "devDependencies": {
     "benchpressjs": "2.5.5",

@@ -3,9 +3,10 @@
 		<div class="chats-full d-flex gap-1 h-100 mt-3 mt-md-0 py-md-3">
 			<div component="chat/nav-wrapper" class="flex-shrink-0 d-flex flex-column h-100 gap-1" data-loaded="{{{ if roomId }}}1{{{ else }}}0{{{ end }}}">
 
-				<div class="vvjob-chat-heading"><h1>Tin nhắn</h1><p>Kết nối bắt đầu từ một lời chào.</p>
-					<button component="chat/create" class="btn btn-primary btn-sm w-100"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Tin nhắn mới</button>
-				</div>
+				<div class="vvjob-chat-heading"><div><span>VVJOB CONNECT</span><h1>Tin nhắn</h1></div><button component="chat/create" type="button" class="btn vvjob-new-chat" aria-label="Tin nhắn mới" title="Tin nhắn mới"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-7M15 4l5 5M10 14l1-5 7-7 5 5-7 7-6 1Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+                <label class="vvjob-chat-search"><i class="fa fa-search" aria-hidden="true"></i><input type="search" data-chat-filter placeholder="Tìm cuộc trò chuyện đã tải…" aria-label="Tìm trong các cuộc trò chuyện đã tải" autocomplete="off"></label>
+                <div class="vvjob-chat-tabs" role="group" aria-label="Lọc tin nhắn"><button type="button" data-chat-tab="all" aria-pressed="true">Tất cả</button><button type="button" data-chat-tab="unread" aria-pressed="false">Chưa đọc <span data-chat-unread></span></button></div>
+                <p class="vvjob-chat-filter-empty" role="status" hidden>Không có cuộc trò chuyện phù hợp.</p>
 
 				{{{ if publicRooms.length }}}
 				<hr class="my-1">

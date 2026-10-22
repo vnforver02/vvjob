@@ -7,7 +7,7 @@
   }
   function showVote(pid,data) { $(document).trigger('vvjob:reaction',[pid,data.reactions||data]); }
   $(document).on('click.vvjobExpand', '[data-vvjob-expand], .vvjob-post-preview', async function (event) {
-    if ($(event.target).closest('a').length) return;
+    if ($(event.target).closest('a').length || window.getSelection()?.toString()) return;
     const card = this.closest('[data-feed-tid]');
     if (card.dataset.expanding === '1') return;
     const body = card.querySelector('.vvjob-post-body'), preview = body.querySelector('.vvjob-post-preview'), original = body.querySelector('.vvjob-post-original');
@@ -22,13 +22,14 @@
     card.dataset.expanding = '1'; body.setAttribute('aria-busy', 'true');
     try {
       const api = await app.require('api');
-      const data = await api.get(`/api/vvjob/topics/${Number(card.dataset.feedTid)}/content`, {});
+      const data = body._vvjobContent || await api.get(`/api/vvjob/topics/${Number(card.dataset.feedTid)}/content`, {});
+      body._vvjobContent = data;
       // Content is parsed/sanitized by native NodeBB, with viewer/category/block checks server-side.
       $(original).html(data.content); original.hidden = false; preview.hidden = true;
       const media = body.querySelector('.vvjob-media'); if (media) media.hidden = true;
       card.classList.add('is-expanded');
       card.querySelectorAll('[data-vvjob-expand]').forEach(b => { b.setAttribute('aria-expanded', 'true'); });
-      showVote(data.pid, data); status.textContent = '';
+      showVote(data.pid, data); status.textContent = ''; status.classList.add('visually-hidden');
     } catch (error) { status.classList.remove('visually-hidden'); status.textContent = await errorText(error); }
     finally { delete card.dataset.expanding; body.removeAttribute('aria-busy'); }
   });

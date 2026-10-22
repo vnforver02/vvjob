@@ -47,14 +47,17 @@
     "public/people.js",
     "public/comments.js",
     "public/reactions.js",
-    "public/social.js"
+    "public/social.js",
+    "public/composer-ui.js",
+    "public/chat-ui.js"
   ],
   "scss": [
     "./scss/vvjob.scss",
     "./scss/global.scss",
     "./scss/pages.scss",
     "./scss/concept.scss",
-    "./scss/people.scss"
+    "./scss/people.scss",
+    "./scss/editor.scss"
   ],
   "languages": "./languages"
 }

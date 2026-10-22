@@ -15,3 +15,7 @@ test('demo badges cannot become real verification and private career cannot disc
  assert.equal((await real(1,null)).verified,false);assert.equal(checks,0);
  assert.equal((await real(1,{companyId:'fpt'})).verified,true);assert.equal(checks,1);
 });
+test('full-effect fixture retains synthetic identity and never grants real verification',async()=>{
+ const value=await identity({getObject:async()=>({batch:'vvjob-fixture-200-20261020',simulatedVerified:1})},{valid:async()=>{throw Error('must not certify fixture')}})(701,{companyId:'fpt'});
+ assert.equal(value.isDemo,true);assert.equal(value.previewFixture,true);assert.equal(value.simulatedVerified,true);assert.equal(value.verified,false);
+});

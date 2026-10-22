@@ -22,7 +22,8 @@
 			</div>
 		</nav>
 		<div class="p-2 d-flex flex-column gap-1 h-100">
-			<!-- IMPORT partials/composer-title-container.tpl -->
+			{{{ if !isEditing }}}<div class="vvjob-editor-identity"><span class="vvjob-editor-avatar" data-editor-avatar aria-hidden="true">V</span><div><strong data-editor-name>Bạn</strong><span>Chia sẻ với cộng đồng</span></div></div>{{{ end }}}
+<!-- IMPORT partials/composer-title-container.tpl -->
 
 			<!-- IMPORT partials/composer-formatting.tpl -->
 
@@ -34,7 +35,7 @@
 
 			<div class="imagedrop"><div>[[topic:composer.drag-and-drop-images]]</div></div>
 
-			<div class="vvjob-editor-note"><i class="fa fa-shield" aria-hidden="true"></i> Chia sẻ chân thành. Tôn trọng thông tin cá nhân. Bài viết gắn với tài khoản của bạn. <a href="{config.relative_path}/vvjob/guide" target="_blank" rel="noopener">Hướng dẫn đăng bài</a></div><div class="resizer position-absolute w-100 bottom-100 pe-3 border-bottom">
+			<span class="visually-hidden">Bài viết gắn với tài khoản của bạn.</span><footer class="vvjob-editor-footer"><span><i class="fa fa-globe" aria-hidden="true"></i> Cộng đồng</span><button type="button" class="btn composer-submit" data-action="post">Đăng</button></footer><div class="resizer position-absolute w-100 bottom-100 pe-3 border-bottom">
 				<div class="trigger text-center">
 					<div class="handle d-inline-block px-2 py-1 border bg-body">
 						<i class="fa fa-fw fa-up-down"></i>

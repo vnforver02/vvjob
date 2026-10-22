@@ -6,7 +6,7 @@ module.exports = (directory, identity) => async (uid, viewer) => {
   const badge = await identity(uid, career);
   return {
     careerLine: career ? [career.position, career.companyName].filter(Boolean).join(' · ') : '',
-    isDemo: !!badge.isDemo, simulatedVerified: !!badge.simulatedVerified,
+    isDemo: !!badge.isDemo, previewFixture: !!badge.previewFixture, simulatedVerified: !!badge.simulatedVerified,
     verified: !!badge.verified && !!career, verificationLabel: badge.isDemo || (career && badge.verified) ? badge.verificationLabel || '' : '',
   };
 };

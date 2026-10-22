@@ -1,4 +1,4 @@
-<div class="vv2 vvjob-site-shell vvjob-site-top">
+<div class="vv2 vvjob-site-shell vvjob-site-top"><div class="vvjob-test-strip" role="note"><strong>BẢN THỬ NGHIỆM</strong><span>Có hồ sơ và bài viết tổng hợp. Dấu xác minh trên tài khoản thử dùng để kiểm tra giao diện.</span></div>
   <header class="vv2-header">
     <div class="vv2-header-inner">
       <a class="vv2-logo" href="{relative_path}/" aria-label="VVJOB — Trang chủ"><span>vvjob<span class="vv2-logo-caption">Real Work. Real Talk.</span></span></a>

@@ -41,7 +41,7 @@ test('shared header preserves native member menus and guest registration', async
 test('ranked feed renders native ranking and native thread comment links without the home composer', async () => {
   const html = await benchpress.compileRender(await sources.expand(template), { config: { relative_path: '/forum' }, isPopular: true, hotAllUrl: '/vvjob?sort=popular&term=week', hotPeriods: [{ label: '7 ngày', active: true, url: '/vvjob?sort=popular&term=week' }], topics: [{ tid: 42, domId: '42', rank: 21, slug: '42/test', title: 'Câu chuyện', replyCount: 8, viewcount: 100, category: { name: 'Công việc' } }], communities: [] });
   assert.match(html, /aria-label="Hạng 21"/);
-  assert.match(html, /aria-current="page">7 ngày/);
+  assert.doesNotMatch(html, /vvhot-periods|aria-current="page">7 ngày/);
   assert.doesNotMatch(html, /vvhot-stats|vvhot-excerpt|vvhot-category/);
   assert.match(html, /data-vvjob-expand/);
   assert.match(html, /data-vvjob-open-thread href="\/forum\/topic\/42\/test#vvjob-replies"/);

@@ -268,3 +268,7 @@ body.vvjob-image-open { overflow: hidden; }
 .vv2 .vvjob-conversation-actions [data-vvjob-like][aria-pressed="true"] { background: transparent; color: #ed5272; }
 @media(max-width:699px) { .vv2 .vv2-posts { border-left: 0; border-right: 0; border-radius: 0; } .vv2 .vv2-posts .vv2-post { padding: 16px 12px; } }
 @media(max-width:699px) { .vv2 .vv2-mobile-search { display: inline-flex !important; align-items: center; justify-content: center; } }
+/* Identity badges are shared by feed cards and native topic posts. */
+.vvjob-author-verified { color: #2675e8; font-size: 13px; }
+.vvjob-author-simulated { color: #a279bb; font-size: 12px; }
+.vvjob-author-demo { color: #8b789e; background: #f5f1fa; border-radius: 3px; font-size: 9px; padding: 1px 4px; font-weight: 400; }

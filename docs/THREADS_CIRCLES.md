@@ -42,3 +42,11 @@ Functional release `be492bb9af73b1cf3ddd5649998f0af76a79056c` was deployed from 
 Read-only production Chrome acceptance passes at 1440/390/320px: mobile search forms and inline panels are absent; both simulated-verification states display; a page-memory marker survives comment navigation into native replies; a single browser Back returns to feed; simulated native topic badges remain distinct from real verification; guests receive no circle posts and see login prompts; hot ranking contains 15 titles. No page errors or horizontal overflow occur. Mutation/real-follow/company-match assertions were run on the isolated copy, not production accounts.
 
 Native final build completed in 21.017 seconds and production reports Ready. Preview container/database/private config and the local tunnel were removed; active/rollback releases/builds and protected backups remain. Existing third-party emoji compatibility and browser-data-age warnings remain unchanged.
+
+## Final badge consistency patch and workflow change
+
+The user requested that subsequent work proceed locally without Git as a mandatory step. Stop automatic commits/pushes; prefer local editing and preview, then deploy when explicitly requested. The final shared badge CSS patch is intentionally a local change rather than a new Git commit. It gives native topic posts the same blue real-verification, purple simulated-verification and labelled demo styling as the feed. All 89 tests, local compilation and a separate native build pass; isolated browser computed-style checks verify the actual native topic badge colors.
+
+This final local archive rollout uses `/home/ucloud/vvjob-threads-badge-release` and `/home/ucloud/vvjob-threads-badge-build`, with protected verified backup `/home/ucloud/vvjob-backups/20261019-threads-badge`. It changes only plugin/build mounts and does not seed further posts or change identity data. Restore the prior threads mounts from this Compose backup for code rollback. The previous Git release records above remain historical; the active runtime includes this uncommitted local CSS patch.
+
+The final local badge archive is now live; read-only production computed-style checks pass for native topic simulated badges/demo labels and the shared blue real-verification rule. No new demo posts, certificates or Git commits/pushes were made by this patch.
