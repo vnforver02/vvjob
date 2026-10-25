@@ -272,3 +272,16 @@ body.vvjob-image-open { overflow: hidden; }
 .vvjob-author-verified { color: #2675e8; font-size: 13px; }
 .vvjob-author-simulated { color: #a279bb; font-size: 12px; }
 .vvjob-author-demo { color: #8b789e; background: #f5f1fa; border-radius: 3px; font-size: 9px; padding: 1px 4px; font-weight: 400; }
+
+// Fixed intrinsic ratio prevents layout shifts; one logo for desktop and mobile.
+body.theme-harmony .vvjob-site-top .vv2-logo {
+  min-height: 44px;
+  .vvjob-brand-logo { display: block; width: 150px; height: 36px; }
+  &:focus-visible { outline: 3px solid #2358d5; outline-offset: 4px; border-radius: 5px; }
+}
+@media (max-width: 699px) {
+  body.theme-harmony .vvjob-site-top .vv2-logo .vvjob-brand-logo { width: 125px; height: 30px; }
+}
+@media (max-width: 359px) {
+  body.theme-harmony .vvjob-site-top .vv2-logo .vvjob-brand-logo { width: 108px; height: 25.92px; }
+}

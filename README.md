@@ -16,7 +16,7 @@ npm test
 npm run build
 ```
 
-This compiles both stylesheets and 36 owned Benchpress templates with available Harmony/composer imports. Generated `dist/` is validation output; NodeBB compiles the plugin itself during `nodebb build`.
+This compiles six stylesheets and 57 owned Benchpress templates with available Harmony/composer imports. Generated `dist/` is validation output; NodeBB compiles the plugin itself during `nodebb build`.
 
 Compatibility baseline inspected from source: NodeBB **4.6.1** (`351c9abc6f3016a55b34b6c791b85a7bb7f9a8d7`), Harmony **2.1.21**. The original server was inspected as NodeBB 1.19.7 on `nodebb/docker`; see the deployment record for the isolated upgrade and cutover. The original Compose remains unchanged.
 
@@ -40,3 +40,5 @@ Compatibility baseline inspected from source: NodeBB **4.6.1** (`351c9abc6f3016a
 - [Voluntary work-email verification, privacy and operator setup](docs/VERIFICATION.md)
 
 Private work-document review: [flow, privacy, retention and deployment](docs/EVIDENCE.md).
+
+- [2026-10-25 发布审查、品牌资产与当前上线阻碍](docs/LAUNCH_REVIEW_2026-10-25.md)

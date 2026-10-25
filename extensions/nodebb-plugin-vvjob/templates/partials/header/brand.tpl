@@ -1,7 +1,7 @@
 <div class="vv2 vvjob-site-shell vvjob-site-top"><div class="vvjob-test-strip" role="note"><strong>BẢN THỬ NGHIỆM</strong><span>Có hồ sơ và bài viết tổng hợp. Dấu xác minh trên tài khoản thử dùng để kiểm tra giao diện.</span></div>
   <header class="vv2-header">
     <div class="vv2-header-inner">
-      <a class="vv2-logo" href="{relative_path}/" aria-label="VVJOB — Trang chủ"><span>vvjob<span class="vv2-logo-caption">Real Work. Real Talk.</span></span></a>
+      <a class="vv2-logo" href="{relative_path}/" aria-label="VVJOB — Trang chủ"><img class="vvjob-brand-logo" src="{relative_path}/assets/plugins/nodebb-plugin-vvjob/brand/vvjob-logo.svg?v=20261025" width="200" height="48" alt="" /><span class="visually-hidden">Real Work. Real Talk.</span></a>
       <form class="vv2-search" action="{relative_path}/search" method="get" role="search"><i class="fa fa-search" aria-hidden="true"></i><input type="search" name="term" placeholder="Tìm câu chuyện, chủ đề, cộng đồng" aria-label="Tìm kiếm trên VVJOB"><button type="submit" aria-label="Tìm kiếm">↵</button></form>
       <nav class="vv2-header-nav" aria-label="Điều hướng chính"><a data-vvjob-nav="coworkers" href="{relative_path}/vvjob?circle=coworkers">Đồng nghiệp</a><a data-vvjob-nav="feed" href="{relative_path}/vvjob">Trang chủ</a><a data-vvjob-nav="popular" href="{relative_path}/vvjob?sort=popular">Nổi bật</a><a data-vvjob-nav="network" href="{relative_path}/vvjob?circle=network">Vòng kết nối</a></nav>
       <div class="vv2-header-actions"><a class="vv2-mobile-search" href="{relative_path}/search" aria-label="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></a>

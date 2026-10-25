@@ -30,6 +30,24 @@ test('registers route via NodeBB page helper and advertises homepage', async () 
   assert.equal(routes[1][3], plugin.guide);
   assert.equal((await plugin.homepages({ routes: [] })).routes[0].route, 'vvjob');
 });
+
+test('private VVJOB JSON and rendered pages disallow cache storage', async () => {
+  const middlewareCalls = [];
+  const plugin = load({ 'routes/helpers': { setupPageRoute() {}, setupApiRoute() {} } });
+  await plugin.init({ router: { use: (...args) => middlewareCalls.push(args), get() {}, post() {} }, middleware: {} });
+  const [paths, noStore] = middlewareCalls[0];
+  assert.deepEqual(Array.from(paths), ['/vvjob', '/api/vvjob']);
+  let value; let next = false;
+  const res = { set: (key, val) => { assert.equal(key, 'Cache-Control'); value = val; } };
+  noStore({}, res, () => { next = true; });
+  assert(next); assert.equal(value, 'private, no-store');
+  for (const name of ['vvjob-career', 'vvjob-verification', 'vvjob-verification-admin', 'vvjob-evidence-admin']) {
+    value = 'private'; // Native render middleware overwrites the earlier header.
+    const data = { res, templateData: { template: { name } } };
+    assert.equal(await plugin.privatePages(data), data);
+    assert.equal(value, 'private, no-store');
+  }
+});
 test('forwards viewer and query to native feed, uses privilege filtered categories and weekly popular topics', async () => {
   const req = { uid: 17, query: { page: '2', sort: 'popular' } };
   let nativeArgs; let trendArgs; let categoryArgs; let rendered;
