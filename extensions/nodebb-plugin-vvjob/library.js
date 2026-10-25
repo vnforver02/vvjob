@@ -10,6 +10,11 @@ let socialService;
 let reactionService;
 let authorService;
 exports.init = async ({ router, middleware }) => {
+  // Authenticated career/verification responses must not survive in shared caches.
+  router.use(['/vvjob', '/api/vvjob'], (req, res, next) => {
+    res.set('Cache-Control', 'private, no-store');
+    next();
+  });
   host('routes/helpers').setupPageRoute(router, '/vvjob', [], exports.render);
   host('routes/helpers').setupPageRoute(router, '/vvjob/guide', [], exports.guide);
   const directory = require('./lib/companies')(host('database'));
@@ -151,3 +156,15 @@ exports.registered = async data => {
 exports.deleteCareer = async ({ uid }) => { if (reactionService) await reactionService.removeUser(uid); if (evidenceRoutes) { await evidenceRoutes.service.remove(uid, uid, true); } if (verificationRoutes) { await verificationRoutes.service.remove(uid); } await host('database').delete(`vvjob:career:${uid}`); };
 
 exports.decoratePosts = async data => { if (authorService) await Promise.all((data.posts || []).map(async post => { post.authorMeta = await authorService(post.uid || post.user?.uid, data.uid); })); return data; };
+
+// Native metadata hook: no settings/database writes and no browser-side patching.
+exports.brandLinks = async data => require('./lib/brand')(data, require.main.require('nconf').get('relative_path') || '');
+exports.brandManifest = async data => require('./lib/brand').manifest(data, require.main.require('nconf').get('relative_path') || '');
+
+// NodeBB sets `private` during rendering; apply no-store after that native step.
+exports.privatePages = async data => {
+  if (/^vvjob(?:-|$)/.test(data.templateData.template?.name || '')) {
+    data.res.set('Cache-Control', 'private, no-store');
+  }
+  return data;
+};

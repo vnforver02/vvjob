@@ -35,6 +35,18 @@
     {
       "hook": "filter:topic.getPosts",
       "method": "decoratePosts"
+    },
+    {
+      "hook": "filter:meta.getLinkTags",
+      "method": "brandLinks"
+    },
+    {
+      "hook": "filter:middleware.render",
+      "method": "privatePages"
+    },
+    {
+      "hook": "filter:manifest.build",
+      "method": "brandManifest"
     }
   ],
   "templates": "./templates",
@@ -59,5 +71,8 @@
     "./scss/people.scss",
     "./scss/editor.scss"
   ],
-  "languages": "./languages"
+  "languages": "./languages",
+  "staticDirs": {
+    "brand": "./public/brand"
+  }
 }

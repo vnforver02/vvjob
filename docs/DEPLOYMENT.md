@@ -20,7 +20,7 @@ Do not run the repository's development Compose on the existing production proje
 
 ## Rollback
 
-Restore previous homepage/theme settings first, deactivate `nodebb-plugin-vvjob`, rebuild NodeBB and restart the intended container. Remove the plugin mount only after deactivation. Restore the prior image digest if it changed. This plugin writes no business data and requires no database migration. Database restore is needed only for unrelated configuration/data damage; use the rehearsed backup procedure.
+Restore previous homepage/theme settings first, deactivate `nodebb-plugin-vvjob`, rebuild NodeBB and restart the intended container. Remove the plugin mount only after deactivation. Restore the prior image digest if it changed. The plugin now stores career profiles, verification/evidence records, reactions and demo import mappings. The 2026-10-25 branding/cache change adds no schema migration or data writes. For this release, restore the previous tested plugin/build mounts and recreate only the web service; retain the current database and all newer user writes. Do not use a whole-database restore for a visual rollback. Deactivation hides plugin features but does not remove their stored data.
 
 ## Reproducible release configuration
 
