@@ -70,9 +70,11 @@ module.exports = function (host, directory, seed, verification, evidence, catalo
       const profile = await directory.profile(data.userData.uid, data.callerUID);
       data.userData.vvjobIdentity = await require('./identity')(host('database'), evidence, verification)(data.userData.uid, profile);
       if (profile) {
-        profile.hasWorkEmailVerification = false;
-        profile.hasDocumentVerification = !!(evidence && await evidence.valid(data.userData.uid));
-        if (verification && await verification.valid(data.userData.uid)) { profile.verification = 'work-email'; profile.hasWorkEmailVerification = true; }
+        // Public profile data exposes a result, never its private proof channel.
+        delete profile.verification;
+        delete profile.hasWorkEmailVerification;
+        delete profile.hasDocumentVerification;
+        profile.isVerified = !!data.userData.vvjobIdentity.verified;
         data.userData.vvjobCareer = templateRow(profile);
       }
       return data;

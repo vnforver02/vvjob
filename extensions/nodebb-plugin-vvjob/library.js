@@ -13,7 +13,7 @@ exports.init = async ({ router, middleware }) => {
   host('routes/helpers').setupPageRoute(router, '/vvjob', [], exports.render);
   host('routes/helpers').setupPageRoute(router, '/vvjob/guide', [], exports.guide);
   const directory = require('./lib/companies')(host('database'));
-  verificationRoutes = require('./lib/verification-routes')(host, directory, name => require.main.require('nconf').get(name), function (options) { return new (require.main.require('pg').Pool)(options); });
+  verificationRoutes = require('./lib/verification-routes')(host, directory, name => require.main.require('nconf').get(name), function (options) { return new (require.main.require('pg').Pool)(options); }, () => evidenceRoutes?.service);
   evidenceRoutes = require('./lib/evidence-routes')(host, directory, name => require.main.require('nconf').get(name), function (options) { return new (require.main.require('pg').Pool)(options); }, name => require.main.require(name));
   careerRoutes = require('./lib/career-routes')(host, directory, require('./data/companies.json'), verificationRoutes.service, evidenceRoutes.service, require('./data/companies-vnr500'));
   const helpers = host('routes/helpers');
@@ -36,7 +36,9 @@ exports.init = async ({ router, middleware }) => {
   // Plugin routes mount before core routes. Both page and ajax JSON require login.
   helpers.setupPageRoute(router, '/users', [...member, middleware.canViewUsers], people.page);
   helpers.setupPageRoute(router, '/vvjob/people', [...member, middleware.canViewUsers], people.page);
-  router.use(['/user', '/uid', '/api/user', '/api/uid', '/api/v3/users'], middleware.authenticateRequest, middleware.ensureLoggedIn);
+  // Route middleware keeps full page URLs intact for post-login return paths.
+  router.all(/^\/(?:user|uid)(?:\/|$)/, middleware.authenticateRequest, middleware.ensureLoggedIn);
+  router.use(['/api/user', '/api/uid', '/api/v3/users'], middleware.authenticateRequest, require('./lib/member-api')(host('controllers/helpers').formatApiResponse));
 
   helpers.setupPageRoute(router, '/vvjob/companies', [], careerRoutes.companies);
   helpers.setupPageRoute(router, '/vvjob/career', member, careerRoutes.career);
@@ -94,6 +96,9 @@ exports.render = async (req, res, next) => {
   data.feedTitle = selected ? selected.name : 'Bảng tin';
   data.feedDescription = selected ? 'Chia sẻ và thảo luận cùng cộng đồng.' : 'Những câu chuyện mới từ cộng đồng người đi làm.';
   data.selectedCommunityId = selected ? Number(selected.cid) : '';
+  data.isLatest = req.query.sort === 'latest';
+  data.isRecommended = !circle && !data.isLatest && sort !== 'posts';
+  data.latestQuery = selected ? `?cid=${Number(selected.cid)}&sort=latest` : '?sort=latest';
   data.feedQuery = selected ? `?cid=${Number(selected.cid)}` : '';
   data.popularQuery = selected ? `?cid=${Number(selected.cid)}&sort=popular` : '?sort=popular';
   data.trending = (await host('topics').getSortedTopics({ uid: req.uid, start: 0, stop: 14, sort: 'posts', term: 'week' })).topics;
@@ -141,6 +146,7 @@ exports.careerMenu = async data => {
   return data;
 };
 exports.registered = async data => {
+  if (Object.hasOwn(data, 'next')) data.next = require('./lib/registration-next')(data.next, require.main.require('nconf').get('relative_path') || '');
   if (Number(data.uid) > 0) {
     // Optional onboarding must never redirect or prevent successful registration.
     try { await host('database').setObjectField(`vvjob:career:${data.uid}`, 'onboardingPending', 1); } catch { /* Nonessential reminder; leave registration intact. */ }

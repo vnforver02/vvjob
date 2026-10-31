@@ -1,38 +1,6 @@
 "use strict";
 /* global app, config, ajaxify */
 (function () {
-  async function errorText(error) {
-    const translator = await app.require('translator');
-    return translator.translate(error.message || 'Chưa thể thực hiện. Vui lòng thử lại.');
-  }
-  function showVote(pid,data) { $(document).trigger('vvjob:reaction',[pid,data.reactions||data]); }
-  $(document).on('click.vvjobExpand', '[data-vvjob-expand], .vvjob-post-preview', async function (event) {
-    if ($(event.target).closest('a').length || window.getSelection()?.toString()) return;
-    const card = this.closest('[data-feed-tid]');
-    if (card.dataset.expanding === '1') return;
-    const body = card.querySelector('.vvjob-post-body'), preview = body.querySelector('.vvjob-post-preview'), original = body.querySelector('.vvjob-post-original');
-    const status = card.querySelector('.vvjob-content-status');
-    if (card.classList.contains('is-expanded')) {
-      // Clicking the heading or chevron collapses; links and text selection stay native.
-      original.hidden = true; preview.hidden = false;
-      const media = body.querySelector('.vvjob-media'); if (media) media.hidden = false; card.classList.remove('is-expanded');
-      card.querySelectorAll('[data-vvjob-expand]').forEach(b => { b.setAttribute('aria-expanded', 'false'); });
-      return;
-    }
-    card.dataset.expanding = '1'; body.setAttribute('aria-busy', 'true');
-    try {
-      const api = await app.require('api');
-      const data = body._vvjobContent || await api.get(`/api/vvjob/topics/${Number(card.dataset.feedTid)}/content`, {});
-      body._vvjobContent = data;
-      // Content is parsed/sanitized by native NodeBB, with viewer/category/block checks server-side.
-      $(original).html(data.content); original.hidden = false; preview.hidden = true;
-      const media = body.querySelector('.vvjob-media'); if (media) media.hidden = true;
-      card.classList.add('is-expanded');
-      card.querySelectorAll('[data-vvjob-expand]').forEach(b => { b.setAttribute('aria-expanded', 'true'); });
-      showVote(data.pid, data); status.textContent = ''; status.classList.add('visually-hidden');
-    } catch (error) { status.classList.remove('visually-hidden'); status.textContent = await errorText(error); }
-    finally { delete card.dataset.expanding; body.removeAttribute('aria-busy'); }
-  });
   let observedHeader, avatarSignature = '';
   function syncAvatar() {
     const uid = Number(app.user?.uid);
@@ -66,7 +34,7 @@
   }
   $(document).on('click.vvjobImage', '[data-vvjob-image]', function () {
     const card = this.closest('[data-feed-tid]');
-    if (this.dataset.imageOverflow) { if (!card.classList.contains('is-expanded')) card.querySelector('h2 [data-vvjob-expand]').click(); return; }
+    if (this.dataset.imageOverflow) { card.querySelector('[data-vvjob-post-open]')?.click(); return; }
     gallery = Array.from(this.closest('.vvjob-media').querySelectorAll('img')).map(img => img.src);
     if (!gallery.length) return;
     if (!viewer) {

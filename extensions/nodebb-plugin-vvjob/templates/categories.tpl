@@ -1,4 +1,5 @@
-<div class="vvjob-page-intro"><span>KHÔNG GIAN CỦA BẠN</span><h1>Cộng đồng</h1><p>Tìm những người cùng mối quan tâm. Chia sẻ câu chuyện đi làm của bạn.</p></div>
+<div class="vvjob-page-intro"><span>CÙNG CHIA SẺ, CÙNG TIẾN BỘ</span><h1>Khám phá</h1><p>Chọn điều bạn quan tâm: chuyện công sở, lương thưởng, trải nghiệm công ty và kinh nghiệm đi làm.</p></div>
+<aside class="vvjob-discovery-note"><i class="fa fa-shield" aria-hidden="true"></i><div><strong>Chia sẻ có trách nhiệm</strong><p>Bài viết hiện gắn với tài khoản. Đăng ẩn danh chưa được mở.</p></div><a href="{config.relative_path}/vvjob/guide">Xem hướng dẫn</a></aside>
 <div data-widget-area="header">
 	{{{ each widgets.header }}}
 	{{widgets.header.html}}

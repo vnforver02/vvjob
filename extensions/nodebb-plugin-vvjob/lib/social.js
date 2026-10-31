@@ -52,8 +52,9 @@ module.exports = function (host, author = async () => ({}), reactions = null, av
   async function enrich(data, uid) {
     const topics = [...(data.topics || []), ...(data.ongoing || [])];
     const pids = [...new Set(topics.map(t => t.mainPid).filter(Boolean))], posts = host('posts');
-    const [summaries, states] = await Promise.all([
+    const [summaries, states, bookmarks] = await Promise.all([
       posts.getPostSummaryByPids(pids, uid, { stripTags: false }), posts.getVoteStatusByPostIDs(pids, uid),
+      posts.hasBookmarked ? posts.hasBookmarked(pids, uid) : pids.map(() => false),
     ]);
     const avatarMap = avatars ? await avatars.batch([...summaries.map(post=>post.uid),uid]) : new Map();
     const rows = new Map(summaries.filter(p => !Number(p.deleted)).map(p => [String(p.pid), p]));
@@ -61,9 +62,11 @@ module.exports = function (host, author = async () => ({}), reactions = null, av
     await Promise.all(topics.map(async topic => {
       const post = rows.get(String(topic.mainPid)), index = pids.indexOf(topic.mainPid);
       topic.domId = topic.domId || String(topic.tid);
+      const timestamp = Number(topic.timestamp || post?.timestamp);
+      topic.timestampISO = Number.isFinite(timestamp) && timestamp > 0 && timestamp <= 8640000000000000 ? new Date(timestamp).toISOString() : '';
       topic.replyCount = Math.max(0, Number(topic.postcount || 0) - 1);
       const media = post ? images(post.content) : [];
-      topic.socialPost = post ? { pid: post.pid, preview: plain(post.content, 420), likes: Math.max(0, Number(post.upvotes) || 0), liked: !!states.upvotes[index], selfPost: Number(uid) > 0 && Number(uid) === Number(post.uid),
+      topic.socialPost = post ? { pid: post.pid, bookmarked: !!bookmarks[index], preview: plain(post.content, 420), likes: Math.max(0, Number(post.upvotes) || 0), liked: !!states.upvotes[index], selfPost: Number(uid) > 0 && Number(uid) === Number(post.uid),
         images: media.slice(0, 9).map((src, i) => ({ src, index: i, overflow: i === 8 && media.length > 9 ? media.length - 9 : 0 })), imageCount: Math.min(media.length, 9),
       } : null;
       if (post) { if (!authors.has(post.uid)) authors.set(post.uid, author(post.uid, uid)); topic.authorMeta = await authors.get(post.uid); topic.avatar = avatarMap.get(Number(post.uid)) || avatars?.project(post.user); if (reactions) { topic.socialPost.reactions = await reactions.snapshot(post.pid, uid); topic.socialPost.likes=topic.socialPost.reactions.total; topic.socialPost.liked=!!topic.socialPost.reactions.selected; } }

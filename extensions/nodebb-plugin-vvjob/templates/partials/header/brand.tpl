@@ -1,10 +1,10 @@
-<div class="vv2 vvjob-site-shell vvjob-site-top"><div class="vvjob-test-strip" role="note"><strong>BẢN THỬ NGHIỆM</strong><span>Có hồ sơ và bài viết tổng hợp. Dấu xác minh trên tài khoản thử dùng để kiểm tra giao diện.</span></div>
+<div class="vv2 vvjob-site-shell vvjob-site-top">
   <header class="vv2-header">
     <div class="vv2-header-inner">
-      <a class="vv2-logo" href="{relative_path}/" aria-label="VVJOB — Trang chủ"><span>vvjob<span class="vv2-logo-caption">Real Work. Real Talk.</span></span></a>
+      <a class="vv2-logo" href="{relative_path}/" aria-label="VVJOB — Trang chủ"><span>vvjob<span class="vv2-logo-caption">Chuyện đi làm, cùng sẻ chia.</span></span></a>
       <form class="vv2-search" action="{relative_path}/search" method="get" role="search"><i class="fa fa-search" aria-hidden="true"></i><input type="search" name="term" placeholder="Tìm câu chuyện, chủ đề, cộng đồng" aria-label="Tìm kiếm trên VVJOB"><button type="submit" aria-label="Tìm kiếm">↵</button></form>
-      <nav class="vv2-header-nav" aria-label="Điều hướng chính"><a data-vvjob-nav="coworkers" href="{relative_path}/vvjob?circle=coworkers">Đồng nghiệp</a><a data-vvjob-nav="feed" href="{relative_path}/vvjob">Trang chủ</a><a data-vvjob-nav="popular" href="{relative_path}/vvjob?sort=popular">Nổi bật</a><a data-vvjob-nav="network" href="{relative_path}/vvjob?circle=network">Vòng kết nối</a></nav>
-      <div class="vv2-header-actions"><a class="vv2-mobile-search" href="{relative_path}/search" aria-label="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></a>
+      <nav class="vv2-header-nav" aria-label="Điều hướng chính"><a data-vvjob-nav="feed" href="{relative_path}/vvjob">Trang chủ</a><a data-vvjob-nav="communities" href="{relative_path}/categories">Khám phá</a><a data-vvjob-nav="companies" href="{relative_path}/vvjob/companies">Công ty</a><a data-vvjob-nav="profile" href="{relative_path}/me">Cá nhân</a></nav>
+      <div class="vv2-header-actions"><span class="vvjob-local-disclosure" role="note" title="Có hồ sơ và bài viết tổng hợp. Dấu xác minh trên tài khoản thử dùng để kiểm tra giao diện.">Dữ liệu thử nghiệm</span><a class="vv2-mobile-search" href="{relative_path}/search" aria-label="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></a>
         {{{ if config.loggedIn }}}
         <ul id="logged-in-menu" class="vvjob-member-tools list-unstyled" role="menu">
           <li component="notifications" class="nav-item notifications dropdown" role="menuitem"><!-- IMPORT partials/sidebar/notifications.tpl --></li>
@@ -17,6 +17,6 @@
         {{{ end }}}
       </div>
     </div>
-    <div class="vvjob-mobile-discovery"><nav aria-label="Khám phá VVJOB"><a data-vvjob-nav="coworkers" href="{relative_path}/vvjob?circle=coworkers">Đồng nghiệp</a><a data-vvjob-nav="feed" href="{relative_path}/vvjob">Mới nhất</a><a data-vvjob-nav="popular" href="{relative_path}/vvjob?sort=popular">Nổi bật</a><a data-vvjob-nav="network" href="{relative_path}/vvjob?circle=network">Vòng kết nối</a><a href="{relative_path}/vvjob/companies">Công ty</a></nav></div>
+
   </header>
 </div>

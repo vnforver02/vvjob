@@ -81,11 +81,12 @@
     if ($('#career-company-query').val().trim() && !data.companyId) { return feedback(form, 'Vui lòng chọn công ty từ kết quả hoặc bỏ chọn công ty.', true); }
     busy(form, async () => {
       await post('career', data);
-      feedback(form, 'Đã lưu hồ sơ. Đang mở trang cá nhân…');
-      const destination = app.user.userslug ? `user/${encodeURIComponent(app.user.userslug)}` : `uid/${app.user.uid}`;
+      const next = !!data.companyId && String(data.companyId) !== String(form.dataset.companyId || '');
+      feedback(form, next ? 'Đã lưu hồ sơ. Đang mở bước xác minh…' : 'Đã lưu hồ sơ. Đang mở trang cá nhân…');
+      const destination = next ? 'vvjob/verification' : app.user.userslug ? `user/${encodeURIComponent(app.user.userslug)}` : `uid/${app.user.uid}`;
       ajaxify.go(destination, function () {
         require(['alerts'], function (alerts) {
-          alerts.success(data.publicCompany ? 'Đã lưu hồ sơ. Thông tin nghề nghiệp đang được công khai.' : 'Đã lưu hồ sơ. Thông tin nghề nghiệp chỉ hiển thị với bạn.');
+          alerts.success(next ? 'Đã lưu hồ sơ. Bạn có thể xác minh ngay hoặc để sau.' : data.publicCompany ? 'Đã lưu hồ sơ. Thông tin nghề nghiệp đang được công khai.' : 'Đã lưu hồ sơ. Thông tin nghề nghiệp chỉ hiển thị với bạn.');
         });
       });
     });

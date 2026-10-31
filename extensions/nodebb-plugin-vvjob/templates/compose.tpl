@@ -1,4 +1,4 @@
-<div component="composer" class="composer vvjob-composer pb-3 h-100 {{{ if resizable }}} resizable{{{ end }}}{{{ if !isTopicOrMain }}} reply{{{ end }}}"{{{ if !disabled }}} style="visibility: inherit;"{{{ end }}}>
+<div component="composer" class="composer vvjob-composer vvjob-slim-composer {{{ if isEditing }}}vvjob-is-editing{{{ end }}} {{{ if (isTopic && !isEditing) }}}vvjob-titleless{{{ end }}} pb-3 h-100 {{{ if resizable }}} resizable{{{ end }}}{{{ if !isTopicOrMain }}} reply{{{ end }}}"{{{ if !disabled }}} style="visibility: inherit;"{{{ end }}}>
 	<div class="composer-container d-flex flex-column gap-1 h-100"><!-- IMPORT partials/vvjob-editor-heading.tpl -->
 		<form id="compose-form" method="post">
 			{{{ if pid }}}

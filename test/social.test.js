@@ -15,7 +15,7 @@ function fixture() {
   user:{getUserFields:async()=>({picture:'/avatar.png',username:'Lan',userslug:'lan',email:'SECRET'})},
  };
  const res={set(key,val){this[key]=val}};
- return{service:create(n=>deps[n]),access,topic,post,res,calls};
+ return{service:create(n=>deps[n]),access,topic,post,res,calls,deps};
 }
 test('inline original content enforces topic privacy/deletion/scheduling and uses native parsing/block filtering',async()=>{
  for(const kind of ['read','topics:read','disabled','deleted','scheduled']){
@@ -44,4 +44,10 @@ test('highlight is a real positive-vote native reply and never the original/dele
  await f.service.highlights([topic],9);assert.equal(topic.highlight,undefined);
  f.post.pid=11;await f.service.highlights([topic],9);assert.equal(topic.highlight.pid,11);assert.equal(topic.highlight.likes,3);assert.doesNotMatch(JSON.stringify(topic.highlight),/SECRET/);assert.equal(f.calls.at(-1)[1],'tid:7:posts:votes');assert.deepEqual(f.calls.at(-1).slice(2),[1,3,9,true]);
  f.post.deleted=1;const fresh={tid:7};await f.service.highlights([fresh],9);assert.equal(fresh.highlight,undefined);
+});
+
+test('feed bookmarks use native viewer-specific batch state without exposing bookmarkers',async()=>{const f=fixture();f.deps.posts.hasBookmarked=async(pids,uid)=>{assert.deepEqual(pids,[10]);assert.equal(uid,9);return [true]};const data={topics:[{mainPid:10}]};await f.service.enrich(data,9);assert.equal(data.topics[0].socialPost.bookmarked,true);assert.doesNotMatch(JSON.stringify(data.topics[0].socialPost),/users_bookmarked|uid:|SECRET/);});
+test('feed dates derive from the original timestamp without inventing fresh dates or throwing on bad data',async()=>{
+ const f=fixture();f.post.timestamp=Date.UTC(2026,9,1);const data={topics:[{mainPid:10}]};await f.service.enrich(data,1);assert.equal(data.topics[0].timestampISO,'2026-10-01T00:00:00.000Z');
+ for(const value of ['not-a-date',-5,Infinity,8640000000000001]){const invalid={topics:[{mainPid:10,timestamp:value}]};await f.service.enrich(invalid,1);assert.equal(invalid.topics[0].timestampISO,'');}
 });

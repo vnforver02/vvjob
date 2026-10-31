@@ -1,7 +1,4 @@
 <!-- IMPORT partials/breadcrumbs-json-ld.tpl -->
-{{{ if config.theme.enableBreadcrumbs }}}
-<!-- IMPORT partials/breadcrumbs.tpl -->
-{{{ end }}}
 {{{ if widgets.header.length }}}
 <div data-widget-area="header">
 {{{each widgets.header}}}
@@ -10,7 +7,7 @@
 </div>
 {{{ end }}}
 
-<nav class="vvjob-discussion-back" aria-label="Điều hướng cuộc trò chuyện"><a href="{config.relative_path}/vvjob"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Cuộc trò chuyện</span></a><a href="{config.relative_path}/search" aria-label="Tìm kiếm"><i class="fa fa-search" aria-hidden="true"></i></a></nav>
+<div class="vvjob-local-topic-layout"><aside class="vv2-left vvjob-local-topic-rail"><!-- IMPORT partials/vvjob-local-rail.tpl --></aside><main class="vvjob-local-topic-main">
 <div class="vvjob-discussion flex-fill" itemid="{url}" itemscope itemtype="https://schema.org/DiscussionForumPosting">
 	<meta itemprop="headline" content="{escape(titleRaw)}">
 	<meta itemprop="text" content="{escape(titleRaw)}">
@@ -26,7 +23,7 @@
 		<div class="d-flex gap-2 flex-wrap">
 			<div class="d-flex flex-column gap-3 flex-1">
 				<h1 component="post/header" class="tracking-tight fw-semibold fs-3 mb-0 text-break {{{ if config.theme.centerHeaderElements }}}text-center{{{ end }}}">
-					<span class="topic-title" component="topic/title">{title}</span>
+					<a class="vvjob-topic-back" data-vvjob-feed-back href="{config.relative_path}/vvjob" aria-label="Quay lại" title="Quay lại"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14 6-6 6 6 6M8 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a><span class="vvjob-topic-label">Cuộc trò chuyện</span><span class="topic-title visually-hidden" component="topic/title">{title}</span>
 				</h1>
 
 				<div class="topic-info d-flex gap-2 align-items-center flex-wrap {{{ if config.theme.centerHeaderElements }}}justify-content-center{{{ end }}}">
@@ -47,7 +44,7 @@
 					</span>
 					{buildCategoryLabel(category, "a", "border")}
 					<div data-tid="{./tid}" component="topic/tags" class="lh-1 tags tag-list d-flex flex-wrap hidden-xs hidden-empty gap-2"><!-- IMPORT partials/topic/tags.tpl --></div>
-					<div class="d-flex gap-2"><!-- IMPORT partials/topic/stats.tpl --></div>
+					<div class="d-flex gap-2 vvjob-topic-stats"><!-- IMPORT partials/topic/stats.tpl --></div>
 				</div>
 			</div>
 			<div class="d-flex flex-wrap gap-2 align-items-start mt-2 hidden-empty" component="topic/thumb/list"><!-- IMPORT partials/topic/thumbs.tpl --></div>
@@ -90,9 +87,10 @@
 							<hr/>
 						</div>
 						{{{ end }}}
+                        <div class="vvjob-simple-comment-entry">{{{ if loggedIn }}}{{{ if privileges.topics:reply }}}<button type="button" data-vvjob-root-reply>Thêm góc nhìn của bạn…</button>{{{ end }}}{{{ else }}}<a href="{config.relative_path}/login">Đăng nhập để bình luận</a>{{{ end }}}</div>
 						{{{ if config.theme.enableQuickReply }}}
 						<span id="vvjob-replies" class="vvjob-reply-anchor" aria-hidden="true"></span>
-						<!-- IMPORT partials/topic/quickreply.tpl -->
+						<div class="vvjob-native-quickreply"><!-- IMPORT partials/topic/quickreply.tpl --></div>
 						{{{ end }}}
 					</div>
 					<div class="vvjob-discussion-rail d-none d-lg-block">
@@ -132,6 +130,8 @@
 		</div>
 	</div>
 </div>
+
+</main><aside class="vvjob-local-topic-context"><!-- IMPORT partials/vvjob-local-context.tpl --><a href="{config.relative_path}/vvjob/guide">Hướng dẫn cộng đồng ↗</a></aside></div>
 
 <div data-widget-area="footer">
 {{{each widgets.footer}}}

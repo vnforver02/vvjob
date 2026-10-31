@@ -48,8 +48,14 @@
     "public/comments.js",
     "public/reactions.js",
     "public/social.js",
+    "public/post-title.js",
     "public/composer-ui.js",
-    "public/chat-ui.js"
+    "public/chat-ui.js",
+    "public/reading.js",
+    "public/topic-reply.js",
+    "public/emoji-picker.js",
+    "public/reading-polish.js",
+    "public/onboarding-ui.js"
   ],
   "scss": [
     "./scss/vvjob.scss",

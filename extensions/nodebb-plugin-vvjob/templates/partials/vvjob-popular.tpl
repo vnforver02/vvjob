@@ -3,7 +3,7 @@
 <div class="vvhot-board">
   <div class="vvhot-board-label"><span>XẾP HẠNG THẢO LUẬN</span><span><i class="fa fa-comments-o" aria-hidden="true"></i> Từ cộng đồng</span></div>
   {{{ each topics }}}
-  <article class="vvhot-row" data-feed-tid="{./tid}">
+  <article class="vvhot-row" data-feed-tid="{./tid}" data-feed-key="{./domId}">
     <div class="vvhot-rank {{{ if ./topRank }}}vvhot-rank-top vvhot-rank-{./rank}{{{ end }}}" aria-label="Hạng {./rank}">{./rank}</div>
     <div class="vvhot-story"><!-- IMPORT partials/vvjob-post-body.tpl -->
 

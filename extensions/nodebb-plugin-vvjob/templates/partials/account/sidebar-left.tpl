@@ -106,6 +106,7 @@
 		</a>
 		{{{ end }}}
 
+        {{{ if isSelf }}}<hr class="w-100 my-2"/><a href="{config.relative_path}/users" class="btn btn-ghost btn-sm text-start"><i class="fa fa-users" aria-hidden="true"></i> Kết nối</a><a href="{config.relative_path}/chats" class="btn btn-ghost btn-sm text-start"><i class="fa fa-commenting-o" aria-hidden="true"></i> Tin nhắn</a>{{{ end }}}
 		{{{ if canEdit }}}
 		<hr class="w-100 my-2"/>
 		<a href="{config.relative_path}/user/{userslug}/edit" class="btn btn-ghost btn-sm ff-secondary text-xs text-start

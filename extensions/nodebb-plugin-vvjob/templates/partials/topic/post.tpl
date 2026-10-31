@@ -6,7 +6,7 @@
 </div>
 {{{ end }}}
 {{{ if (./parent && !hideParent) }}}
-<!-- IMPORT partials/topic/post-parent.tpl -->
+<details class="vvjob-parent-context"><summary>Trả lời bình luận trước</summary><!-- IMPORT partials/topic/post-parent.tpl --></details>
 {{{ end }}}
 <div class="d-flex align-items-start gap-3 post-container-parent vvjob-post-layout">
 	<div class="bg-body d-none d-sm-block rounded-circle" style="outline: 2px solid var(--bs-body-bg);">
@@ -77,10 +77,12 @@
 			</div>
 			<div class="d-flex align-items-center gap-1 justify-content-end">
 				<span class="bookmarked opacity-0 text-primary"><i class="fa fa-bookmark-o"></i></span>
+                <!-- IMPORT partials/topic/post-menu.tpl -->
 				<a href="{config.relative_path}/post/{encodeURIComponent(./pid)}" class="post-index text-muted d-none d-md-inline">#{increment(./index, "1")}</a>
 			</div>
 		</div>
 
+		{{{ if (./index == 0) }}}<h2 class="vvjob-original-title">{title}</h2>{{{ end }}}
 		<div class="content text-break" component="post/content" itemprop="text">
 			{posts.content}
 		</div>
@@ -109,16 +111,16 @@
 				</a>
 				{{{ end }}}
 				<div component="post/actions" class="d-flex flex-grow-1 align-items-center justify-content-end gap-1 post-tools">
-					<!-- IMPORT partials/topic/reactions.tpl -->
-					<a component="post/reply" href="#" class="btn btn-ghost btn-sm {{{ if !privileges.topics:reply }}}hidden{{{ end }}}" title="[[topic:reply]]"><i class="fa fa-fw fa-reply text-primary"></i></a>
-					<a component="post/quote" href="#" class="btn btn-ghost btn-sm {{{ if !privileges.topics:reply }}}hidden{{{ end }}}" title="[[topic:quote]]"><i class="fa fa-fw fa-quote-right text-primary"></i></a>
+					<!-- IMPORT partials/topic/reactions.tpl --><button type="button" class="vvjob-local-post-share" data-vvjob-share data-url="{config.relative_path}/post/{./pid}" data-title="{title}" aria-label="Chia sẻ"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m21 3-7 18-4-7-7-4 18-7ZM10 14 21 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+					<a component="post/reply" href="#" class="btn btn-ghost btn-sm vvjob-simple-reply {{{ if !privileges.topics:reply }}}hidden{{{ end }}}" title="[[topic:reply]]">Trả lời</a>{{{ if !loggedIn }}}<a href="{config.relative_path}/login" class="vvjob-local-guest-reply" aria-label="Đăng nhập để bình luận">Trả lời</a>{{{ end }}}
+
 
 					{{{ if ./announces }}}
 					<a component="post/announce-count" href="#" class="btn btn-ghost btn-sm d-flex gap-2 align-items-center" title="[[topic:announcers]]"><i class="fa fa-share-alt text-primary"></i> {./announces}</a>
 					{{{ end }}}
 
 					{{{ if !reputation:disabled }}}
-					<details class="vvjob-legacy-votes"><summary title="Điểm cộng đồng từ hệ thống bình chọn NodeBB">Điểm {posts.votes}</summary><div class="d-flex votes align-items-center">
+					<details class="vvjob-legacy-votes"><summary aria-label="Trích dẫn và bình chọn nâng cao">Tùy chọn thêm</summary><a component="post/quote" href="#" class="btn btn-ghost btn-sm {{{ if !privileges.topics:reply }}}hidden{{{ end }}}" title="[[topic:quote]]"><i class="fa fa-fw fa-quote-right text-primary"></i></a><div class="d-flex votes align-items-center">
 						<a component="post/upvote" href="#" class="btn btn-ghost btn-sm{{{ if posts.upvoted }}} upvoted{{{ end }}}" title="[[topic:upvote-post]]">
 							<i class="fa fa-fw fa-thumbs-o-up"></i>
 						</a>
@@ -135,7 +137,7 @@
 					</div></details>
 					{{{ end }}}
 
-					<!-- IMPORT partials/topic/post-menu.tpl -->
+
 				</div>
 			</div>
 

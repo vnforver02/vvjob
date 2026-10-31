@@ -189,3 +189,111 @@ preview tools, hot-board date-control removal and native private-message refresh
 94 tests and the local six-entrypoint Sass / 57-template build passed before Git
 publication. Generated artifacts, installed dependencies, runtime configuration,
 credentials and database backups remain excluded by `.gitignore`.
+
+## 2026-10-22 native navigation flash fix
+
+Live diagnosis measured native AJAX transitions around113–313ms, with the old
+Harmony rule fading #content to opacity0. Removed that fade for VVJOB's Harmony
+frontend only. The previous page stays visible until native Ajaxify swaps the new
+page; stale content does not accept pointer clicks during the pending request.
+A2px indeterminate progress line appears after180ms; reduced-motion users receive
+a static indicator. No core files, history handling, response caching, data APIs,
+authentication checks or prefetch behavior were changed.
+
+94 tests, six Sass entrypoints/57 templates and full native NodeBB build passed.
+Isolated browser verification injected350ms route-response delay across12 tab
+switches at1440/390/320px. All127 pending-frame samples had opacity1; no full-document
+navigation, horizontal overflow or stuck busy class occurred. Browser Back and
+reduced-motion behavior also passed.
+
+Deployed `/home/ucloud/vvjob-smooth-nav-release` and
+`/home/ucloud/vvjob-smooth-nav-build`, with verified backup
+`/home/ucloud/vvjob-backups/20261022-smooth-nav`. Production verification passed
+all12 delayed transitions:131 pending-frame samples at opacity1, zero document
+reloads, no stuck busy state or horizontal overflow, Back and reduced-motion pass.
+No production records changed. Existing open tabs need one refresh to load the new
+versioned stylesheet. This follow-up remains local in Git until publication is
+requested again.
+
+## 2026-10-23 social post reading interactions
+
+Title and excerpt now use real native topic anchors rather than inline partial
+expansion. Non-interactive card whitespace delegates to the same anchor. Links,
+buttons, images, editable controls, modified clicks and selected text are excluded
+from card delegation. Gallery overflow opens the full topic; regular image clicks
+keep the existing dialog. Removed the redundant excerpt chevron/content expansion
+request from this primary reading flow. Native topic permissions/replies/history
+remain unchanged.
+
+A memory-only return reference stores feed URL, stable card key and viewport offset
+when opening a topic. The topic return link uses browser Back only for a matching
+feed-origin topic; direct entries retain the real /vvjob fallback. Returning via
+Back restores the same card offset and query rather than resetting the feed. No
+post HTML, private profile or authenticated response cache is stored.
+
+94 tests,57 templates/six Sass entrypoints and full native build passed. Isolated
+browser tests passed title/summary opening, SPA page-memory continuity, return
+position within5px at1440/390/320, query retention, and15-title hot-list return.
+A temporary clone member tested native like/unlike, gallery/Escape independently
+of navigation, text-selection guard, whitespace click and avatar/profile routing.
+Image-click event isolation used a DOM-injected preview of an existing owned avatar
+asset; no production test posts or reactions were created.
+
+Deployed source/build: `/home/ucloud/vvjob-social-reading-release` and
+`/home/ucloud/vvjob-social-reading-build`. Verified pre-update backup:
+`/home/ucloud/vvjob-backups/20261023-social-reading`; prior smooth-nav release kept.
+Production read-only verification passed title/summary detail navigation, SPA
+continuity, feed query and card-offset restoration, all three screen widths and
+hot-list return. Existing tabs need one refresh for the new versioned scripts.
+No Git publication was performed for this follow-up.
+
+## 2026-10-23 clean topic entry
+
+Removed the visible topic breadcrumb import (site/category hierarchy) while
+preserving nonvisual breadcrumb JSON-LD. Removed the separate conversation/search
+navigation row and placed an accessible icon-only Back link alongside the topic
+title. The native return hook, direct-entry feed fallback, post category metadata,
+moderation controls and reply components remain intact.94 tests and local
+Sass/57-template compilation passed before the full isolated build.
+
+Clean-topic production deployment verified at1440/390/320: no visible breadcrumbs
+or conversation row; accessible icon Back sits in the title and direct-entry
+fallback works. Reading flow regression passed feed offset/query restoration and
+hot-list return. Source/build: `/home/ucloud/vvjob-clean-topic-release` and
+`/home/ucloud/vvjob-clean-topic-build`; validated backup:
+`/home/ucloud/vvjob-backups/20261023-clean-topic`. Isolated copy was removed.
+
+## 2026-10-23 body-first publishing and inline comment replies
+
+New-topic composer hides the title input by default while retaining the native
+input and validation hooks. `post-title.js` derives a bounded readable title from
+the body at native composer.check time; image-only content receives a neutral
+fallback. Pre-existing manually titled drafts and edits retain their titles.
+Desktop uses a540x460px maximum popup; mobile uses a bottom sheet capped at500px
+and78dvh, adjusted against visualViewport so the underlying page remains visible.
+Native category/upload/draft/submit controls are retained.
+
+Reply and topic-reply actions open a small form beneath the selected native post.
+Native API POST uses real toPid, preserves member/category/lock/moderation checks,
+and refreshes only that post's native reply thread. No custom post renderer or
+fake optimistic comment is inserted. Each recipient has its own form and per-tab
+member/topic/parent draft key; failure retains text and success clears the draft.
+Emoji insertion and Ctrl/Cmd+Enter are supported. A transient scroll preference
+suppresses native jump-to-own-post while submitting. Advanced quote/edit continue
+to use the native editor. Mobile reply spacing avoids bottom-navigation overlap;
+the floor counter is hidden while an inline reply form is open.
+
+96 tests and local compilation passed. Full native build and isolated browser
+checks passed body-only publish with correct generated title/full body, compact
+popup/sheet sizes, hidden title and close/submit controls at1440/390/320. Separate
+clone-member checks passed reply-to-comment with persisted toPid, refreshed native
+child thread, emoji, failed403 draft retention, no composer popup/navigation and
+all three widths. No actual production posting/reply tests were performed.
+
+Deployed source/build: `/home/ucloud/vvjob-body-composer-release` and
+`/home/ucloud/vvjob-body-composer-build`. Validated pre-update database/config/
+compose backup: `/home/ucloud/vvjob-backups/20261023-body-composer`; preceding
+clean-topic release retained for rollback. Production read-only verification
+passed the loaded title helper, titleless composer template, clean topic layout
+and guest reply login gate. Existing browser tabs need one refresh for the new
+versioned assets. No Git publication was performed for this follow-up.

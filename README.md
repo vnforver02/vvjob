@@ -40,3 +40,5 @@ Compatibility baseline inspected from source: NodeBB **4.6.1** (`351c9abc6f3016a
 - [Voluntary work-email verification, privacy and operator setup](docs/VERIFICATION.md)
 
 Private work-document review: [flow, privacy, retention and deployment](docs/EVIDENCE.md).
+
+Current delivery review: [0.11.0 changes, QA and operational boundaries](docs/DELIVERY_REVIEW_20261031.md). Browser review setup: [scripts/qa](scripts/qa/README.md).

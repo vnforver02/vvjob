@@ -14,7 +14,7 @@ test('empty feed shows truthful Vietnamese state and privacy notice', async () =
 });
 test('feed renders real topic, community, subdirectory links and selected sorting', async () => {
   const topic = { tid: 42, domId: '42', title: 'Công việc đầu tiên', slug: '42/cong-viec', postcount: 3, viewcount: 12, user: { userslug: 'minh', displayname: 'Minh' }, category: { name: 'Công việc' }, socialPost: {pid: 99, preview: 'Chia sẻ kinh nghiệm', likes: 2, liked: true} };
-  const html = await benchpress.compileRender(await sources.expand(template), { config: { relative_path: '/forum' }, topics: [topic], trending: [topic], communities: [{ cid: 7, name: 'Công việc', slug: '7/cong-viec', active: true }], hasCommunity: true, selectedCommunityId: 7, feedTitle: 'Công việc', feedQuery: '?cid=7', popularQuery: '?cid=7&sort=popular', isPopular: false });
+  const html = await benchpress.compileRender(await sources.expand(template), { config: { relative_path: '/forum' }, topics: [topic], trending: [topic], communities: [{ cid: 7, name: 'Công việc', slug: '7/cong-viec', active: true }], hasCommunity: true, selectedCommunityId: 7, feedTitle: 'Công việc', feedQuery: '?cid=7', popularQuery: '?cid=7&sort=popular', latestQuery: '?cid=7&sort=latest', isLatest: true, isPopular: false });
   assert.match(html, /href="\/forum\/topic\/42\/cong-viec"/);
   assert.match(html, /href="\/forum\/vvjob\?cid=7"/);
   assert.match(html, /aria-current="page">Mới nhất/);
@@ -43,8 +43,9 @@ test('ranked feed renders native ranking and native thread comment links without
   assert.match(html, /aria-label="Hạng 21"/);
   assert.doesNotMatch(html, /vvhot-periods|aria-current="page">7 ngày/);
   assert.doesNotMatch(html, /vvhot-stats|vvhot-excerpt|vvhot-category/);
-  assert.match(html, /data-vvjob-expand/);
-  assert.match(html, /data-vvjob-open-thread href="\/forum\/topic\/42\/test#vvjob-replies"/);
+  assert.match(html, /data-vvjob-post-open href="\/forum\/topic\/42\/test"/);
+  assert.doesNotMatch(html, /data-vvjob-expand/);
+  assert.match(html, /data-vvjob-open-thread href="\/forum\/topic\/42\/test"/);
   assert.doesNotMatch(html, /vvcomment-input/);
   assert.doesNotMatch(html, /vvjob-social-compose/);
 });

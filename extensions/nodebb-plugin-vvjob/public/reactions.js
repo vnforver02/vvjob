@@ -51,7 +51,7 @@
  }
  function render(data){
   menu.replaceChildren();const options=document.createElement('div');options.className='vvjob-reaction-options';
-  for(const choice of data.choices){const button=document.createElement('button');button.type='button';button.dataset.reactionChoice=choice.type;button.setAttribute('role','menuitemradio');button.setAttribute('aria-checked',String(data.selected===choice.type));button.setAttribute('aria-label',choice.label);const emoji=document.createElement('span');emoji.className='vvjob-reaction-emoji';emoji.textContent=choice.emoji;emoji.setAttribute('aria-hidden','true');button.append(emoji);options.append(button);}
+  for(const choice of data.choices.filter(c=>['love','like','haha','wow','sad','clap'].includes(c.type)).sort((a,b)=>['love','like','haha','wow','sad','clap'].indexOf(a.type)-['love','like','haha','wow','sad','clap'].indexOf(b.type))){const button=document.createElement('button');button.type='button';button.dataset.reactionChoice=choice.type;button.setAttribute('role','menuitemradio');button.setAttribute('aria-checked',String(data.selected===choice.type));button.setAttribute('aria-label',choice.label);const emoji=document.createElement('span');emoji.className='vvjob-reaction-emoji';emoji.textContent=choice.emoji;emoji.setAttribute('aria-hidden','true');button.append(emoji);options.append(button);}
   menu.append(options);
   if(data.selected){const remove=document.createElement('button');remove.type='button';remove.dataset.reactionChoice='none';remove.className='vvjob-reaction-remove';remove.setAttribute('role','menuitem');remove.setAttribute('aria-label','Gỡ biểu cảm');remove.textContent='×';menu.append(remove);}
  }
@@ -78,10 +78,10 @@
   catch(error){const translator=await app.require('translator');feedback(button,await translator.translate(error.message||'Chưa lưu được biểu cảm. Vui lòng thử lại.'),true);}
   finally{pending.delete(pid);menu?.querySelectorAll('button').forEach(option=>option.disabled=false);document.querySelectorAll(`[data-vvjob-like="${pid}"]`).forEach(trigger=>trigger.removeAttribute('aria-busy'));}
  }
- $(document).on('click.vvjobEmotion','[data-reaction-choice]',function(){select(active,this.dataset.reactionChoice)});
+ $(document).on('click.vvjobEmotion','[data-reaction-choice]',function(){select(active,this.getAttribute('aria-checked')==='true'?'none':this.dataset.reactionChoice)});
  $(document).on('click.vvjobEmotionOutside',event=>{if(active&&!event.target.closest('[data-vvjob-like],.vvjob-reaction-menu'))close();});
  $(document).on('keydown.vvjobEmotion',event=>{if(event.key==='Escape'&&active){event.preventDefault();close(true);}});
- window.addEventListener('scroll',()=>{if(active)close()},{passive:true});window.addEventListener('resize',position,{passive:true});
+ window.addEventListener('scroll',position,{passive:true});window.addEventListener('resize',position,{passive:true});
  async function hydrate(root=document,models){
   const supplied=models||[...(ajaxify.data.topics||[]),...(ajaxify.data.ongoing||[])];
   for(const model of supplied){const state=model.reactions||model.socialPost?.reactions;if(state)apply(state.pid||model.pid||model.socialPost.pid,state);}

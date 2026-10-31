@@ -1,4 +1,4 @@
-<div component="composer" role="dialog" aria-label="Trình soạn bài VVJOB" class="composer vvjob-composer {{{ if resizable }}} resizable{{{ end }}}{{{ if !isTopicOrMain }}} reply{{{ end }}}">
+<div component="composer" role="dialog" aria-label="Trình soạn bài VVJOB" class="composer vvjob-composer vvjob-slim-composer {{{ if isEditing }}}vvjob-is-editing{{{ end }}} {{{ if (isTopic && !isEditing) }}}vvjob-titleless{{{ end }}} {{{ if resizable }}} resizable{{{ end }}}{{{ if !isTopicOrMain }}} reply{{{ end }}}">
 	<div class="composer-container d-flex flex-column gap-1 h-100"><!-- IMPORT partials/vvjob-editor-heading.tpl -->
 		<!-- mobile header -->
 		<nav class="navbar fixed-top mobile-navbar hidden-md hidden-lg text-bg-primary flex-nowrap gap-1 px-1">

@@ -19,7 +19,7 @@ module.exports = function (host, directory, identity = async () => ({})) {
  async function page(req, res) {
   if (!(Number(req.uid) > 0)) { return res.status(401).json({error: 'Vui lòng đăng nhập để kết nối.'}); }
   res.set('Cache-Control', 'private, no-store');
-  const tab = ['following','followers','new','coworkers'].includes(req.query.tab) ? req.query.tab : 'discover';
+  const tab = ['following','followers','new','coworkers','peers'].includes(req.query.tab) ? req.query.tab : 'discover';
   const query = typeof req.query.q === 'string' ? req.query.q.trim().slice(0,80) : '';
   const page = Math.min(10000, Math.max(1, Math.floor(Number(req.query.page)) || 1));
   const start = (page-1)*SIZE;
@@ -29,7 +29,7 @@ module.exports = function (host, directory, identity = async () => ({})) {
    const result = await host('api/users').search(req, {query, page, searchBy:'username', sortBy:'joindate'});
    rows = result.users || []; hasNext = page < Number(result.pageCount);
   } else {
-   const curated = ['discover','new','coworkers'].includes(tab);
+   const curated = ['discover','new','coworkers','peers'].includes(tab);
    const set = curated ? 'users:joindate' : `${tab}:${req.uid}`;
    const uids = await db.getSortedSetRevRange(set, curated?0:start, curated?499:start+SIZE);
    hasNext = !curated && uids.length > SIZE;
@@ -45,16 +45,17 @@ module.exports = function (host, directory, identity = async () => ({})) {
   const params = new URLSearchParams({tab:selectedTab}); if(query)params.set('q',query);
   const me = await card(self,req.uid);
   let selected=people;
-  if(!query&&['discover','new','coworkers'].includes(tab)){
+  if(!query&&['discover','new','coworkers','peers'].includes(tab)){
    if(tab==='coworkers')selected=people.filter(person=>!!me.companyId&&person.companyId===me.companyId);
+   if(tab==='peers')selected=people.map(person=>({...person,...require('./people-ranking')(person,me)})).filter(person=>person.professional).sort((a,b)=>b.score-a.score||b.joinedAt-a.joinedAt||a.uid-b.uid);
    if(tab==='new')selected=people.filter(person=>person.joinedAt>=Date.now()-30*86400000);
    if(tab==='discover')selected=people.filter(person=>!person.following).map(person=>({...person,...require('./people-ranking')(person,me)})).sort((a,b)=>b.score-a.score||b.joinedAt-a.joinedAt||a.uid-b.uid);
    hasNext=selected.length>start+SIZE;selected=selected.slice(start,start+SIZE);
   }
   const needsCompany=tab==='coworkers'&&!me.companyId;
   res.render('vvjob-people', {title:'Kết nối — VVJOB', people:selected, me, query, needsCompany, isSearch:!!query,
-   isDiscover:selectedTab==='discover', isNew:selectedTab==='new', isCoworkers:selectedTab==='coworkers', isFollowing:selectedTab==='following', isFollowers:selectedTab==='followers',
-   listTitle:query ? 'Kết quả tìm kiếm' : selectedTab==='following' ? 'Những người bạn đang theo dõi' : selectedTab==='followers' ? 'Những người theo dõi bạn' : selectedTab==='new'?'Mới tham gia trong 30 ngày':selectedTab==='coworkers'?'Đồng nghiệp cùng công ty':'Gợi ý dành cho bạn',
+   isDiscover:selectedTab==='discover', isPeers:selectedTab==='peers', needsProfession:tab==='peers'&&!me.position&&!me.jobFamilyId&&!me.industryId, isNew:selectedTab==='new', isCoworkers:selectedTab==='coworkers', isFollowing:selectedTab==='following', isFollowers:selectedTab==='followers',
+   listTitle:query ? 'Kết quả tìm kiếm' : selectedTab==='following' ? 'Những người bạn đang theo dõi' : selectedTab==='followers' ? 'Những người theo dõi bạn' : selectedTab==='peers'?'Người cùng chuyên môn và lĩnh vực':selectedTab==='new'?'Mới tham gia trong 30 ngày':selectedTab==='coworkers'?'Đồng nghiệp cùng công ty':'Gợi ý dành cho bạn',
    followingCount:positive(self.followingCount), followerCount:positive(self.followerCount),
    hasNext, hasPrev:page>1, nextUrl:`/users?${params}&page=${page+1}`, prevUrl:`/users?${params}&page=${page-1}`,
   });

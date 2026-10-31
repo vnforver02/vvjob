@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function (host, directory, getConfig, Pool) {
+module.exports = function (host, directory, getConfig, Pool, getEvidence = () => null) {
   const safe = value => String(value || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const clean = row => Object.fromEntries(Object.entries(row).map(([k, v]) => [k, typeof v === 'string' ? safe(v) : v]));
   const db = host('database');
@@ -37,8 +37,9 @@ module.exports = function (host, directory, getConfig, Pool) {
     status: json(req => service.status(req.uid)),
     async page(req, res) {
       const state = await service.status(req.uid);
+      const professionVerified = state.status === 'verified' || !!(getEvidence() && await getEvidence().valid(req.uid));
       res.render('vvjob-verification', {
-        title: 'Xác minh nghề nghiệp — VVJOB', verification: clean(state),
+        title: 'Xác minh nghề nghiệp — VVJOB', professionVerified, verification: clean(state),
         statusLabel: labels[state.status] || labels.unverified, domains: state.domains.map(value => ({ domain: safe(value) })),
         verified: state.status === 'verified', pending: state.status === 'pending',
         canRequest: state.available && !!state.companyId && state.domains.length > 0,

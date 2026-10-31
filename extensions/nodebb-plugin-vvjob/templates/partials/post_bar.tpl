@@ -1,3 +1,4 @@
+<details class="vvjob-discussion-options"><summary aria-label="Tùy chọn cuộc trò chuyện"><i class="fa fa-sliders" aria-hidden="true"></i><span>Tùy chọn</span></summary>
 <div class="vvjob-topic-toolbar {{{ if config.theme.stickyToolbar }}}sticky-tools{{{ end }}} {{{ if config.theme.topicSidebarTools }}}d-block d-lg-none{{{ end }}}" style="top: {{{ if (config.theme.topMobilebar && !config.theme.autohideBottombar) }}}var(--panel-offset){{{ else }}}0{{{ end }}};">
 	<nav class="d-flex flex-nowrap my-2 p-0 border-0 rounded topic-main-buttons">
 		<div class="d-flex flex-row p-2 text-bg-light border rounded w-100 align-items-center">
@@ -15,3 +16,5 @@
 		</div>
 	</nav>
 </div>
+
+</details>

@@ -10,5 +10,5 @@ module.exports = (db, evidence, verification) => async (uid, career) => {
   if (!career?.companyId) return { isDemo: false, simulatedVerified: false, verified: false };
   const document = !!(evidence && await evidence.valid(uid));
   const email = !!(verification && await verification.valid(uid));
-  return { isDemo: false, simulatedVerified: false, verified: document || email, verificationLabel: document ? 'Đã xác minh nghề nghiệp qua giấy tờ' : email ? 'Đã xác minh email công ty' : '' };
+  return { isDemo: false, simulatedVerified: false, verified: document || email, verificationLabel: document || email ? 'Đã xác minh nghề nghiệp' : '' };
 };

@@ -7,18 +7,18 @@ $(document).on('click.vvjob', '[data-vvjob-compose]', function () {
   require(['composer'], function (composer) { composer.newTopic(Number.isSafeInteger(cid) && cid > 0 ? { cid } : {}); });
 });
 
-$(window).on('action:ajaxify.end', function () {
-  const name = ajaxify.data.template.name;
-  const section = name === 'vvjob' && ajaxify.data.circle ? ajaxify.data.circle : name === 'vvjob' && ajaxify.data.isPopular ? 'popular' : name === 'vvjob' || ['recent', 'popular', 'unread'].includes(name) ? 'feed' :
-    name === 'category' || name === 'categories' ? 'communities' :
-      ['users', 'vvjob-people'].includes(name) ? 'people' : name === 'chats' ? 'chats' : name === 'notifications' ? 'notifications' :
-        name.startsWith('account/') ? 'profile' : '';
+function syncNavigation(){
+  const name = window.ajaxify?.data?.template?.name || '';
+  const section = name === 'account/bookmarks' ? 'saved' : ['vvjob', 'recent', 'popular', 'unread', 'topic'].includes(name) ? 'feed' :
+    ['category', 'categories'].includes(name) ? 'communities' : name === 'vvjob-companies' ? 'companies' :
+      ['users', 'vvjob-people'].includes(name) ? 'people' : name === 'chats' ? 'chats' : name.startsWith('account/') ? 'profile' : '';
   $('[data-vvjob-nav]').each(function () {
-    const active = $(this).attr('data-vvjob-nav') === section || (section === 'popular' && $(this).attr('data-vvjob-nav') === 'feed' && $(this).closest('[component="bottombar"]').length > 0);
+    const active = $(this).attr('data-vvjob-nav') === section;
     $(this).toggleClass('active', active);
     if (active) { $(this).attr('aria-current', 'page'); } else { $(this).removeAttr('aria-current'); }
   });
-});
+}
+$(syncNavigation);$(window).on('action:ajaxify.end action:app.load',syncNavigation);
 
 // The native composer is attached outside #content and can minimize independently
 // of navigation. Observe visibility without replacing its draft or submit logic.
@@ -86,16 +86,26 @@ $(document).on('click.vvjobShare','[data-vvjob-share]',async function(){
  finally{button.disabled=false}
 });
 
-// Native Ajaxify preserves the app shell and browser Back behavior. Only a
-// deliberate comment action focuses the reply area; direct topic URLs stay normal.
-let pendingThread = false;
-document.addEventListener('click',function(event){
- if(event.button||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey||!event.target.closest('[data-vvjob-open-thread]'))return;
- // Observe before native anchor delegation; never issue a second Ajaxify call.
- pendingThread=true;
-},true);
-$(window).on('action:ajaxify.end',function(){
- if(!pendingThread||ajaxify.data.template.name!=='topic')return;
- pendingThread=false;
- requestAnimationFrame(()=>{const target=document.querySelector('[component="post"][data-index="1"]')||document.querySelector('#vvjob-replies,[component="topic/reply"]');if(target){target.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});if(target.matches('button,a'))target.focus({preventScroll:true});}});
+
+// The local shell uses the signed-in account, never preview identities.
+function syncLocalViewer(){
+ const source=document.querySelector('[component="header/avatar"] .avatar');
+ document.querySelectorAll('[data-local-viewer-name]').forEach(el=>{el.textContent=app.user?.displayname||app.user?.username||'Không gian của bạn';});
+ document.querySelectorAll('[data-local-viewer-avatar]').forEach(el=>{if(source){const copy=source.cloneNode(true);copy.removeAttribute('id');copy.removeAttribute('component');el.replaceChildren(copy);}});
+}
+$(syncLocalViewer);$(window).on('action:ajaxify.end action:avatar.update',syncLocalViewer);
+
+// Failed third-party logos fall back to the existing company monogram.
+function settleCompanyLogos(){document.querySelectorAll('img.vvjob-company-logo').forEach(img=>{if(img.complete&&!img.naturalWidth)img.hidden=true;});}
+$(settleCompanyLogos);$(window).on('action:ajaxify.end',settleCompanyLogos);
+
+// Keep directory searches in the native app shell; GET forms still work without JS.
+$(document).on('submit.vvjobDirectory','form.vvpeople-search,form.vvjob-company-search',function(event){
+ if(event.isDefaultPrevented()||this.target)return;
+ const url=new URL(this.action,location.href),relative=config.relative_path||'';
+ if(url.origin!==location.origin||!url.pathname.startsWith(relative+'/'))return;
+ const route=url.pathname.slice(relative.length+1);
+ if(!['users','vvjob/companies'].includes(route))return;
+ event.preventDefault();url.search=new URLSearchParams(new FormData(this)).toString();
+ ajaxify.go(route+url.search);
 });

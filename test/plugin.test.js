@@ -5,7 +5,7 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
 function load(host) {
-  host = { database: { getObject: async () => null }, posts: { getPostSummaryByPids: async () => [], getVoteStatusByPostIDs: async () => ({upvotes: []}) }, user: {getUserFields: async () => ({})}, ...host };
+  host = { 'controllers/helpers': { formatApiResponse() {} }, database: { getObject: async () => null }, posts: { getPostSummaryByPids: async () => [], getVoteStatusByPostIDs: async () => ({upvotes: []}) }, user: {getUserFields: async () => ({})}, ...host };
   const exports = {};
   const localRequire = name => require(path.resolve('extensions/nodebb-plugin-vvjob', name));
   localRequire.main = { require: name => name === 'nconf' ? { get: () => '' } : host[name.replace('./src/', '')] };
@@ -19,7 +19,7 @@ test('registers route via NodeBB page helper and advertises homepage', async () 
   const plugin = load({ 'routes/helpers': { setupPageRoute: (...value) => { routes.push(value); }, setupApiRoute() {} } });
   const posts = [];
   const middleware = { ensureLoggedIn() {}, redirectToHomeIfBanned() {}, applyCSRF() {}, authenticateRequest() {}, applyBlacklist() {}, maintenanceMode() {}, registrationComplete() {} };
-  await plugin.init({ router: { use() {}, get() {}, post: (...args) => posts.push(args) }, middleware });
+  await plugin.init({ router: { use() {}, all() {}, get() {}, post: (...args) => posts.push(args) }, middleware });
   assert.equal(posts[0][0], '/api/vvjob/evidence/submit');
   assert(posts[0].indexOf(middleware.applyCSRF) < posts[0].length - 3);
   assert(posts[0].indexOf(middleware.ensureLoggedIn) < posts[0].length - 3);
