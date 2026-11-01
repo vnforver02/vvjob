@@ -48,6 +48,9 @@ test('forwards viewer and query to native feed, uses privilege filtered categori
   req.query.sort = 'untrusted';
   await plugin.render(req, { render() {} });
   assert.equal(nativeArgs[2], 'recent');
+  req.query.sort = 'latest';
+  await plugin.render(req, { render() {} });
+  assert.equal(nativeArgs[2], 'create');
   assert.equal(trendArgs.uid, 17);
   assert.equal(trendArgs.term, 'week');
   assert.equal(trendArgs.sort, 'posts');

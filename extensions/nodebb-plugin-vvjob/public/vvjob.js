@@ -4,7 +4,8 @@
 $(document).on('click.vvjob', '[data-vvjob-compose]', function () {
   if (!app.user.uid) { return ajaxify.go('login'); }
   const cid = Number(this.dataset.cid);
-  require(['composer'], function (composer) { composer.newTopic(Number.isSafeInteger(cid) && cid > 0 ? { cid } : {}); });
+  const body = this.dataset.composePrompt || '';
+  require(['composer'], function (composer) { composer.newTopic({ ...(Number.isSafeInteger(cid) && cid > 0 ? { cid } : {}), body }); });
 });
 
 function syncNavigation(){

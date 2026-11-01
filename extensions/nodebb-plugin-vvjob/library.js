@@ -81,7 +81,7 @@ exports.render = async (req, res, next) => {
   // Use the native controller: category privileges, blocks, pagination, and
   // deleted/scheduled topic visibility stay under NodeBB's control.
   const circle = ['coworkers','network'].includes(req.query.circle) ? req.query.circle : '';
-  const sort = !circle && req.query.sort === 'popular' ? 'posts' : 'recent';
+  const sort = !circle && req.query.sort === 'popular' ? 'posts' : !circle && req.query.sort === 'latest' ? 'create' : 'recent';
   const data = await host('controllers/recent').getData(req, 'vvjob', sort, sort === 'posts' && req.query.range !== 'all' ? 'weekly' : 'alltime');
   if (!data) { return next(); }
   const categories = await host('categories').getCategoriesByPrivilege('categories:cid', req.uid, 'read');
